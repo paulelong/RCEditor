@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Windows Machine": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": true,
+      "hotReloadEnabled": true
+    },
+    "Debug Windows": {
+      "commandName": "Project",
+      "nativeDebugging": true,
+      "hotReloadEnabled": true,
+      "dotnetRunMessages": true
+    }
+  }
+}

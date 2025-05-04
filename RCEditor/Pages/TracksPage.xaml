@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:RCEditor.Converters"
+             x:Class="RCEditor.Pages.TracksPage"
+             Title="Track Settings">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *">
+        <Label Grid.Row="0" Text="Track Settings" FontSize="24" FontAttributes="Bold" Margin="20,10" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20">
+                <!-- Track selection tabs -->
+                <HorizontalStackLayout x:Name="TrackTabs" Spacing="5" Margin="0,0,0,20">
+                    <Button Text="Track 1" Clicked="OnTrackTabClicked" x:Name="Track1" 
+                            BackgroundColor="{Binding Source={x:Reference Track1Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                    <Button Text="Track 2" Clicked="OnTrackTabClicked" x:Name="Track2" 
+                            BackgroundColor="{Binding Source={x:Reference Track2Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                    <Button Text="Track 3" Clicked="OnTrackTabClicked" x:Name="Track3" 
+                            BackgroundColor="{Binding Source={x:Reference Track3Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                    <Button Text="Track 4" Clicked="OnTrackTabClicked" x:Name="Track4" 
+                            BackgroundColor="{Binding Source={x:Reference Track4Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                    <Button Text="Track 5" Clicked="OnTrackTabClicked" x:Name="Track5" 
+                            BackgroundColor="{Binding Source={x:Reference Track5Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                    <Button Text="Track 6" Clicked="OnTrackTabClicked" x:Name="Track6" 
+                            BackgroundColor="{Binding Source={x:Reference Track6Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                </HorizontalStackLayout>
+
+                <!-- Track 1 Panel -->
+                <VerticalStackLayout x:Name="Track1Panel" IsVisible="True" BindingContext="{Binding CurrentPatch.Tracks[0]}">
+                    <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+                            <!-- Basic track settings -->
+                            <Label Grid.Row="0" Grid.Column="0" Text="Settings:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                            
+                            <Label Grid.Row="1" Grid.Column="0" Text="One Shot:" VerticalOptions="Center"/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding OneShot}"/>
+                            
+                            <Label Grid.Row="2" Grid.Column="0" Text="Reverse:" VerticalOptions="Center"/>
+                            <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Reverse}"/>
+                            
+                            <Label Grid.Row="3" Grid.Column="0" Text="Level:" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Row="3" Grid.Column="1">
+                                <Slider Value="{Binding Level}" Minimum="0" Maximum="200" WidthRequest="200"/>
+                                <Label Text="{Binding Level}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                            </HorizontalStackLayout>
+                            
+                            <Label Grid.Row="4" Grid.Column="0" Text="Pan:" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Row="4" Grid.Column="1">
+                                <Slider Value="{Binding Pan}" Minimum="-50" Maximum="50" WidthRequest="200"/>
+                                <Label Text="{Binding Pan}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                            </HorizontalStackLayout>
+                            
+                            <Label Grid.Row="5" Grid.Column="0" Text="Output:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="5" Grid.Column="1" SelectedItem="{Binding OutputAssign}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Main</x:String>
+                                        <x:String>Sub</x:String>
+                                        <x:String>MainSub</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </Frame>
+                    
+                    <!-- Start/Stop settings -->
+                    <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Start/Stop:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                            
+                            <Label Grid.Row="1" Grid.Column="0" Text="Start Mode:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding StartMode}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Immediate</x:String>
+                                        <x:String>Fade</x:String>
+                                        <x:String>InputLevel</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            
+                            <Label Grid.Row="2" Grid.Column="0" Text="Fade In Measures:" VerticalOptions="Center"/>
+                            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding FadeInMeasures}" WidthRequest="100" HorizontalOptions="Start" Keyboard="Numeric"/>
+                            
+                            <Label Grid.Row="3" Grid.Column="0" Text="Stop Mode:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="3" Grid.Column="1" SelectedItem="{Binding StopMode}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Immediate</x:String>
+                                        <x:String>Fade</x:String>
+                                        <x:String>RecStop</x:String>
+                                        <x:String>RecFade</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            
+                            <Label Grid.Row="4" Grid.Column="0" Text="Fade Out Measures:" VerticalOptions="Center"/>
+                            <Entry Grid.Row="4" Grid.Column="1" Text="{Binding FadeOutMeasures}" WidthRequest="100" HorizontalOptions="Start" Keyboard="Numeric"/>
+                            
+                            <Label Grid.Row="5" Grid.Column="0" Text="Overdub Mode:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="5" Grid.Column="1" SelectedItem="{Binding OverdubMode}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Normal</x:String>
+                                        <x:String>Replace</x:String>
+                                        <x:String>Substract</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </Frame>
+                    
+                    <!-- Loop Sync settings -->
+                    <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Loop Sync:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                            
+                            <Label Grid.Row="1" Grid.Column="0" Text="Tempo Sync Mode:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding TempoSyncMode}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Auto</x:String>
+                                        <x:String>Manual</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            
+                            <Label Grid.Row="2" Grid.Column="0" Text="Measure Count:" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
+                                <Entry Text="{Binding MeasureCount}" WidthRequest="100" HorizontalOptions="Start" Keyboard="Numeric"/>
+                                <Label Text="measures" VerticalOptions="Center" Margin="10,0,0,0"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                    
+                    <!-- Input Routing -->
+                    <Frame BorderColor="#CCCCCC" Padding="15">
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Input Routing:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                            
+                            <Label Grid.Row="1" Grid.Column="0" Text="Mic In:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding InputRouting.MicIn}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>None</x:String>
+                                        <x:String>Input1</x:String>
+                                        <x:String>Input2</x:String>
+                                        <x:String>Input3</x:String>
+                                        <x:String>Input4</x:String>
+                                        <x:String>All</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            
+                            <Label Grid.Row="2" Grid.Column="0" Text="Instrument 1:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="2" Grid.Column="1" SelectedItem="{Binding InputRouting.Inst1}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>None</x:String>
+                                        <x:String>Input1</x:String>
+                                        <x:String>Input2</x:String>
+                                        <x:String>Input3</x:String>
+                                        <x:String>Input4</x:String>
+                                        <x:String>All</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            
+                            <Label Grid.Row="3" Grid.Column="0" Text="Instrument 2:" VerticalOptions="Center"/>
+                            <Picker Grid.Row="3" Grid.Column="1" SelectedItem="{Binding InputRouting.Inst2}" WidthRequest="200">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>None</x:String>
+                                        <x:String>Input1</x:String>
+                                        <x:String>Input2</x:String>
+                                        <x:String>Input3</x:String>
+                                        <x:String>Input4</x:String>
+                                        <x:String>All</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!-- Track 2-6 Panels (will be similar to Track1Panel but bound to different tracks) -->
+                <VerticalStackLayout x:Name="Track2Panel" IsVisible="False" BindingContext="{Binding CurrentPatch.Tracks[1]}">
+                    <Label Text="Track 2 settings will go here" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout x:Name="Track3Panel" IsVisible="False" BindingContext="{Binding CurrentPatch.Tracks[2]}">
+                    <Label Text="Track 3 settings will go here" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout x:Name="Track4Panel" IsVisible="False" BindingContext="{Binding CurrentPatch.Tracks[3]}">
+                    <Label Text="Track 4 settings will go here" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout x:Name="Track5Panel" IsVisible="False" BindingContext="{Binding CurrentPatch.Tracks[4]}">
+                    <Label Text="Track 5 settings will go here" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout x:Name="Track6Panel" IsVisible="False" BindingContext="{Binding CurrentPatch.Tracks[5]}">
+                    <Label Text="Track 6 settings will go here" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

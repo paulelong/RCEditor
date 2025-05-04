@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:RCEditor.Converters"
+             x:Class="RCEditor.Pages.RhythmPage"
+             Title="Rhythm Settings">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *">
+        <Label Grid.Row="0" Text="Rhythm Settings" FontSize="24" FontAttributes="Bold" Margin="20,10" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" BindingContext="{Binding CurrentPatch.Rhythm}">
+                
+                <!-- Master enable control -->
+                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto">
+                        <Label Grid.Column="0" Text="Enable Rhythm:" VerticalOptions="Center"/>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding Enabled}"/>
+
+                    </Grid>
+                </Frame>
+                
+                <!-- Pattern & Tempo panel -->
+                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Pattern &amp; Tempo:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Genre:" VerticalOptions="Center"/>
+                        <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Genre}" WidthRequest="250">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Rock</x:String>
+                                    <x:String>Pop</x:String>
+                                    <x:String>Jazz</x:String>
+                                    <x:String>Funk</x:String>
+                                    <x:String>Latin</x:String>
+                                    <x:String>Dance</x:String>
+                                    <x:String>Metro</x:String>
+                                    <x:String>User</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Pattern:" VerticalOptions="Center"/>
+                        <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
+                            <Picker SelectedItem="{Binding Pattern}" WidthRequest="250">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Pattern 1</x:String>
+                                        <x:String>Pattern 2</x:String>
+                                        <x:String>Pattern 3</x:String>
+                                        <x:String>Pattern 4</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            <Button Text="Import MIDI..." Clicked="OnImportMidiClicked" Margin="10,0,0,0"/>
+                        </HorizontalStackLayout>
+                        
+                        <Label Grid.Row="3" Grid.Column="0" Text="Variation:" VerticalOptions="Center"/>
+                        <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Spacing="10">
+                            <RadioButton Content="A" IsChecked="{Binding Variation, Converter={StaticResource EnumToBoolConverter}, ConverterParameter='A'}" GroupName="Variation"/>
+                            <RadioButton Content="B" IsChecked="{Binding Variation, Converter={StaticResource EnumToBoolConverter}, ConverterParameter='B'}" GroupName="Variation"/>
+                            <RadioButton Content="C" IsChecked="{Binding Variation, Converter={StaticResource EnumToBoolConverter}, ConverterParameter='C'}" GroupName="Variation"/>
+                            <RadioButton Content="D" IsChecked="{Binding Variation, Converter={StaticResource EnumToBoolConverter}, ConverterParameter='D'}" GroupName="Variation"/>
+                        </HorizontalStackLayout>
+                        
+                        <Label Grid.Row="4" Grid.Column="0" Text="Kit:" VerticalOptions="Center"/>
+                        <Picker Grid.Row="4" Grid.Column="1" SelectedItem="{Binding Kit}" WidthRequest="250">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Standard</x:String>
+                                    <x:String>Room</x:String>
+                                    <x:String>Power</x:String>
+                                    <x:String>Rock</x:String>
+                                    <x:String>Jazz</x:String>
+                                    <x:String>Brush</x:String>
+                                    <x:String>Electronic</x:String>
+                                    <x:String>TR-808</x:String>
+                                    <x:String>TR-909</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        
+                        <Label Grid.Row="5" Grid.Column="0" Text="Beat:" VerticalOptions="Center"/>
+                        <Picker Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Beat}" WidthRequest="250">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>4/4</x:String>
+                                    <x:String>3/4</x:String>
+                                    <x:String>5/4</x:String>
+                                    <x:String>6/8</x:String>
+                                    <x:String>7/8</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        
+                        <Label Grid.Row="6" Grid.Column="0" Text="Tempo:" VerticalOptions="Center"/>
+                        <HorizontalStackLayout Grid.Row="6" Grid.Column="1">
+                            <Slider Value="{Binding Tempo}" Minimum="40" Maximum="300" WidthRequest="250"/>
+                            <Label Text="{Binding Tempo, StringFormat='{0:F1} BPM'}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                        </HorizontalStackLayout>
+                        
+                        <Label Grid.Row="7" Grid.Column="0" Text="Volume:" VerticalOptions="Center"/>
+                        <HorizontalStackLayout Grid.Row="7" Grid.Column="1">
+                            <Slider Value="{Binding Volume}" Minimum="0" Maximum="200" WidthRequest="250"/>
+                            <Label Text="{Binding Volume, StringFormat='{0:F0}%'}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Frame>
+                
+                <!-- Behavior panel -->
+                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Behavior:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Start Mode:" VerticalOptions="Center"/>
+                        <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding StartMode}" WidthRequest="250">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Immediate</x:String>
+                                    <x:String>Fade</x:String>
+                                    <x:String>InputLevel</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Stop Mode:" VerticalOptions="Center"/>
+                        <Picker Grid.Row="2" Grid.Column="1" SelectedItem="{Binding StopMode}" WidthRequest="250">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Immediate</x:String>
+                                    <x:String>Fade</x:String>
+                                    <x:String>RecStop</x:String>
+                                    <x:String>RecFade</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        
+                        <Label Grid.Row="3" Grid.Column="0" Text="Variation Change Timing:" VerticalOptions="Center"/>
+                        <Picker Grid.Row="3" Grid.Column="1" SelectedItem="{Binding VariationChangeTiming}" WidthRequest="250">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Immediate</x:String>
+                                    <x:String>End</x:String>
+                                    <x:String>Measure</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
+                </Frame>
+                
+                <!-- Intro/Ending panel -->
+                <Frame BorderColor="#CCCCCC" Padding="15">
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Intro/Ending/Fill:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Intro On Rec:" VerticalOptions="Center"/>
+                        <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IntroOnRec}"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Intro On Play:" VerticalOptions="Center"/>
+                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IntroOnPlay}"/>
+                        
+                        <Label Grid.Row="3" Grid.Column="0" Text="Ending:" VerticalOptions="Center"/>
+                        <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Ending}"/>
+                        
+                        <Label Grid.Row="4" Grid.Column="0" Text="Fill In:" VerticalOptions="Center"/>
+                        <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding FillIn}"/>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:RCEditor.Converters"
+             x:Class="RCEditor.MainPage"
+             Title="RC-600 Patch Editor">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Header toolbar with actions -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" Padding="10">
+            <Button Text="New Patch" Clicked="OnNewPatchClicked"/>
+            <Button Text="Import" Clicked="OnImportClicked"/>
+            <Button Text="Export" Clicked="OnExportClicked"/>
+            <Button Text="Export All" Clicked="OnExportAllClicked"/>
+        </HorizontalStackLayout>
+
+        <!-- Loading indicator overlay -->
+        <ActivityIndicator x:Name="LoadingIndicator" 
+                          IsVisible="False" 
+                          IsRunning="False"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"
+                          Grid.Row="1"
+                          HeightRequest="50"
+                          WidthRequest="50"
+                          Color="DodgerBlue"
+                          ZIndex="999" />
+
+        <!-- Main content with a split view - patches list on left, details on right -->
+        <Grid Grid.Row="1" ColumnDefinitions="300, *">
+            <!-- Patches list -->
+            <Border Grid.Column="0" Stroke="#DDDDDD" StrokeThickness="1">
+                <VerticalStackLayout Padding="10">
+                    <Label Text="Memory Patches" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10"/>
+                    
+                    <!-- Filter -->
+                    <SearchBar Placeholder="Filter patches..." TextChanged="OnFilterTextChanged" 
+                               Margin="0,0,0,10"/>
+                    
+                    <!-- Patches ListView -->
+                    <CollectionView x:Name="PatchesCollection" 
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnPatchSelectionChanged">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10,5">
+                                    <Frame BorderColor="Transparent" Padding="10" BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Name}" FontSize="16" />
+                                            <Label Text="{Binding PatchNumber, StringFormat='#{0}'}" 
+                                                   TextColor="Gray" FontSize="12" />
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Patch details -->
+            <VerticalStackLayout Grid.Column="1" Padding="20">
+                <VerticalStackLayout x:Name="NoSelectionPanel" IsVisible="{Binding IsPatchSelected, Converter={StaticResource BoolToColorConverter}, ConverterParameter=False}">
+                    <Label Text="No patch selected" HorizontalOptions="Center" 
+                           VerticalOptions="Center" FontSize="18" TextColor="Gray"/>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout x:Name="PatchDetailsPanel" IsVisible="{Binding IsPatchSelected}">
+                    <!-- Basic Patch info -->
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto" 
+                          Margin="0,0,0,20">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Name:" VerticalOptions="Center"/>
+                        <Entry Grid.Row="0" Grid.Column="1" Text="{Binding Name}" 
+                               MaxLength="12" Margin="5,0,0,0"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Mode:" VerticalOptions="Center"/>
+                        <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
+                            <RadioButton Content="Multi" IsChecked="{Binding PlayMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Multi}"/>
+                            <RadioButton Content="Single" IsChecked="{Binding PlayMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Single}"/>
+                        </HorizontalStackLayout>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Tempo:" VerticalOptions="Center"/>
+                        <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Margin="5,0,0,0">
+                            <Slider Value="{Binding Tempo}" Minimum="40" Maximum="300" 
+                                    WidthRequest="300"/>
+                            <Label Text="{Binding Tempo, StringFormat='{0:F1} BPM'}" 
+                                   VerticalOptions="Center" Margin="10,0,0,0"/>
+                        </HorizontalStackLayout>
+                        
+                        <Label Grid.Row="3" Grid.Column="0" Text="Loop Sync:" VerticalOptions="Center"/>
+                        <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding LoopSync}" 
+                                  Margin="0,0,0,0"/>
+                    </Grid>
+                    
+                    <!-- Tabs for nested information -->
+                    <HorizontalStackLayout x:Name="DetailTabs" Spacing="5" Margin="0,0,0,20">
+                        <Button Text="General" Clicked="OnDetailTabClicked" x:Name="GeneralTab2" 
+                                BackgroundColor="{Binding Source={x:Reference GeneralTab}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                        <Button Text="Single Mode Options" Clicked="OnDetailTabClicked" x:Name="SingleModeTab2" 
+                                BackgroundColor="{Binding Source={x:Reference SingleModeTab}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                    </HorizontalStackLayout>
+                    
+                    <!-- Detail tabs content -->
+                    <VerticalStackLayout x:Name="GeneralTab" IsVisible="True">
+                        <Label Text="General Settings" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
+                        <!-- General settings content here -->
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout x:Name="SingleModeTab" IsVisible="False">
+                        <Label Text="Single Mode Options" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto">
+                            <Label Grid.Column="0" Text="Switch Behavior:" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding SingleModeSwitch}" 
+                                    Margin="5,0,0,0">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Immediate</x:String>
+                                        <x:String>Loop</x:String>
+                                        <x:String>OneShot</x:String>
+                                        <x:String>FadeOut</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentPage>

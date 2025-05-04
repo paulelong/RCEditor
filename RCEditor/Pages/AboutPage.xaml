@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RCEditor.Pages.AboutPage"
+             Title="About RC-600 Patch Editor">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+            <Image Source="dotnet_bot.png" HeightRequest="120" WidthRequest="120" HorizontalOptions="Center" Margin="0,20,0,20"/>
+            
+            <Label Text="RC-600 Patch Editor" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="Version 1.0.0" FontSize="16" TextColor="Gray" HorizontalOptions="Center" />
+            
+            <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,20,0,0">
+                <VerticalStackLayout>
+                    <Label Text="About" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10"/>
+                    <Label Text="The RC-600 Patch Editor allows you to create, edit, and manage patches for the Boss RC-600 Loop Station. It provides a user-friendly interface for adjusting track settings, configuring effects, setting up rhythms, and customizing control assignments." 
+                           TextType="Text"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,10,0,0">
+                <VerticalStackLayout>
+                    <Label Text="Features" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10"/>
+                    <Label Text="• Patch management (create, import, export)" TextType="Text"/>
+                    <Label Text="• Track configuration for all 6 tracks" TextType="Text"/>
+                    <Label Text="• Rhythm pattern and timing settings" TextType="Text"/>
+                    <Label Text="• Effect bank organization and parameters" TextType="Text"/>
+                    <Label Text="• Control assignments and custom mapping" TextType="Text"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,10,0,0">
+                <VerticalStackLayout>
+                    <Label Text="Support" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10"/>
+                    <Label Text="For support or to report issues, please contact:" TextType="Text"/>
+                    <Label Text="support@rceditor.example.com" TextType="Text" Margin="0,5,0,0"/>
+                    <Label Text="www.rceditor.example.com" TextType="Text" Margin="0,5,0,0"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Label Text="© 2025 RC-600 Patch Editor. All rights reserved." 
+                   FontSize="12" TextColor="Gray" HorizontalOptions="Center" Margin="0,20,0,0"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:RCEditor.Converters"
+             x:Class="RCEditor.Pages.ControlsPage"
+             Title="Controls Settings">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, *">
+        <Label Grid.Row="0" Text="Controls Settings" FontSize="24" FontAttributes="Bold" Margin="20,10" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20">
+                <!-- Pedal Assignment Matrix -->
+                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                    <VerticalStackLayout>
+                        <Label Text="Pedal Assignments" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
+                        
+                        <!-- Pedal modes header -->
+                        <Grid ColumnDefinitions="120, *, *, *" RowDefinitions="Auto">
+                            <Label Grid.Column="0" Text="Pedal" VerticalOptions="Center" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Text="Mode 1" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Text="Mode 2" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Text="Mode 3" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        </Grid>
+                        
+                        <!-- Pedal 1 row -->
+                        <Grid ColumnDefinitions="120, *, *, *" RowDefinitions="Auto" Margin="0,5,0,0"
+                              BindingContext="{Binding CurrentPatch.Controls.Pedals[1]}">
+                            <Label Grid.Column="0" Text="Pedal 1" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding Mode1}" Margin="5,0" HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            <Picker Grid.Column="2" SelectedItem="{Binding Mode2}" Margin="5,0" HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            <Picker Grid.Column="3" SelectedItem="{Binding Mode3}" Margin="5,0" HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                        
+                        <!-- Pedal 2 row -->
+                        <Grid ColumnDefinitions="120, *, *, *" RowDefinitions="Auto" Margin="0,5,0,0"
+                              BindingContext="{Binding CurrentPatch.Controls.Pedals[2]}">
+                            <Label Grid.Column="0" Text="Pedal 2" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding Mode1}" Margin="5,0" HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            <Picker Grid.Column="2" SelectedItem="{Binding Mode2}" Margin="5,0" HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                            <Picker Grid.Column="3" SelectedItem="{Binding Mode3}" Margin="5,0" HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                        
+                        <!-- Additional pedal rows would be similar -->
+                        <Label Text="Pedals 3-9 would have similar assignment controls" Margin="0,10,0,0" TextColor="Gray"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- External Control Assignments -->
+                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                    <VerticalStackLayout>
+                        <Label Text="External Control Assignments" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
+                        
+                        <!-- External Switch 1 -->
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto" Margin="0,5,0,0">
+                            <Label Grid.Column="0" Text="External Switch 1:" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding CurrentPatch.Controls.ExternalSwitch1}" Margin="10,0,0,0">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                        
+                        <!-- External Switch 2 -->
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto" Margin="0,5,0,0">
+                            <Label Grid.Column="0" Text="External Switch 2:" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding CurrentPatch.Controls.ExternalSwitch2}" Margin="10,0,0,0">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Play/Stop</x:String>
+                                        <x:String>Record/Play</x:String>
+                                        <x:String>Record/Overdub</x:String>
+                                        <x:String>Track Select</x:String>
+                                        <x:String>Effect On/Off</x:String>
+                                        <x:String>Rhythm Start/Stop</x:String>
+                                        <x:String>Rhythm Fill</x:String>
+                                        <x:String>Rhythm Variation</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                        
+                        <!-- Expression Pedal 1 -->
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto" Margin="0,5,0,0">
+                            <Label Grid.Column="0" Text="Expression Pedal 1:" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding CurrentPatch.Controls.Expression1}" Margin="10,0,0,0">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Track Level</x:String>
+                                        <x:String>Track Pan</x:String>
+                                        <x:String>Effect Parameter</x:String>
+                                        <x:String>Rhythm Level</x:String>
+                                        <x:String>Master Level</x:String>
+                                        <x:String>Tempo</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                        
+                        <!-- Expression Pedal 2 -->
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto" Margin="0,5,0,0">
+                            <Label Grid.Column="0" Text="Expression Pedal 2:" VerticalOptions="Center"/>
+                            <Picker Grid.Column="1" SelectedItem="{Binding CurrentPatch.Controls.Expression2}" Margin="10,0,0,0">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Track Level</x:String>
+                                        <x:String>Track Pan</x:String>
+                                        <x:String>Effect Parameter</x:String>
+                                        <x:String>Rhythm Level</x:String>
+                                        <x:String>Master Level</x:String>
+                                        <x:String>Tempo</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Assign Table -->
+                <Frame BorderColor="#CCCCCC" Padding="15">
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0" Text="Custom Assign Table" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
+                            <Button Grid.Column="1" Text="Add Assign" Clicked="OnAddAssignClicked"/>
+                        </Grid>
+                        
+                        <CollectionView ItemsSource="{Binding CurrentPatch.Assigns}">
+                            <CollectionView.EmptyView>
+                                <Label Text="No custom assigns defined" TextColor="Gray" HorizontalOptions="Center"/>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,5">
+                                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Text="Source:" VerticalOptions="Center"/>
+                                            <Picker Grid.Row="0" Grid.Column="1" SelectedItem="{Binding Source}" Margin="5,0,0,0">
+                                                <Picker.ItemsSource>
+                                                    <x:Array Type="{x:Type x:String}">
+                                                        <x:String>Expression Pedal 1</x:String>
+                                                        <x:String>Expression Pedal 2</x:String>
+                                                        <x:String>External Switch 1</x:String>
+                                                        <x:String>External Switch 2</x:String>
+                                                        <x:String>MIDI CC</x:String>
+                                                    </x:Array>
+                                                </Picker.ItemsSource>
+                                            </Picker>
+                                            <Button Grid.Row="0" Grid.Column="2" Text="Remove" Clicked="OnRemoveAssignClicked" 
+                                                    CommandParameter="{Binding}" Margin="5,0,0,0"/>
+                                            
+                                            <Label Grid.Row="1" Grid.Column="0" Text="Target:" VerticalOptions="Center"/>
+                                            <Picker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" SelectedItem="{Binding Target}" Margin="5,0,0,0">
+                                                <Picker.ItemsSource>
+                                                    <x:Array Type="{x:Type x:String}">
+                                                        <x:String>Track 1 Level</x:String>
+                                                        <x:String>Track 2 Level</x:String>
+                                                        <x:String>Track 3 Level</x:String>
+                                                        <x:String>Track 4 Level</x:String>
+                                                        <x:String>Track 5 Level</x:String>
+                                                        <x:String>Track 6 Level</x:String>
+                                                        <x:String>Track 1 Pan</x:String>
+                                                        <x:String>Track 2 Pan</x:String>
+                                                        <x:String>Track 3 Pan</x:String>
+                                                        <x:String>Track 4 Pan</x:String>
+                                                        <x:String>Track 5 Pan</x:String>
+                                                        <x:String>Track 6 Pan</x:String>
+                                                        <x:String>Effect A1 Param 1</x:String>
+                                                        <x:String>Effect A2 Param 1</x:String>
+                                                        <x:String>Rhythm Level</x:String>
+                                                        <x:String>Master Level</x:String>
+                                                        <x:String>Tempo</x:String>
+                                                    </x:Array>
+                                                </Picker.ItemsSource>
+                                            </Picker>
+                                            
+                                            <Label Grid.Row="2" Grid.Column="0" Text="Mode:" VerticalOptions="Center"/>
+                                            <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,0,0,0">
+                                                <RadioButton Content="Momentary" IsChecked="{Binding ActionMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Momentary}" GroupName="ActionMode"/>
+                                                <RadioButton Content="Toggle" IsChecked="{Binding ActionMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Toggle}" GroupName="ActionMode"/>
+                                                <RadioButton Content="Continuous" IsChecked="{Binding ActionMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Continuous}" GroupName="ActionMode"/>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
