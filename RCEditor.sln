@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCEditor", "RCEditor\RCEditor.csproj", "{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCEditor.Models", "RCEditor.Models\RCEditor.Models.csproj", "{C6360827-25C4-406E-BD7F-F4DFF140DE48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Debug|x64.Build.0 = Debug|Any CPU
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -27,8 +30,23 @@ Global
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Release|x64.Build.0 = Release|Any CPU
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{7743062C-86D2-4C46-A20E-9DF7EC9E3DC8}.Release|x86.Build.0 = Release|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Debug|x64.Build.0 = Debug|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x64.ActiveCfg = Release|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x64.Build.0 = Release|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C981EC10-1744-48E3-95F1-D6A8FA042015}
 	EndGlobalSection
 EndGlobal
