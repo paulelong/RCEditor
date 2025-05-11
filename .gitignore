@@ -104,3 +104,5 @@ ServiceFabricBackup/
 
 # Project specific
 # Add any project-specific files to ignore here
+SupportDoc/**/*.WAV
+
