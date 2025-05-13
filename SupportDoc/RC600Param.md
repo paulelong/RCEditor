@@ -33,7 +33,7 @@
 | BOUNCE SW     | **OFF**, ON                 | Enables bounce recording.                                    |
 | BOUNCE TRACK  | 1 – 6                            | Track used for bounce recording.                             |
 
-### PLAY	
+### PLAY
 
 | Parameter                    | Values (default in**bold**) | Explanation                                               |
 | ---------------------------- | --------------------------------- | --------------------------------------------------------- |
@@ -266,7 +266,7 @@ Default switch assignments for the nine onboard footswitches in each pedal mode.
 | **LOOP INDICATORS** | LOOP INDICAT (outer ring): LOOP, RHYTHM, BEAT, TEMPO; ORB INDICAT (center ring): LOOP, RHYTHM, BEAT, TEMPO | —      | Controls which information the outer and center LED rings display. citeturn1file2        |
 | **AUTO OFF**        | OFF / ON                                                                                                   | OFF     | When ON, power turns off automatically if the unit is idle for 10 h. citeturn1file2     |
 | **MEMORY EXTENT**   | MIN 01–99, MAX 01–99                                                                                     | —      | Limits the range of memory numbers scrollable from the panel. citeturn1file2             |
-| **KNOB FUNC 1–4**  | See_Knob Func Values_ full list below*                                                                   | —      | Assigns the function of each top‑panel knob during playback. citeturn1file5turn1file8 |
+| **KNOB FUNC 1–4**  | See_Knob Func Values_ full list below*                                                                     | —      | Assigns the function of each top‑panel knob during playback. citeturn1file5turn1file8 |
 
 _Knob Func Values_
 
@@ -358,43 +358,53 @@ _Knob Func Values_
 
 ## Input/Track FX – Full Parameter Tables
 
-Below is a cleaner, fully‑rendered rewrite of the FX section—each table now follows standard Markdown rules (blank line before/after, no citations inside the grid). I also trimmed verbose ranges to maintain readability while keeping all parameters.
+This table describes the SEQ data that exists for FXs that are marked with a YES in the **Enumeration of all FX** table below.  
+
+| Parameter             | Values*                                                    | What it does                                                                                                                                                                              |
+| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SW**          | `OFF`,`ON`                                             | Turns the FX-Sequence function itself off/on.                                                                                                                                             |
+| **SYNC**        | `OFF`,`ON`                                             | When**ON** , the first step of the sequence is aligned (cued) with the start of loop playback.                                                                                      |
+| **RETRIG**      | `OFF`,`ON`                                             | When**ON** , the sequence is re-started from step 1 every time you switch <br />the effect on (e.g., via a foot-switch).                                                            |
+| **TARGET**      | *parameter list varies by effect*                        | Chooses which effect parameter the sequence will change. Parameters that can be<br /> targeted are labeled as Target in the SEQ column. Those marked as Initial indicate intial values. |
+| **RATE**        | `0–100`,`4MEAS`,`2MEAS`,`1MEAS`,`½–1/32 note` | Sets the cycle length of the entire sequence.                                                                                                                                             |
+| **MAX**         | `1–16`                                                  | Defines how many steps (up to 16) are active in the sequence.                                                                                                                             |
+| **VAL1–VAL16** | `1–16`                                                  | Step-by-step values that the TARGET parameter will take.<br />One entry for each possible step.                                                                                           |
 
 ### Filters
 
 #### LPF – Low‑Pass Filter
 
-| Parameter | Values (default in**bold**)       | Explanation                     |
-| --------- | --------------------------------------- | ------------------------------- |
-| RATE      | 4MEAS, 2MEAS, 1MEAS, ♩ … ♬, 0‑100 | LFO speed for cutoff modulation |
-| DEPTH     | 0‑100                                  | Modulation depth                |
-| RESONANCE | 0‑100                                  | Resonance (Q) at cutoff         |
-| CUTOFF    | 0‑100                                  | Cutoff frequency                |
-| STEP RATE | OFF, 4MEAS … 0‑100                  | Rate when**FX SEQ**is ON |
+| Parameter | Values (default in**bold**)       | Explanation                     | SEQ     |
+| --------- | --------------------------------------- | ------------------------------- | ------- |
+| RATE      | 4MEAS, 2MEAS, 1MEAS, ♩ … ♬, 0‑100 | LFO speed for cutoff modulation |         |
+| DEPTH     | 0‑100                                  | Modulation depth                | Target  |
+| RESONANCE | 0‑100                                  | Resonance (Q) at cutoff         |         |
+| CUTOFF    | 0‑100                                  | Cutoff frequency                | Initial |
+| STEP RATE | OFF, 4MEAS … 0‑100                  | Rate when**FX SEQ**is ON |         |
 
 citeturn6file5
 
 #### BPF – Band‑Pass Filter
 
-| Parameter | Values           | Explanation      |
-| --------- | ---------------- | ---------------- |
-| RATE      | same list as LPF | LFO speed        |
-| DEPTH     | 0‑100           | Mod depth        |
-| RESONANCE | 0‑100           | Band resonance   |
-| CUTOFF    | 0‑100           | Center frequency |
-| STEP RATE | OFF … 0‑100  | Seq rate         |
+| Parameter | Values           | Explanation      | SEQ     |
+| --------- | ---------------- | ---------------- | ------- |
+| RATE      | same list as LPF | LFO speed        |         |
+| DEPTH     | 0‑100           | Mod depth        | Target  |
+| RESONANCE | 0‑100           | Band resonance   |         |
+| CUTOFF    | 0‑100           | Center frequency | Initial |
+| STEP RATE | OFF … 0‑100  | Seq rate         |         |
 
 citeturn6file5
 
 #### HPF – High‑Pass Filter
 
-| Parameter | Values           | Explanation      |
-| --------- | ---------------- | ---------------- |
-| RATE      | same list as LPF | LFO speed        |
-| DEPTH     | 0‑100           | Depth            |
-| RESONANCE | 0‑100           | Q at cutoff      |
-| CUTOFF    | 0‑100           | Cutoff frequency |
-| STEP RATE | OFF … 0‑100  | Seq rate         |
+| Parameter | Values           | Explanation      | SEQ     |
+| --------- | ---------------- | ---------------- | ------- |
+| RATE      | same list as LPF | LFO speed        |         |
+| DEPTH     | 0‑100           | Depth            | Target  |
+| RESONANCE | 0‑100           | Q at cutoff      |         |
+| CUTOFF    | 0‑100           | Cutoff frequency | Initial |
+| STEP RATE | OFF … 0‑100  | Seq rate         |         |
 
 citeturn6file5
 
@@ -404,31 +414,31 @@ Below is a cleaner, fully‑rendered rewrite of the FX section—each table now 
 
 #### Phaser
 
-| Parameter | Values              | Explanation        |
-| --------- | ------------------- | ------------------ |
-| RATE      | 4MEAS … 0‑100   | Effect speed       |
-| DEPTH     | 0‑100              | Effect depth       |
-| RESONANCE | 0‑100              | Feedback intensity |
-| MANUAL    | 0‑100              | Center frequency   |
-| STAGE     | 4, 8, 12, BI‑PHASE | Number of stages   |
-| STEP RATE | OFF … 0‑100     | Seq rate           |
-| D.LEVEL   | 0‑100              | Dry level          |
-| E.LEVEL   | 0‑100              | Effect level       |
+| Parameter | Values              | Explanation        | SEQ     |
+| --------- | ------------------- | ------------------ | ------- |
+| RATE      | 4MEAS … 0‑100   | Effect speed       |         |
+| DEPTH     | 0‑100              | Effect depth       | Target  |
+| RESONANCE | 0‑100              | Feedback intensity | Target  |
+| MANUAL    | 0‑100              | Center frequency   | Initial |
+| STAGE     | 4, 8, 12, BI‑PHASE | Number of stages   |         |
+| STEP RATE | OFF … 0‑100     | Seq rate           |         |
+| D.LEVEL   | 0‑100              | Dry level          | Target  |
+| E.LEVEL   | 0‑100              | Effect level       | Target  |
 
 citeturn6file10
 
 #### Flanger
 
-| Parameter  | Values            | Explanation      |
-| ---------- | ----------------- | ---------------- |
-| RATE       | 4MEAS … 0‑100 | Speed            |
-| DEPTH      | 0‑100            | Depth            |
-| RESONANCE  | 0‑100            | Feedback         |
-| MANUAL     | 0‑100            | Center frequency |
-| STEP RATE  | OFF … 0‑100   | Seq rate         |
-| D.LEVEL    | 0‑100            | Dry level        |
-| E.LEVEL    | 0‑100            | Wet level        |
-| SEPARATION | 0‑100            | Stereo width     |
+| Parameter  | Values            | Explanation      | SEQ     |
+| ---------- | ----------------- | ---------------- | ------- |
+| RATE       | 4MEAS … 0‑100 | Speed            |         |
+| DEPTH      | 0‑100            | Depth            | Target  |
+| RESONANCE  | 0‑100            | Feedback         | Target  |
+| MANUAL     | 0‑100            | Center frequency | Initial |
+| STEP RATE  | OFF … 0‑100   | Seq rate         |         |
+| D.LEVEL    | 0‑100            | Dry level        | Target  |
+| E.LEVEL    | 0‑100            | Wet level        | Target  |
+| SEPARATION | 0‑100            | Stereo width     | Target  |
 
 citeturn6file10
 
@@ -447,11 +457,11 @@ Below is a cleaner, fully‑rendered rewrite of the FX section—each table now 
 
 #### Tremolo
 
-| Parameter | Values            | Explanation   |
-| --------- | ----------------- | ------------- |
-| RATE      | 4MEAS … 0‑100 | Tremolo speed |
-| DEPTH     | 0‑100            | Depth         |
-| WAVEFORM  | TRI, SQR          | LFO shape     |
+| Parameter | Values            | Explanation   | SEQ     |
+| --------- | ----------------- | ------------- | ------- |
+| RATE      | 4MEAS … 0‑100 | Tremolo speed | Target  |
+| DEPTH     | 0‑100            | Depth         | Initial |
+| WAVEFORM  | TRI, SQR          | LFO shape     |         |
 
 citeturn6file15
 
@@ -849,7 +859,6 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | D.LEVEL   | 0‑100 | Dry level        |
 | E.LEVEL   | 0‑120 | Effect level     |
 
-
 # Rhythm Pattern List (RC-600)
 
 ### Acoustic
@@ -1086,3 +1095,63 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | Pattern     | Beat |
 | ----------- | ---- |
 | SIMPLE BEAT | 4/4  |
+
+## Enumeration of all FX
+
+| #  | Effect name                 | Seq |
+| -- | --------------------------- | --- |
+| 1  | LPF (Low-pass filter)       | Yes |
+| 2  | BPF (Band-pass filter)      | Yes |
+| 3  | HPF (High-pass filter)      | Yes |
+| 4  | Phaser                      | Yes |
+| 5  | Flanger                     | Yes |
+| 6  | Synth                       | Yes |
+| 7  | Lo-Fi                       | No  |
+| 8  | Radio                       | No  |
+| 9  | Ring Mod                    | Yes |
+| 10 | G2B (Guitar-to-Bass)        | No  |
+| 11 | Sustainer                   | No  |
+| 12 | Auto Riff                   | No  |
+| 13 | Slow Gear                   | No  |
+| 14 | Transpose                   | Yes |
+| 15 | Pitch Bend                  | Yes |
+| 16 | Robot                       | No  |
+| 17 | Electric                    | No  |
+| 18 | HRM Manual                  | No  |
+| 19 | HRM Auto (MIDI)             | No  |
+| 20 | Vocoder                     | No  |
+| 21 | OSC Voc (MIDI)              | No  |
+| 22 | OSC Bot                     | Yes |
+| 23 | Preamp                      | No  |
+| 24 | Dist (Distortion)           | No  |
+| 25 | Dynamics (Comp/Lim presets) | No  |
+| 26 | EQ (4-band)                 | No  |
+| 27 | Isolator                    | Yes |
+| 28 | Octave                      | Yes |
+| 29 | Auto Pan                    | No  |
+| 30 | Manual Pan                  | Yes |
+| 31 | Stereo Enhance              | No  |
+| 32 | Tremolo                     | Yes |
+| 33 | Vibrato                     | Yes |
+| 34 | Pattern Slicer              | No  |
+| 35 | Step Slicer                 | No  |
+| 36 | Delay                       | No  |
+| 37 | Panning Delay               | No  |
+| 38 | Reverse Delay               | No  |
+| 39 | Mod Delay                   | No  |
+| 40 | Tape Echo 1                 | No  |
+| 41 | Tape Echo 2                 | No  |
+| 42 | Granular Delay              | No  |
+| 43 | Warp                        | No  |
+| 44 | Twist                       | No  |
+| 45 | Roll 1                      | No  |
+| 46 | Roll 2                      | No  |
+| 47 | Freeze                      | No  |
+| 48 | Chorus                      | No  |
+| 49 | Reverb                      | No  |
+| 50 | Gate Reverb                 | No  |
+| 51 | Reverse Reverb              | No  |
+| 52 | Beat Scatter (Track-only)   | No  |
+| 53 | Beat Repeat (Track-only)    | No  |
+| 54 | Beat Shift (Track-only)     | No  |
+| 55 | Vinyl Flick (Track-only)    | No  |
