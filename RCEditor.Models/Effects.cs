@@ -14,11 +14,15 @@ namespace RCEditor.Models
         public bool EnabledByDefault { get; set; }
         public SwitchModeEnum SwitchMode { get; set; }
         public string Target { get; set; }
-        public Dictionary<string, double> Parameters { get; set; }
-
+        public Dictionary<string, int> Parameters { get; set; }
+        
+        // New property to store all effect settings
+        public Dictionary<int, EffectSettings> AllEffectSettings { get; set; }
+        
         public EffectSlot()
         {
-            Parameters = new Dictionary<string, double>();
+            Parameters = new Dictionary<string, int>();
+            AllEffectSettings = new Dictionary<int, EffectSettings>();
             EnabledByDefault = true;
             Enabled = true;
             SwitchMode = SwitchModeEnum.Toggle;
@@ -30,6 +34,60 @@ namespace RCEditor.Models
         
         public int EffectType { get; set; }
         public string EffectName { get; set; }
+        
+        // Get the current effect's settings
+        public EffectSettings GetCurrentEffectSettings()
+        {
+            if (AllEffectSettings.ContainsKey(EffectType))
+            {
+                return AllEffectSettings[EffectType];
+            }
+            
+            // If no settings exist for the current effect type, create new settings
+            var settings = new EffectSettings
+            {
+                EffectType = this.EffectType,
+                EffectName = this.EffectName,
+                Parameters = new Dictionary<string, int>(this.Parameters)
+            };
+            
+            AllEffectSettings[EffectType] = settings;
+            return settings;
+        }
+        
+        // Apply settings when switching to a different effect
+        public void SwitchToEffect(int effectType, string effectName)
+        {
+            // Store current settings if we have an effect type set
+            if (EffectType > 0 && !AllEffectSettings.ContainsKey(EffectType))
+            {
+                AllEffectSettings[EffectType] = new EffectSettings
+                {
+                    EffectType = this.EffectType,
+                    EffectName = this.EffectName,
+                    Parameters = new Dictionary<string, int>(this.Parameters)
+                };
+            }
+            
+            // Update to new effect
+            EffectType = effectType;
+            EffectName = effectName;
+            
+            // Load parameters for the new effect if they exist
+            if (AllEffectSettings.ContainsKey(effectType))
+            {
+                Parameters.Clear();
+                foreach (var param in AllEffectSettings[effectType].Parameters)
+                {
+                    Parameters[param.Key] = param.Value;
+                }
+            }
+            else
+            {
+                // Initialize with empty parameters
+                Parameters.Clear();
+            }
+        }
     }
 
     public class EffectBank
@@ -49,6 +107,7 @@ namespace RCEditor.Models
     public class EffectBanks
     {
         public Dictionary<string, EffectBank> Banks { get; set; } = new Dictionary<string, EffectBank>();
+        public EffectSlot.BankType ActiveBank { get; set; } = EffectSlot.BankType.A;  // Default to Bank A if not specified
 
         public EffectBanks()
         {
@@ -59,5 +118,11 @@ namespace RCEditor.Models
         }
     }
 
-    
+    // New class to store settings for a specific effect
+    public class EffectSettings
+    {
+        public int EffectType { get; set; }
+        public string EffectName { get; set; } = string.Empty;
+        public Dictionary<string, int> Parameters { get; set; } = new Dictionary<string, int>();
+    }
 }
