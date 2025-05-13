@@ -358,7 +358,7 @@ _Knob Func Values_
 
 ## Input/Track FX – Full Parameter Tables
 
-This table describes the SEQ data that exists for FXs that are marked with a YES in the **Enumeration of all FX** table below.  
+This table describes the SEQ data that exists for FXs that are marked with a YES in the **Enumeration of all FX** table below.
 
 | Parameter             | Values*                                                    | What it does                                                                                                                                                                              |
 | --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -370,9 +370,7 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | **MAX**         | `1–16`                                                  | Defines how many steps (up to 16) are active in the sequence.                                                                                                                             |
 | **VAL1–VAL16** | `1–16`                                                  | Step-by-step values that the TARGET parameter will take.<br />One entry for each possible step.                                                                                           |
 
-### Filters
-
-#### LPF – Low‑Pass Filter
+### 1 LPF – Low‑Pass Filter
 
 | Parameter | Values (default in**bold**)       | Explanation                     | SEQ     |
 | --------- | --------------------------------------- | ------------------------------- | ------- |
@@ -382,9 +380,7 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | CUTOFF    | 0‑100                                  | Cutoff frequency                | Initial |
 | STEP RATE | OFF, 4MEAS … 0‑100                  | Rate when**FX SEQ**is ON |         |
 
-citeturn6file5
-
-#### BPF – Band‑Pass Filter
+### 2 BPF – Band‑Pass Filter
 
 | Parameter | Values           | Explanation      | SEQ     |
 | --------- | ---------------- | ---------------- | ------- |
@@ -394,9 +390,7 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | CUTOFF    | 0‑100           | Center frequency | Initial |
 | STEP RATE | OFF … 0‑100  | Seq rate         |         |
 
-citeturn6file5
-
-#### HPF – High‑Pass Filter
+### 3 HPF – High‑Pass Filter
 
 | Parameter | Values           | Explanation      | SEQ     |
 | --------- | ---------------- | ---------------- | ------- |
@@ -406,13 +400,7 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | CUTOFF    | 0‑100           | Cutoff frequency | Initial |
 | STEP RATE | OFF … 0‑100  | Seq rate         |         |
 
-citeturn6file5
-
----
-
-### Modulation
-
-#### Phaser
+### 4 Phaser
 
 | Parameter | Values              | Explanation        | SEQ     |
 | --------- | ------------------- | ------------------ | ------- |
@@ -425,9 +413,7 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | D.LEVEL   | 0‑100              | Dry level          | Target  |
 | E.LEVEL   | 0‑100              | Effect level       | Target  |
 
-citeturn6file10
-
-#### Flanger
+### 5 Flanger
 
 | Parameter  | Values            | Explanation      | SEQ     |
 | ---------- | ----------------- | ---------------- | ------- |
@@ -440,56 +426,47 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | E.LEVEL    | 0‑100            | Wet level        | Target  |
 | SEPARATION | 0‑100            | Stereo width     | Target  |
 
-citeturn6file10
+### 6 Synth
 
-#### Chorus
+| Parameter    | Values (default in**bold**) | Explanation                  |
+| ------------ | --------------------------------- | ---------------------------- |
+| FREQUENCY ② | 0 –**50** – 100           | Filter cutoff position       |
+| RESONANCE ② | 0 –**50** – 100           | Filter emphasis              |
+| DECAY ②     | 0 –**50** – 100           | Time for the filter to close |
+| BALANCE      | 0 –**50** – 100           | Direct : synth level blend   |
 
-| Parameter | Values                  | Explanation  |
-| --------- | ----------------------- | ------------ |
-| RATE      | 0‑100, ♩              | Mod rate     |
-| DEPTH     | 0‑100                  | Depth        |
-| D.LEVEL   | 0‑100                  | Direct level |
-| LOW CUT   | FLAT, 20 Hz‑12.5 kHz | HPF          |
-| HIGH CUT  | 20 Hz‑12.5 kHz, FLAT | LPF          |
-| E.LEVEL   | 0‑100                  | Wet level    |
+### 7 Lo-Fi
 
-citeturn6file14
+| Parameter  | Values                              | Explanation           |
+| ---------- | ----------------------------------- | --------------------- |
+| BITDEPTH   | **OFF**, 31 – 8 – 1         | Word-length reduction |
+| SAMPLERATE | **OFF**, ½ – ¼ – ¹⁄₃₂ | Sample-rate reduction |
+| BALANCE    | 0 –**50** – 100             | Dry : effect mix      |
 
-#### Tremolo
+### 8 Radio
 
-| Parameter | Values            | Explanation   | SEQ     |
-| --------- | ----------------- | ------------- | ------- |
-| RATE      | 4MEAS … 0‑100 | Tremolo speed | Target  |
-| DEPTH     | 0‑100            | Depth         | Initial |
-| WAVEFORM  | TRI, SQR          | LFO shape     |         |
+| Parameter | Values                  | Explanation                 |
+| --------- | ----------------------- | --------------------------- |
+| LO-FI     | 1 –**6** – 10   | Amount of “AM-radio” blur |
+| LEVEL     | 0 –**50** – 100 | Effect volume               |
 
-citeturn6file15
+### 9 Ring Mod
 
-#### Auto Pan
+| Parameter    | Values                  | Explanation               |
+| ------------ | ----------------------- | ------------------------- |
+| FREQUENCY ② | 0 –**50** – 100 | Internal-oscillator pitch |
+| BALANCE      | 0 –**50** – 100 | Dry : effect mix          |
+| MODE         | **1**, 2          | Algorithm (legacy / new)  |
 
-| Parameter  | Values            | Explanation        |
-| ---------- | ----------------- | ------------------ |
-| RATE       | 4MEAS … 0‑100 | Pan speed          |
-| DEPTH      | 0‑100            | Pan width          |
-| WAVEFORM   | 0‑100            | Shape crispness    |
-| INIT PHASE | 0‑180            | Start pan position |
-| STEP RATE  | OFF … 0‑100   | Seq rate           |
+### 10 G2B (Guitar-to-Bass)
 
-citeturn6file15
+| Parameter | Values                  | Explanation              |
+| --------- | ----------------------- | ------------------------ |
+| BALANCE   | 0 –**50** – 100 | Dry : effect mix         |
+| MODE      | **1**, 2          | Algorithm (legacy / new) |
+| Source    |                         |                          |
 
-#### Manual Pan
-
-| Parameter | Values           | Explanation              |
-| --------- | ---------------- | ------------------------ |
-| POSITION  | L50‑CENTER‑R50 | Fixed pan via expression |
-
-citeturn6file15
-
----
-
-### Dynamics / Tone
-
-#### Sustainer
+### 11 Sustainer
 
 | Parameter | Values            | Explanation          |
 | --------- | ----------------- | -------------------- |
@@ -500,151 +477,127 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | HI GAIN   | ‑20 … +20 dB | High‑shelf EQ       |
 | SUSTAIN   | 0‑100            | Sustain amount       |
 
-citeturn6file11
+### 12 Auto Riff
 
-> **4‑Band EQ** parameters are already covered in *System ➜ INPUT ➜ EQ* above.
+| Parameter | Values                    | Explanation              |
+| --------- | ------------------------- | ------------------------ |
+| PHRASE    | **P1** – P30       | Factory riff pattern     |
+| TEMPO     | 4 MEAS – … – 0 – 100  | Playback speed           |
+| HOLD      | **OFF**, ON         | Latch the phrase         |
+| ATTACK    | 0 –**50** – 100   | Added pick attack        |
+| LOOP      | **OFF**, ON         | Loop phrase continuously |
+| KEY       | **C**(Am) – B(G#m) | Musical key              |
+| BALANCE   | 0 –**50** – 100   | Dry : effect mix         |
+| Source    |                           |                          |
 
----
+### 13 Slow Gear
 
-### Pitch / Harmonic
+| Parameter | Values                  | Explanation              |
+| --------- | ----------------------- | ------------------------ |
+| SENS      | 0 –**50** – 100 | Input sensitivity        |
+| RISE TIME | 0 –**50** – 100 | Fade-in length           |
+| LEVEL     | 0 –**50** – 100 | Effect volume            |
+| MODE      | **1**, 2          | Algorithm (legacy / new) |
+| Source    |                         |                          |
 
-| Effect            | Key parameters                      |
-| ----------------- | ----------------------------------- |
-| Transpose         | TRANS (‑12 … +12 st), MODE     |
-| Pitch Bend        | PITCH (‑3…+4 oct), BEND (0‑100) |
-| Octave            | OCTAVE (‑1,‑2,‑1&‑2), LEVEL     |
-| G2B               | BALANCE                             |
-| Robot             | NOTE (C‑B), FORMANT                |
-| Harmony / Vocoder | Multi‑parameter (see guide)        |
+### 14 Transpose
 
-citeturn6file11
+| Parameter | Values                                | Explanation              |
+| --------- | ------------------------------------- | ------------------------ |
+| TRANS ②  | –12 –**0** – +12 (semitones) | Fixed pitch shift        |
+| MODE      | **1**, 2                        | Algorithm (legacy / new) |
+| Source    |                                       |                          |
 
----
+### 15 Pitch Bend
 
-### Character & Lo‑Fi
+| Parameter | Values                  | Explanation              |
+| --------- | ----------------------- | ------------------------ |
+| PITCH     | –3 – +4**OCT**  | Maximum bend range       |
+| BEND ②   | 0 –**50** – 100 | Bend amount inside range |
+| MODE      | **1**, 2          | Algorithm (legacy / new) |
+| Source    |                         |                          |
 
-| Effect         | Core parameters                 |
-| -------------- | ------------------------------- |
-| Lo‑Fi         | BIT DEPTH, SAMPLE RATE, BALANCE |
-| Radio          | LO‑FI LEVEL                    |
-| Ring Mod       | FREQUENCY, BALANCE              |
-| Synth          | FREQ, RES, DECAY, BALANCE       |
-| Stereo Enhance | LOW/HIGH CUT, ENHANCE           |
+### 16 Robot
 
-citeturn6file10turn6file15
+| Parameter | Values                    | Explanation               |
+| --------- | ------------------------- | ------------------------- |
+| NOTE      | **C** – B          | Fixed vocal pitch         |
+| FORMANT   | –50 –**0** – +50 | Voice character (♂ / ♀) |
+| MODE      | **1**, 2            | Algorithm (legacy / new)  |
+| Source    |                           |                           |
 
----
+### 17 Electric
 
-### Sequence / DJ‑Style (◆ = Track‑FX‑only)
+| Parameter | Values                    | Explanation       |
+| --------- | ------------------------- | ----------------- |
+| SHIFT     | –12 –**0** – +12 | Pitch step amount |
+| FORMANT   | –50 –**0** – +50 | Voice character   |
+| SPEED     | 0 –**5** – 10     | Quantise speed    |
+| STABILITY | –10 –**0** – +10 | Tracking ease     |
+| SCALE     | CHROMATIC, Key (C … B)   | Scale type        |
+| Source    |                           |                   |
 
-| Effect          | Main controls                   |
-| --------------- | ------------------------------- |
-| Beat Scatter ◆ | TYPE, LENGTH                    |
-| Beat Repeat ◆  | TYPE, LENGTH                    |
-| Beat Shift ◆   | TYPE, SHIFT                     |
-| Vinyl Flick ◆  | FLICK                           |
-| Roll 1/2 ◆     | TIME, FEEDBACK, DIVISOR         |
-| Warp ◆         | LEVEL                           |
-| Twist ◆        | RELEASE, RISE, LEVEL            |
-| Freeze ◆       | ATTACK, RELEASE, DECAY, SUSTAIN |
+### 18 HRM Manual
 
-citeturn6file1turn6file7turn6file18turn6file14
+| Parameter | Values                      | Explanation      |
+| --------- | --------------------------- | ---------------- |
+| VOICE     | OCT±, -6th … +6th, UNISON | Harmony interval |
+| FORMANT   | –50 –**0** – +50   | Harmony tone     |
+| PAN       | L50 – CENTER – R50        | Harmony pan      |
+| KEY       | **C**(Am) – B(G#m)   | Song key         |
+| D.LEVEL   | 0 –**100**           | Dry level        |
+| HRM LEVEL | 0 – 80 – 100              | Harmony level    |
+| Source    |                             |                  |
 
----
+### 19 HRM Auto (MIDI)
 
-### Delays & Echo
+| Parameter | Values                         | Explanation        |
+| --------- | ------------------------------ | ------------------ |
+| VOICE     | OCT±, LOWER … HIGHER, UNISON | Interval from MIDI |
+| FORMANT   | –50 –**0** – +50      | Harmony tone       |
+| PAN       | L50 – CENTER – R50           | Harmony pan        |
+| HRM MODE  | **HYBRID**, AUTO         | Chord source       |
+| KEY       | **C**(Am) – B(G#m)      | Fallback key       |
+| D.LEVEL   | 0 –**100**              | Dry level          |
+| HRM LEVEL | 0 – 80 – 100                 | Harmony level      |
+| Source    |                                |                    |
 
-| Effect                    | Key parameters                      |
-| ------------------------- | ----------------------------------- |
-| Delay (Mono / Ping‑Pong) | TIME, FEEDBACK, LEVEL               |
-| Mod Delay                 | TIME, FEEDBACK, MOD DEPTH, LEVEL    |
-| Tape Echo 1               | RATE, INTENSITY, EQ, LEVEL          |
-| Tape Echo 2               | RATE, INTENSITY, LO/HIGH CUT, LEVEL |
-| Granular Delay            | TIME, FEEDBACK, LEVEL               |
+### 20 Vocoder
 
-citeturn6file16turn6file7
+| Parameter    | Values                            | Explanation            |
+| ------------ | --------------------------------- | ---------------------- |
+| CARRIER      | MIC 1/2, INST 1/2-L/R, TRACK 1–6 | Modulator source       |
+| TONE         | –50 –**0** – +50         | Timbre                 |
+| ATTACK       | 0 –**50** – 100           | Envelope attack        |
+| MOD SENS     | –50 –**0** – +50         | Modulation sensitivity |
+| BALANCE      | 0 –**50** – 100           | Dry : vocoder mix      |
+| CARRIER THRU | **OFF**, ON                 | Pass carrier straight  |
+| Source       |                                   |                        |
 
----
+### 21/22 OSC BOT / OSC VOC (Guitar‑to‑Synth)
 
-### Reverbs
+| Parameter     | Values                                  | Explanation            |
+| ------------- | --------------------------------------- | ---------------------- |
+| OSC / CARRIER | SAW, VINT SAW, DETUNE SAW, SQUARE, RECT | Synth waveform         |
+| NOTE / OCTAVE | C‑G9 (BOT) or ‑2OCT … +1OCT (VOC)  | Pitch source           |
+| TONE          | ‑50 … +50                           | Bright‑dark character |
+| ATTACK        | 0‑100                                  | Attack time            |
+| MOD SENS      | ‑50 … +50                           | Input modulation depth |
+| RELEASE (VOC) | 0‑100                                  | Release time           |
+| BALANCE       | 0‑100                                  | Dry‑wet               |
 
-| Effect                       | Primary parameters                            |
-| ---------------------------- | --------------------------------------------- |
-| Reverb (Hall / Room / Plate) | TIME, PRE DELAY, DENSITY, LOW/HIGH CUT, LEVEL |
-| Gate Reverb                  | TIME, PRE DELAY, THRESHOLD, LEVEL             |
-| Reverse Reverb               | TIME, PRE DELAY, GATE TIME, LEVEL             |
+### 23 Preamp
 
-citeturn6file14turn6file3
+| Parameter           | Values                                                                                                           | Explanation    |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------- |
+| AMP TYPE            | JC‑120, NAT CLEAN, FULL RANGE, COMBO CRUNCH, STACK CRUNCH, HI‑GAIN STACK, POWER DRIVE, EXTREM LEAD, CORE METAL | Amp model      |
+| SPK TYPE            | OFF, ORIGINAL, 1×8″ … 8×12″                                                                               | Virtual cab    |
+| GAIN                | 0‑120                                                                                                           | Distortion     |
+| T‑COMP             | ‑10 … +10                                                                                                    | Tube comp feel |
+| BASS / MID / TREBLE | 0‑100                                                                                                           | Tone stack     |
+| LEVEL               | 0‑100                                                                                                           | Output level   |
 
----
-
-### Utility / Misc
-
-| Effect               | Purpose / Key params              |
-| -------------------- | --------------------------------- |
-| Auto Riff            | PHRASE, TEMPO, LOOP, KEY, BALANCE |
-| Slow Gear            | SENS, RISE TIME, LEVEL            |
-| Compressor / Limiter | Covered in Dynamics section       |
-
-citeturn6file11turn3file9
-
-> **FX Sequence** controls (SW, SYNC, RETRIG, TARGET, RATE, etc.) are common to all effects that display the sequence icon. citeturn6file4
-
----
-
-### Additional FX Types (Completing the list)
-
-#### Pattern Slicer
-
-| Parameter             | Values (default in**bold**) | Explanation                  |
-| --------------------- | --------------------------------- | ---------------------------- |
-| RATE                  | 4MEAS … 0‑100                 | Tempo‑synced slice rate     |
-| DUTY                  | 1 …**60**… 99           | Slice gate length            |
-| ATTACK                | 0‑35‑100                        | Slice attack accent          |
-| PATTERN               | P01‑20                           | 20 preset groove patterns    |
-| DEPTH                 | 0‑100                            | Depth of volume cut          |
-| COMP THRESH           | ‑30 dB … 0 dB               | Threshold for built‑in comp |
-| COMP GAIN             | 0 …**+2**… +20 dB      | Make‑up gain                |
-| citeturn8file18 |                                   |                              |
-
-#### Step Slicer
-
-| Parameter             | Values            | Explanation             |
-| --------------------- | ----------------- | ----------------------- |
-| RATE                  | 4MEAS … 0‑100 | Slice rate              |
-| STEP MAX              | 1‑16             | Max steps per measure   |
-| STEP LEN              | 1‑100            | Length of each step (%) |
-| STEP LVL              | 0‑100            | Level per step          |
-| DEPTH                 | 0‑100            | Depth                   |
-| COMP THRESH           | ‑30–0 dB       | Comp threshold          |
-| COMP GAIN             | 0–+6–+20 dB    | Gain                    |
-| citeturn8file18 |                   |                         |
-
-#### Isolator
-
-| Parameter            | Values                 | Explanation           |
-| -------------------- | ---------------------- | --------------------- |
-| BAND                 | LOW, MID, HIGH         | Frequency band to cut |
-| RATE                 | 4MEAS … 0‑100      | Mod speed             |
-| BAND LEVEL           | 0‑100                 | Amount cut            |
-| DEPTH                | 0‑100                 | Depth                 |
-| STEP RATE            | OFF, 4MEAS … 0‑100 | Seq rate              |
-| WAVEFORM             | TRI, SQR               | Mod shape             |
-| citeturn9file3 |                        |                       |
-
-#### Preamp
-
-| Parameter              | Values                                                                                                           | Explanation    |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------- |
-| AMP TYPE               | JC‑120, NAT CLEAN, FULL RANGE, COMBO CRUNCH, STACK CRUNCH, HI‑GAIN STACK, POWER DRIVE, EXTREM LEAD, CORE METAL | Amp model      |
-| SPK TYPE               | OFF, ORIGINAL, 1×8″ … 8×12″                                                                               | Virtual cab    |
-| GAIN                   | 0‑120                                                                                                           | Distortion     |
-| T‑COMP                | ‑10 … +10                                                                                                    | Tube comp feel |
-| BASS / MID / TREBLE    | 0‑100                                                                                                           | Tone stack     |
-| LEVEL                  | 0‑100                                                                                                           | Output level   |
-| citeturn10file13 |                                                                                                                  |                |
-
-#### Dist (Vocal / Boost / OD / Metal / Fuzz)
+### 24 Dist (Vocal / Boost / OD / Metal / Fuzz)
 
 | Parameter             | Values                            | Explanation  |
 | --------------------- | --------------------------------- | ------------ |
@@ -655,16 +608,125 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | E.LEVEL               | 0‑100                            | Wet level    |
 | citeturn9file17 |                                   |              |
 
-#### Dynamics (multi‑algorithms)
+### 25 Dynamics
 
-| Parameter             | Values                                                     | Explanation                                       |
-| --------------------- | ---------------------------------------------------------- | ------------------------------------------------- |
-| TYPE                  | NAT COMP, MIXER COMP, LIVE COMP, … PHONE VOX (20 types) | Preset curves                                     |
-| DYNAMICS              | ‑20 … 0 … +20                                       | Amount of compression / limiting                  |
-| EQ section            | LO / LO‑MID / HI‑MID / HI gain & freq etc.               | Built‑in 4‑band EQ follows standard table above |
-| citeturn9file17 |                                                            |                                                   |
+| Parameter          | Values (default in**bold**)                                                                                                                                                                                               | What it does                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **TYPE**     | **NATURAL COMP**, MIXER COMP, LIVE COMP, NATURAL LIM, HARD LIM, JINGL COMP, HARD COMP, SOFT COMP, CLEAN COMP, DANCE COMP, ORCH COMP, VOCAL COMP, ACOUSTIC, ROCK BAND, ORCHESTRA, LOW BOOST, BRIGHTEN, DJ VOICE, PHONE VOX | Chooses a preset compressor/limiter curve and EQ contour.                                               |
+| **DYNAMICS** | –20 –**0** – +20                                                                                                                                                                                                       | Raises or lowers the amount of dynamic levelling (bigger negative = gentler; bigger positive = harder). |
 
-#### Panning Delay
+### 26 4-Band EQ
+
+| Parameter       | Values                       | Explanation      |
+| --------------- | ---------------------------- | ---------------- |
+| LO / HI         | –20 –**0** – +20 dB | Shelf gain       |
+| LO-MID / HI-MID | –20 –**0** – +20 dB | Peaking gain     |
+| LO-MID FREQ     | 20 Hz – 10 kHz              | Center frequency |
+| LO-MID Q        | 0.5 – 16                    | Bandwidth        |
+| HI-MID FREQ     | 20 Hz – 10 kHz              | Center frequency |
+| HI-MID Q        | 0.5 – 16                    | Bandwidth        |
+| HIGH            | –20 –**0** – +20 dB | High-shelf gain  |
+| LEVEL           | 0 –**50** – 100      | Overall EQ level |
+| Source          |                              |                  |
+
+### 27 Isolator
+
+| Parameter  | Values                 | Explanation           |
+| ---------- | ---------------------- | --------------------- |
+| BAND       | LOW, MID, HIGH         | Frequency band to cut |
+| RATE       | 4MEAS … 0‑100      | Mod speed             |
+| BAND LEVEL | 0‑100                 | Amount cut            |
+| DEPTH      | 0‑100                 | Depth                 |
+| STEP RATE  | OFF, 4MEAS … 0‑100 | Seq rate              |
+| WAVEFORM   | TRI, SQR               | Mod shape             |
+
+### 28 Octave
+
+| Parameter           | Values (default in**bold**)         | What it does                                                                                         |
+| ------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **OCTAVE**    | **-1 OCT**, -2 OCT, -1 OCT & -2 OCT | Chooses which lower octave(s) are added to the original note.                                        |
+| **MODE**      | **1**, 2                            | Selects the algorithm:**1** = legacy (same as earlier RC models); **2** = new algorithm. |
+| **OCT.LEVEL** | 0 –**50** – 100                   | Sets the volume of the added-octave sound.                                                           |
+
+### 29 Auto Pan
+
+| Parameter  | Values            | Explanation        |
+| ---------- | ----------------- | ------------------ |
+| RATE       | 4MEAS … 0‑100 | Pan speed          |
+| DEPTH      | 0‑100            | Pan width          |
+| WAVEFORM   | 0‑100            | Shape crispness    |
+| INIT PHASE | 0‑180            | Start pan position |
+| STEP RATE  | OFF … 0‑100   | Seq rate           |
+
+### 30 Manual Pan
+
+| Parameter | Values           | Explanation              |
+| --------- | ---------------- | ------------------------ |
+| POSITION  | L50‑CENTER‑R50 | Fixed pan via expression |
+
+### 31 Stereo Enhance
+
+| Parameter | Values                   | Explanation  |
+| --------- | ------------------------ | ------------ |
+| LOW CUT   | FLAT / 20 Hz – 12.5 kHz | Remove lows  |
+| HIGH CUT  | 20 Hz – 12.5 kHz / FLAT | Remove highs |
+| ENHANCE   | 0 –**50** – 100  | Width depth  |
+| Source    |                          |              |
+
+### 32 Tremolo
+
+| Parameter | Values            | Explanation   | SEQ     |
+| --------- | ----------------- | ------------- | ------- |
+| RATE      | 4MEAS … 0‑100 | Tremolo speed | Target  |
+| DEPTH     | 0‑100            | Depth         | Initial |
+| WAVEFORM  | TRI, SQR          | LFO shape     |         |
+
+### 33 Vibrato
+
+| Parameter | Values            | Explanation      |
+| --------- | ----------------- | ---------------- |
+| RATE      | 4MEAS … 0‑100 | Pitch‑mod speed |
+| DEPTH     | 0‑100            | Pitch‑mod depth |
+| RISE      | 0‑100            | Fade‑in time    |
+| D.LEVEL   | 0‑100            | Direct level     |
+
+### 34 Pattern Slicer
+
+| Parameter   | Values (default in**bold**) | Explanation                  |
+| ----------- | --------------------------------- | ---------------------------- |
+| RATE        | 4MEAS … 0‑100                 | Tempo‑synced slice rate     |
+| DUTY        | 1 …**60**… 99           | Slice gate length            |
+| ATTACK      | 0‑35‑100                        | Slice attack accent          |
+| PATTERN     | P01‑20                           | 20 preset groove patterns    |
+| DEPTH       | 0‑100                            | Depth of volume cut          |
+| COMP THRESH | ‑30 dB … 0 dB               | Threshold for built‑in comp |
+| COMP GAIN   | 0 …**+2**… +20 dB      | Make‑up gain                |
+
+### 35 Step Slicer
+
+| Parameter   | Values            | Explanation             |
+| ----------- | ----------------- | ----------------------- |
+| RATE        | 4MEAS … 0‑100 | Slice rate              |
+| STEP MAX    | 1‑16             | Max steps per measure   |
+| STEP LEN    | 1‑100            | Length of each step (%) |
+| STEP LVL    | 0‑100            | Level per step          |
+| DEPTH       | 0‑100            | Depth                   |
+| COMP THRESH | ‑30–0 dB       | Comp threshold          |
+| COMP GAIN   | 0–+6–+20 dB    | Gain                    |
+
+### 36 Delay (standard)
+
+| Parameter | Values                   | Explanation  |
+| --------- | ------------------------ | ------------ |
+| TIME      | 1 – 200 – 2000 ms / 𝄽 | Delay time   |
+| FEEDBACK  | 1 –**16**         | Repeats      |
+| D.LEVEL   | 0 –**100**        | Dry level    |
+| LOW CUT   | FLAT / 20 Hz – 12.5 kHz | Remove lows  |
+| HIGH CUT  | 20 Hz – 12.5 kHz / FLAT | Remove highs |
+| E.LEVEL   | 0 – 50 – 120           | Echo level   |
+| Source    |                          |              |
+
+### 37 Panning Delay
 
 | Parameter            | Values                    | Explanation   |
 | -------------------- | ------------------------- | ------------- |
@@ -675,189 +737,178 @@ This table describes the SEQ data that exists for FXs that are marked with a YES
 | E.LEVEL              | 0‑120                    | Echo level    |
 | citeturn9file1 |                           |               |
 
-#### Reverse Delay
+### 38 Reverse Delay
 
 Same parameter block as Panning Delay. Produces time‑reversed echoes. citeturn9file1
 
-#### OSC BOT / OSC VOC (Guitar‑to‑Synth)
+### 39 Mod Delay
 
-| Parameter              | Values                                  | Explanation            |
-| ---------------------- | --------------------------------------- | ---------------------- |
-| OSC / CARRIER          | SAW, VINT SAW, DETUNE SAW, SQUARE, RECT | Synth waveform         |
-| NOTE / OCTAVE          | C‑G9 (BOT) or ‑2OCT … +1OCT (VOC)  | Pitch source           |
-| TONE                   | ‑50 … +50                           | Bright‑dark character |
-| ATTACK                 | 0‑100                                  | Attack time            |
-| MOD SENS               | ‑50 … +50                           | Input modulation depth |
-| RELEASE (VOC)          | 0‑100                                  | Release time           |
-| BALANCE                | 0‑100                                  | Dry‑wet               |
-| citeturn10file13 |                                         |                        |
+| Parameter          | Values                   | Explanation  |
+| ------------------ | ------------------------ | ------------ |
+| TIME               | 1 – 200 – 2000 ms / 𝄽 | Delay time   |
+| FEEDBACK           | 1 –**16**         | Repeats      |
+| MOD DEPTH          | 0 –**50** – 100  | Chorus depth |
+| D.LEVEL            | 0 –**100**        | Dry level    |
+| LOW CUT / HIGH CUT | As above                 | Tone shaping |
+| E.LEVEL            | 0 – 50 – 120           | Echo level   |
+| Source             |                          |              |
 
-#### Bit Crusher
+### 40 Tape Echo 1
 
-| Parameter   | Values (default in**bold**) | Explanation         |
-| ----------- | --------------------------------- | ------------------- |
-| BIT DEPTH   | **OFF**, 31‑1              | Reduces word length |
-| SAMPLE RATE | **OFF**, ½‑1/32           | Cuts sampling rate  |
-| FILTER      | THRU, LPF, HPF                    | Post crush filter   |
-| BALANCE     | 0‑100                            | Dry/Wet             |
+| Parameter     | Values                  | Explanation |
+| ------------- | ----------------------- | ----------- |
+| REPEAT RATE   | 0 –**50** – 100 | Tape speed  |
+| INTENSITY     | 0 –**50** – 100 | Feedback    |
+| D.LEVEL       | 0 –**100**       | Dry level   |
+| BASS / TREBLE | –50 – 0 – +50        | Tone        |
+| E.LEVEL       | 0 – 50 – 120          | Echo level  |
+| Source        |                         |             |
 
-citeturn6file10
+### 41 Tape Echo 2
 
-#### Defretter
+| Parameter                              | Values                   | Explanation |
+| -------------------------------------- | ------------------------ | ----------- |
+| REPEAT RATE                            | 1 – 200 – 2000 ms / 𝄽 | Tape speed  |
+| INTENSITY                              | 0 –**50** – 100  | Feedback    |
+| D.LEVEL / LOW CUT / HIGH CUT / E.LEVEL | As above                 |             |
+| Source                                 |                          |             |
 
-| Parameter | Values               | Explanation     |
-| --------- | -------------------- | --------------- |
-| DEPTH     | 0‑100               | Fretless amount |
-| TONE      | ‑50 … 0 … +50 | Bright‑dark    |
-| ATTACK    | 0‑100               | Envelope attack |
-| BALANCE   | 0‑100               | Dry/Wet mix     |
+### 42 Granular Delay
 
-citeturn9file17
+| Parameter | Values                  | Explanation            |
+| --------- | ----------------------- | ---------------------- |
+| TIME      | 0 –**50** – 100 | Spacing between grains |
+| FEEDBACK  | 0 – 70 – 100          | Repeat length          |
+| E.LEVEL   | 0 –**50** – 100 | Effect level           |
+| Source    |                         |                        |
 
-#### Pedal Bend
+### 43 Warp
 
-| Parameter   | Values            | Explanation                |
-| ----------- | ----------------- | -------------------------- |
-| BEND UP     | +1 … +2 oct   | Pitch when pedal toe‑down |
-| BEND DOWN   | ‑1 … ‑2 oct | Pitch when heel‑down      |
-| PEDAL RANGE | 0‑100            | Sensitivity                |
-| MODE        | 1, 2              | Shift curve                |
+| Parameter | Values                  | Explanation   |
+| --------- | ----------------------- | ------------- |
+| LEVEL     | 0 –**50** – 100 | Effect volume |
+| Source    |                         |               |
 
-citeturn9file17
+### 44 Twist
 
-#### Resonator
+| Parameter | Values                  | Explanation   |
+| --------- | ----------------------- | ------------- |
+| RELEASE   | **FALL**, FADE    | How it stops  |
+| RISE      | 0 –**50** – 100 | Rise-time     |
+| FALL      | 0 –**50** – 100 | Fade-time     |
+| LEVEL     | 0 –**50** – 100 | Effect volume |
+| Source    |                         |               |
 
-| Parameter | Values            | Explanation     |
-| --------- | ----------------- | --------------- |
-| BODY      | SMALL, MED, LARGE | Resonant size   |
-| COLOR     | WARM, BRIGHT      | Tonal flavour   |
-| RESO      | 0‑100            | Resonance depth |
-| BALANCE   | 0‑100            | Dry/Wet         |
+### 45 Roll 1
 
-citeturn9file3
+| Parameter | Values                        | Explanation       |
+| --------- | ----------------------------- | ----------------- |
+| TIME      | 1 – 1000 ms / 𝄽             | Loop length       |
+| FEEDBACK  | 1 – 50 – 100                | Repeats after off |
+| ROLL      | OFF / ½ / ¼ / ⅛ / ¹⁄₁₆ | Sub-divides loop  |
+| BALANCE   | 0 –**50** – 100       | Dry : effect mix  |
+| Source    |                               |                   |
 
-#### Seeker
+### 46 Roll 2
 
-| Parameter | Values            | Explanation        |
-| --------- | ----------------- | ------------------ |
-| RATE      | 4MEAS … 0‑100 | Filter sweep speed |
-| DEPTH     | 0‑100            | Sweep depth        |
-| STEP RATE | OFF … 0‑100   | Step sequence rate |
-| WAVE      | TRI, SQR          | Sweep shape        |
+| Parameter | Values                  | Explanation      |
+| --------- | ----------------------- | ---------------- |
+| TIME      | 1 – 1000 ms / 𝄽       | Loop length      |
+| REPEAT    | 1 – 50 – 100 / INF    | Repeats          |
+| BALANCE   | 0 –**50** – 100 | Dry : effect mix |
+| Source    |                         |                  |
 
-citeturn8file18
+### 47 Freeze
 
-#### Step Filter
+| Parameter | Values                  | Explanation          |
+| --------- | ----------------------- | -------------------- |
+| ATTACK    | 0 –**30** – 100 | Fade-in time         |
+| RELEASE   | 0 –**30** – 100 | Fade-out time        |
+| DECAY     | 0 –**30** – 100 | Decay of frozen tone |
+| SUSTAIN   | 0 –**30** – 100 | Sustain amount       |
+| BALANCE   | 0 –**50** – 100 | Dry : effect mix     |
+| Source    |                         |                      |
 
-| Parameter | Values            | Explanation      |
-| --------- | ----------------- | ---------------- |
-| STEP MAX  | 1‑16             | Steps per cycle  |
-| CUTOFF    | 0‑100            | Base cutoff      |
-| DEPTH     | 0‑100            | Cutoff excursion |
-| RATE      | 4MEAS … 0‑100 | Tempo‑sync rate |
+### 48 Chorus
 
-citeturn8file18
+| Parameter | Values                  | Explanation  |
+| --------- | ----------------------- | ------------ |
+| RATE      | 0‑100, ♩              | Mod rate     |
+| DEPTH     | 0‑100                  | Depth        |
+| D.LEVEL   | 0‑100                  | Direct level |
+| LOW CUT   | FLAT, 20 Hz‑12.5 kHz | HPF          |
+| HIGH CUT  | 20 Hz‑12.5 kHz, FLAT | LPF          |
+| E.LEVEL   | 0‑100                  | Wet level    |
 
-#### Stutter
+### 49 Reverb
 
-| Parameter | Values        | Explanation        |
-| --------- | ------------- | ------------------ |
-| RATE      | 1/32 … 1/1 | Audio slice length |
-| REPEATS   | 1‑∞         | Number of repeats  |
-| DEPTH     | 0‑100        | Mix amount         |
-| GATE      | 0‑100        | Gate length        |
+| Parameter      | Values                    | Explanation         |
+| -------------- | ------------------------- | ------------------- |
+| TIME           | 0.1 –**3** – 10 s | Reverb length       |
+| PRE DELAY      | 0 – 500 ms               | Input-to-reverb gap |
+| DENSITY        | 1 –**6** – 10     | Reflection density  |
+| D.LEVEL        | 0 –**100**         | Dry level           |
+| LOW / HIGH CUT | FLAT / 20 Hz–12.5 kHz    | Tone shaping        |
+| E.LEVEL        | 0 – 50 – 100            | Wet level           |
+| Source         |                           |                     |
 
-citeturn6file1
+### 50 Gate Reverb
 
-#### Tera Echo
+| Parameter                              | Values                    | Explanation      |
+| -------------------------------------- | ------------------------- | ---------------- |
+| TIME                                   | 0.1 –**3** – 10 s | Reverb length    |
+| PRE DELAY                              | 0 – 500 ms               | Gap              |
+| THRESHOLD                              | 0 –**50** – 100   | Gate close level |
+| D.LEVEL / LOW-CUT / HIGH-CUT / E.LEVEL | As above                  |                  |
+| Source                                 |                           |                  |
 
-| Parameter | Values | Explanation      |
-| --------- | ------ | ---------------- |
-| SPREAD    | 0‑100 | Stereo width     |
-| FEEDBACK  | 0‑100 | Tail length      |
-| MOD RATE  | 0‑100 | Modulation speed |
-| MOD DEPTH | 0‑100 | Mod depth        |
-| D.LEVEL   | 0‑100 | Dry level        |
-| E.LEVEL   | 0‑120 | Effect level     |
+### 51 Reverse Reverb
 
-citeturn9file1
+| Parameter                              | Values                    | Explanation   |
+| -------------------------------------- | ------------------------- | ------------- |
+| TIME                                   | 0.1 –**3** – 10 s | Reverb length |
+| PRE DELAY                              | 0 – 500 ms               | Gap           |
+| GATE TIME                              | 0.1 – 0.5 – 1 s         | Fade-in time  |
+| D.LEVEL / LOW-CUT / HIGH-CUT / E.LEVEL | As above                  |               |
+| Source                                 |                           |               |
 
-#### Vibrato
+### 52 Beat Scatter (track-only)
 
-| Parameter | Values            | Explanation      |
-| --------- | ----------------- | ---------------- |
-| RATE      | 4MEAS … 0‑100 | Pitch‑mod speed |
-| DEPTH     | 0‑100            | Pitch‑mod depth |
-| RISE      | 0‑100            | Fade‑in time    |
-| D.LEVEL   | 0‑100            | Direct level     |
+| Parameter | Values                | Explanation   |
+| --------- | --------------------- | ------------- |
+| TYPE      | **P1** – P4    | Scrub flavour |
+| LENGTH    | THRU / 𝄽 – ♩ – ♪ | Scrub length  |
+| Source    |                       |               |
 
-citeturn6file14
+### 53 Beat Scatter (track-only)
 
-#### Wah Auto
+| Parameter | Values                 | Explanation   |
+| --------- | ---------------------- | ------------- |
+| TYPE      | FORWARD / REWIND / MIX | Direction     |
+| LENGTH    | THRU / 𝄽 – ♩ – ♪  | Repeat length |
+| Source    |                        |               |
 
-| Parameter | Values            | Explanation      |
-| --------- | ----------------- | ---------------- |
-| RATE      | 4MEAS … 0‑100 | Auto sweep speed |
-| DEPTH     | 0‑100            | Sweep depth      |
-| RESONANCE | 0‑100            | Wah Q            |
-| MANUAL    | 0‑100            | Base cutoff      |
+### 54 Beat Shift (track-only)
 
-citeturn6file15
+| Parameter | Values                | Explanation          |
+| --------- | --------------------- | -------------------- |
+| TYPE      | FUTURE / PAST         | Shift ahead / behind |
+| SHIFT     | THRU / ♪ – ♩ – 𝄽 | Offset amount        |
+| Source    |                       |                      |
 
-#### Wah Manual
+| Parameter | Values                  | Explanation           |
+| --------- | ----------------------- | --------------------- |
+| FLICK     | 0 –**50** – 100 | Virtual platter speed |
+| Source    |                         |                       |
 
-| Parameter | Values            | Explanation              |
-| --------- | ----------------- | ------------------------ |
-| PEDAL POS | 0‑100            | Pedal‑controlled cutoff |
-| RESONANCE | 0‑100            | Wah Q                    |
-| LOW GAIN  | ‑20 … +20 dB | Low EQ                   |
-| HIGH GAIN | ‑20 … +20 dB | High EQ                  |
+### 55 Vinyl Flick (track-only)
 
-citeturn6file15
+| Parameter | Values                  | Explanation           |
+| --------- | ----------------------- | --------------------- |
+| FLICK     | 0 –**50** – 100 | Virtual platter speed |
+| Source    |                         |                       |
 
-#### Seeker
-
-| Parameter | Values            | Explanation        |
-| --------- | ----------------- | ------------------ |
-| RATE      | 4MEAS … 0‑100 | Filter sweep speed |
-| DEPTH     | 0‑100            | Sweep depth        |
-| STEP RATE | OFF … 0‑100   | Step sequence rate |
-| WAVE      | TRI, SQR          | Sweep shape        |
-
-citeturn8file18
-
-#### Step Filter
-
-| Parameter | Values            | Explanation      |
-| --------- | ----------------- | ---------------- |
-| STEP MAX  | 1‑16             | Steps per cycle  |
-| CUTOFF    | 0‑100            | Base cutoff      |
-| DEPTH     | 0‑100            | Cutoff excursion |
-| RATE      | 4MEAS … 0‑100 | Tempo‑sync rate |
-
-citeturn8file18
-
-#### Stutter
-
-| Parameter | Values        | Explanation        |
-| --------- | ------------- | ------------------ |
-| RATE      | 1/32 … 1/1 | Audio slice length |
-| REPEATS   | 1‑∞         | Number of repeats  |
-| DEPTH     | 0‑100        | Mix amount         |
-| GATE      | 0‑100        | Gate length        |
-
-citeturn6file1
-
-#### Tera Echo
-
-| Parameter | Values | Explanation      |
-| --------- | ------ | ---------------- |
-| SPREAD    | 0‑100 | Stereo width     |
-| FEEDBACK  | 0‑100 | Tail length      |
-| MOD RATE  | 0‑100 | Modulation speed |
-| MOD DEPTH | 0‑100 | Mod depth        |
-| D.LEVEL   | 0‑100 | Dry level        |
-| E.LEVEL   | 0‑120 | Effect level     |
+---
 
 # Rhythm Pattern List (RC-600)
 
