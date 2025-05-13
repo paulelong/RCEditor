@@ -162,6 +162,7 @@ namespace RC600Dump.Services
             {
                 sb.AppendLine();
                 sb.AppendLine("Input Effects:");
+                sb.AppendLine($"  Active Bank: {patch.InputFX.ActiveBank}");
                 
                 foreach (var effectBank in patch.InputFX.Banks)
                 {
@@ -169,11 +170,16 @@ namespace RC600Dump.Services
                     
                     foreach (var effect in effectBank.Value.Slots)
                     {
-                        if (effect.Value != null && !string.IsNullOrEmpty(effect.Value.Type) && effect.Value.Type != "None")
+                        // Check if we have valid effect data to display
+                        if (effect.Value != null && !string.IsNullOrEmpty(effect.Value.EffectName))
                         {
-                            sb.AppendLine($"    Slot {effect.Key}: {effect.Value.Type} ({(effect.Value.Enabled ? "enabled" : "disabled")})");
-                            sb.AppendLine($"      Target: {effect.Value.Target}");
-                            sb.AppendLine($"      Switch Mode: {effect.Value.SwitchMode}");
+                            sb.AppendLine($"    Slot {effect.Key}: {effect.Value.EffectName} ({(effect.Value.Enabled ? "enabled" : "disabled")})");
+                            
+                            if (!string.IsNullOrEmpty(effect.Value.Target))
+                                sb.AppendLine($"      Target: {effect.Value.Target}");
+                                
+                            if (effect.Value.SwitchMode != SwitchModeEnum.Toggle)
+                                sb.AppendLine($"      Switch Mode: {effect.Value.SwitchMode}");
                             
                             if (effect.Value.Parameters.Count > 0)
                             {
@@ -193,6 +199,7 @@ namespace RC600Dump.Services
             {
                 sb.AppendLine();
                 sb.AppendLine("Track Effects:");
+                sb.AppendLine($"  Active Bank: {patch.TrackFX.ActiveBank}");
                 
                 foreach (var effectBank in patch.TrackFX.Banks)
                 {
@@ -200,11 +207,16 @@ namespace RC600Dump.Services
                     
                     foreach (var effect in effectBank.Value.Slots)
                     {
-                        if (effect.Value != null && !string.IsNullOrEmpty(effect.Value.Type) && effect.Value.Type != "None")
+                        // Check if we have valid effect data to display
+                        if (effect.Value != null && !string.IsNullOrEmpty(effect.Value.EffectName))
                         {
-                            sb.AppendLine($"    Slot {effect.Key}: {effect.Value.Type} ({(effect.Value.Enabled ? "enabled" : "disabled")})");
-                            sb.AppendLine($"      Target: {effect.Value.Target}");
-                            sb.AppendLine($"      Switch Mode: {effect.Value.SwitchMode}");
+                            sb.AppendLine($"    Slot {effect.Key}: {effect.Value.EffectName} ({(effect.Value.Enabled ? "enabled" : "disabled")})");
+                            
+                            if (!string.IsNullOrEmpty(effect.Value.Target))
+                                sb.AppendLine($"      Target: {effect.Value.Target}");
+                                
+                            if (effect.Value.SwitchMode != SwitchModeEnum.Toggle)  
+                                sb.AppendLine($"      Switch Mode: {effect.Value.SwitchMode}");
                             
                             if (effect.Value.Parameters.Count > 0)
                             {
