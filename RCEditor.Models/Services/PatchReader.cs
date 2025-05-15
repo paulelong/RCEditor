@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using RCEditor.Models;
 
-namespace RC600Dump.Services
+namespace RCEditor.Models.Services
 {
     public class PatchReader
     {
@@ -314,6 +314,12 @@ namespace RC600Dump.Services
             if (parameters.ContainsKey("H"))
             {
                 patch.Play.SyncAdjust = (SyncAdjustEnum)parameters["H"];
+            }
+            
+            // Add Tempo parameter
+            if (parameters.ContainsKey("I"))
+            {
+                patch.Play.Tempo = parameters["I"];
             }
         }
         
@@ -939,138 +945,39 @@ namespace RC600Dump.Services
             
             // For each bank, the parameters A, B, C represent:
             // A: SW (on/off) - Bank enable state
-            // B: Mode - Operating mode for the bank
-            // C: Target - Which input/track the bank effects
-            
-            bool bankEnabled = false;
-            int bankMode = 0;
-            string targetName = "";
             
             if (bankParams.ContainsKey("A"))
             {
-                bankEnabled = bankParams["A"] == 1;
+                // Set bank enable state
+                if (banks.ContainsKey(bankType.ToString()))
+                {
+                    banks[bankType.ToString()].Enabled = bankParams["A"] == 1;
+                }
             }
             
             if (bankParams.ContainsKey("B"))
             {
-                bankMode = bankParams["B"];
+                // Additional bank parameter B
+                if (banks.ContainsKey(bankType.ToString()))
+                {
+                    banks[bankType.ToString()].Parameters["B"] = bankParams["B"];
+                }
             }
             
             if (bankParams.ContainsKey("C"))
             {
-                int targetId = bankParams["C"];
-                targetName = GetFXTargetFromId(targetId);
-            }
-            
-            // Apply these settings to all slots in this bank
-            if (banks.ContainsKey(bankType.ToString()))
-            {
-                var effectBank = banks[bankType.ToString()];
-                foreach (var slot in effectBank.Slots.Values)
+                // Additional bank parameter C
+                if (banks.ContainsKey(bankType.ToString()))
                 {
-                    // Apply settings only if they exist
-                    if (bankParams.ContainsKey("A"))
-                        slot.Enabled = bankEnabled;
-                        
-                    if (bankParams.ContainsKey("B"))
-                        slot.Parameters["BankMode"] = bankMode;
-                        
-                    if (bankParams.ContainsKey("C"))
-                        slot.Target = targetName;
+                    banks[bankType.ToString()].Parameters["C"] = bankParams["C"];
                 }
             }
         }
         
-        // Helper method to convert effect name to ID
-        private int GetEffectIdFromName(string effectName)
+        // Helper methods
+        private EffectSlot.BankType GetEffectBankFromSingleLetter(string letter)
         {
-            // Convert effect name to uppercase and normalize spaces
-            string normalized = effectName.ToUpper().Trim().Replace(" ", "");
-            
-            // Match against known effect names
-            switch (normalized)
-            {
-                case "LPF": return 0;
-                case "BPF": return 1;
-                case "HPF": return 2;
-                case "PHASER": return 3;
-                case "FLANGER": return 4;
-                case "SYNTH": return 5;
-                case "LOFI": case "LO-FI": return 6;
-                case "RADIO": return 7;
-                case "RINGMOD": case "RING_MOD": case "RING-MOD": return 8;
-                case "G2B": case "GUITARTOBASS": return 9;
-                case "SUSTAINER": return 10;
-                case "AUTORIFF": case "AUTO_RIFF": case "AUTO-RIFF": return 11;
-                case "SLOWGEAR": case "SLOW_GEAR": case "SLOW-GEAR": return 12;
-                case "TRANSPOSE": return 13;
-                case "PITCHBEND": case "PITCH_BEND": case "PITCH-BEND": return 14;
-                case "ROBOT": return 15;
-                case "ELECTRIC": return 16;
-                case "HRMMANUAL": case "HRM_MANUAL": case "HRM-MANUAL": return 17;
-                case "HRMAUTO": case "HRM_AUTO": case "HRM-AUTO": return 18;
-                case "VOCODER": return 19;
-                case "OSCVOC": case "OSC_VOC": case "OSC-VOC": return 20;
-                case "OSCBOT": case "OSC_BOT": case "OSC-BOT": return 21;
-                case "PREAMP": case "PRE_AMP": case "PRE-AMP": return 22;
-                case "DIST": case "DISTORTION": return 23;
-                case "DYNAMICS": return 24;
-                case "EQ": return 25;
-                case "ISOLATOR": return 26;
-                case "OCTAVE": return 27;
-                case "AUTOPAN": case "AUTO_PAN": case "AUTO-PAN": return 28;
-                case "MANUALPAN": case "MANUAL_PAN": case "MANUAL-PAN": return 29;
-                case "STEREOENHANCE": case "STEREO_ENHANCE": case "STEREO-ENHANCE": return 30;
-                case "TREMOLO": return 31;
-                case "VIBRATO": return 32;
-                case "PATTERNSLICER": case "PATTERN_SLICER": case "PATTERN-SLICER": return 33;
-                case "STEPSLICER": case "STEP_SLICER": case "STEP-SLICER": return 34;
-                case "DELAY": return 35;
-                case "PANNINGDELAY": case "PANNING_DELAY": case "PANNING-DELAY": return 36;
-                case "REVERSEDELAY": case "REVERSE_DELAY": case "REVERSE-DELAY": return 37;
-                case "MODDELAY": case "MOD_DELAY": case "MOD-DELAY": return 38;
-                case "TAPEECHO1": case "TAPE_ECHO1": case "TAPE-ECHO1": return 39;
-                case "TAPEECHO2": case "TAPE_ECHO2": case "TAPE-ECHO2": return 40;
-                case "GRANULARDELAY": case "GRANULAR_DELAY": case "GRANULAR-DELAY": return 41;
-                case "WARP": return 42;
-                case "TWIST": return 43;
-                case "ROLL1": case "ROLL_1": case "ROLL-1": return 44;
-                case "ROLL2": case "ROLL_2": case "ROLL-2": return 45;
-                case "FREEZE": return 46;
-                case "CHORUS": return 47;
-                case "REVERB": return 48;
-                case "GATEREVERB": case "GATE_REVERB": case "GATE-REVERB": return 49;
-                case "REVERSEREVERB": case "REVERSE_REVERB": case "REVERSE-REVERB": return 50;
-                case "BEATSCATTER": case "BEAT_SCATTER": case "BEAT-SCATTER": return 51;
-                case "BEATREPEAT": case "BEAT_REPEAT": case "BEAT-REPEAT": return 52;
-                case "BEATSHIFT": case "BEAT_SHIFT": case "BEAT-SHIFT": return 53;
-                case "VINYLFLICK": case "VINYL_FLICK": case "VINYL-FLICK": return 54;
-                default: return -1; // Effect not recognized
-            }
-        }
-        
-        private string GetFXTargetFromId(int targetId)
-        {
-            // Map target values to FX bank labels (A, B, C, D)
-            switch (targetId)
-            {
-                case 0:
-                    return "A";  // Bank A
-                case 1:
-                    return "B";  // Bank B
-                case 2:
-                    return "C";  // Bank C
-                case 3:
-                    return "D";  // Bank D
-                default:
-                    return $"UNKNOWN BANK ({targetId})";
-            }
-        }
-
-        // Helper methods for effect bank handling
-        private EffectSlot.BankType GetEffectBankFromSingleLetter(string bankLetter)
-        {
-            switch (bankLetter.ToUpper())
+            switch (letter)
             {
                 case "A": return EffectSlot.BankType.A;
                 case "B": return EffectSlot.BankType.B;
@@ -1079,101 +986,82 @@ namespace RC600Dump.Services
                 default: return EffectSlot.BankType.None;
             }
         }
-
-        // Helper method to get effect type name from ID
+        
         private string GetEffectTypeFromId(int effectTypeId)
         {
-            switch (effectTypeId)
+            // This would map numeric effect IDs to their string names
+            // Would need to be adapted to your specific effect mapping
+            // Example:
+            switch(effectTypeId)
             {
-                case 0: return "LPF";
-                case 1: return "BPF";
-                case 2: return "HPF";
-                case 3: return "PHASER";
-                case 4: return "FLANGER";
-                case 5: return "SYNTH";
-                case 6: return "LO-FI";
-                case 7: return "RADIO";
-                case 8: return "RING MOD";
-                case 9: return "GUITAR TO BASS";
-                case 10: return "SUSTAINER";
-                case 11: return "AUTO RIFF";
-                case 12: return "SLOW GEAR";
-                case 13: return "TRANSPOSE";
-                case 14: return "PITCH BEND";
-                case 15: return "ROBOT";
-                case 16: return "ELECTRIC";
-                case 17: return "HRM MANUAL";
-                case 18: return "HRM AUTO";
-                case 19: return "VOCODER";
-                case 20: return "OSC VOC";
-                case 21: return "OSC BOT";
-                case 22: return "PRE AMP";
-                case 23: return "DISTORTION";
-                case 24: return "DYNAMICS";
-                case 25: return "EQ";
-                case 26: return "ISOLATOR";
-                case 27: return "OCTAVE";
-                case 28: return "AUTO PAN";
-                case 29: return "MANUAL PAN";
-                case 30: return "STEREO ENHANCE";
-                case 31: return "TREMOLO";
-                case 32: return "VIBRATO";
-                case 33: return "PATTERN SLICER";
-                case 34: return "STEP SLICER";
-                case 35: return "DELAY";
-                case 36: return "PANNING DELAY";
-                case 37: return "REVERSE DELAY";
-                case 38: return "MOD DELAY";
-                case 39: return "TAPE ECHO 1";
-                case 40: return "TAPE ECHO 2";
-                case 41: return "GRANULAR DELAY";
-                case 42: return "WARP";
-                case 43: return "TWIST";
-                case 44: return "ROLL 1";
-                case 45: return "ROLL 2";
-                case 46: return "FREEZE";
-                case 47: return "CHORUS";
-                case 48: return "REVERB";
-                case 49: return "GATE REVERB";
-                case 50: return "REVERSE REVERB";
-                case 51: return "BEAT SCATTER";
-                case 52: return "BEAT REPEAT";
-                case 53: return "BEAT SHIFT";
-                case 54: return "VINYL FLICK";
-                default: return $"UNKNOWN EFFECT ({effectTypeId})";
+                case 0: return "THRU";
+                case 1: return "DISTORTION";
+                case 2: return "OVERDRIVE";
+                case 3: return "FUZZ";
+                case 4: return "CHORUS";
+                case 5: return "FLANGER";
+                case 6: return "PHASER";
+                case 7: return "DELAY";
+                case 8: return "REVERB";
+                // Add more mappings as needed
+                default: return $"EFFECT_{effectTypeId}";
             }
         }
-
-        // Helper methods for control assignments
+        
+        private int GetEffectIdFromName(string effectName)
+        {
+            // This would map effect names to their numeric IDs
+            // Inverse of GetEffectTypeFromId
+            // Example:
+            switch(effectName)
+            {
+                case "THRU": return 0;
+                case "DISTORTION": return 1;
+                case "OVERDRIVE": return 2;
+                case "FUZZ": return 3;
+                case "CHORUS": return 4;
+                case "FLANGER": return 5;
+                case "PHASER": return 6;
+                case "DELAY": return 7;
+                case "REVERB": return 8;
+                // Add more mappings as needed
+                default: return -1; // Unknown effect
+            }
+        }
+        
         private string GetControlSourceName(int sourceId)
         {
-            switch (sourceId)
+            // Map source ID to source name
+            // Example implementation:
+            switch(sourceId)
             {
-                case 0: return "CTL 1";
-                case 1: return "CTL 2";
-                case 2: return "CTL 3";
-                case 3: return "CTL 4";
-                case 4: return "CTL 5";
-                case 5: return "CTL 6";
-                case 6: return "EXP";
-                case 7: return "MIDI CC";
-                default: return $"UNKNOWN SOURCE ({sourceId})";
+                case 0: return "CTL1";
+                case 1: return "CTL2";
+                case 2: return "CTL3";
+                case 3: return "CTL4";
+                case 4: return "EXP1";
+                case 5: return "EXP2";
+                // Add more mappings as needed
+                default: return $"SOURCE_{sourceId}";
             }
         }
-
+        
         private string GetControlTargetName(int targetId)
         {
-            // This is a simplified version - real implementation would have all the possible targets
-            switch (targetId)
+            // Map target ID to target name
+            // Example implementation:
+            switch(targetId)
             {
-                case 0: return "TRACK LEVEL";
-                case 1: return "TRACK PAN";
-                case 2: return "FX PARAMETER";
-                case 3: return "RHYTHM LEVEL";
-                case 4: return "RHYTHM VARIATION";
-                case 5: return "LOOP LENGTH";
-                case 6: return "TEMPO";
-                default: return $"UNKNOWN TARGET ({targetId})";
+                case 0: return "TRACK1_LEVEL";
+                case 1: return "TRACK2_LEVEL";
+                case 2: return "TRACK3_LEVEL";
+                case 3: return "TRACK4_LEVEL";
+                case 4: return "TRACK5_LEVEL";
+                case 5: return "TRACK6_LEVEL";
+                case 10: return "RHYTHM_LEVEL";
+                case 20: return "MASTER_LEVEL";
+                // Add more mappings as needed
+                default: return $"TARGET_{targetId}";
             }
         }
     }

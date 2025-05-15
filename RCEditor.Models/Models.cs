@@ -102,9 +102,7 @@ namespace RCEditor.Models
             BounceEnabled = false;
             BounceTrack = 1;
         }
-    }
-
-    public class PlaySettings
+    }    public class PlaySettings
     {
         public SingleTrackChangeEnum SingleTrackChange { get; set; }
         public int FadeTimeIn { get; set; }
@@ -114,6 +112,7 @@ namespace RCEditor.Models
         public int LoopLength { get; set; }
         public SpeedChangeEnum SpeedChange { get; set; }
         public SyncAdjustEnum SyncAdjust { get; set; }
+        public int Tempo { get; set; }
 
         public PlaySettings()
         {
@@ -125,6 +124,7 @@ namespace RCEditor.Models
             LoopLength = 0; // 0 = AUTO
             SpeedChange = SpeedChangeEnum.Immediate;
             SyncAdjust = SyncAdjustEnum.Measure;
+            Tempo = 120; // Default tempo
         }
     }
 

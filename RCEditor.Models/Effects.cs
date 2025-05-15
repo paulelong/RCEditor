@@ -93,6 +93,8 @@ namespace RCEditor.Models
     public class EffectBank
     {
         public Dictionary<int, EffectSlot> Slots { get; set; } = new Dictionary<int, EffectSlot>();
+        public bool Enabled { get; set; } = true;
+        public Dictionary<string, int> Parameters { get; set; } = new Dictionary<string, int>();
 
         public EffectBank()
         {
