@@ -7,6 +7,7 @@ namespace RCEditor.Models
         public bool Enabled { get; set; }
         public string Genre { get; set; }
         public string Pattern { get; set; }
+        public int PatternId { get; set; }  // Raw pattern ID value (0-based index)
         public char Variation { get; set; }      // 'A','B','C','D'
         public string Kit { get; set; }
         public string Beat { get; set; }
@@ -24,6 +25,7 @@ namespace RCEditor.Models
             Enabled = false;
             Genre = string.Empty;
             Pattern = string.Empty;
+            PatternId = 0;
             Variation = 'A';
             Kit = string.Empty;
             Beat = string.Empty;
@@ -129,10 +131,6 @@ namespace RCEditor.Models
     public class MemoryPatch
     {
         public string Name { get; set; }           // max 12 chars
-        public double Tempo { get; set; }
-        public PlayModeEnum PlayMode { get; set; }
-        public SingleModeSwitchEnum SingleModeSwitch { get; set; }
-        public bool LoopSync { get; set; }
         public Track[] Tracks { get; set; } = new Track[6];
         
         // Update to use new effect models
@@ -148,9 +146,6 @@ namespace RCEditor.Models
         public MemoryPatch()
         {
             Name = "NEW PATCH";
-            Tempo = 120;
-            PlayMode = PlayModeEnum.Multi;
-            SingleModeSwitch = SingleModeSwitchEnum.Loop;
             
             // Initialize tracks
             for (int i = 0; i < 6; i++)

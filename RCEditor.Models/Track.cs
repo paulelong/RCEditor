@@ -25,6 +25,7 @@ namespace RCEditor.Models
         public TempoSyncSpeedEnum TempoSyncSpeed { get; set; } // HALF/NORMAL/DOUBLE
         public int MeasureCount { get; set; }
         public bool FXEnabled { get; set; }     // Enable/disable track FX
+        public PlayModeEnum PlayMode { get; set; }
         public bool LoopSyncSw { get; set; }    // Turns loop sync on/off
         public LoopSyncModeEnum LoopSyncMode { get; set; } // How syncing is performed
         public bool BounceIn { get; set; }      // Whether playback from other tracks is recorded during overdub
