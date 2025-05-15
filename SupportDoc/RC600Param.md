@@ -2,25 +2,25 @@
 
 ### TRACK 1‑6
 
-| Parameter               | Values (default in**bold**)        | Explanation                                                                                                                                                                                |
-| ----------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| REVERSE                 | **OFF**, ON                        | Conventional playback (OFF) or reverse playback (ON).*Overdubbing isn’t available once recording finishes if ON.*                                                                       |
-| 1SHOT                   | **OFF**, ON                        | OFF = loop playback. ON = one‑shot playback; stops at the phrase end and can be retriggered; overdubbing disabled. If you don’t want tempo sync, set**TEMPO SYNC SW**OFF.        |
-| PAN                     | L50 … CENTER … R50                     | Stereo position of the track.                                                                                                                                                              |
-| PLAY LEVEL              | 0 …**100**… 200                  | Playback level of the track.                                                                                                                                                               |
-| START MODE              | **IMMEDIATE**, FADE                | FADE starts with a fade‑in; length set in**FADE TIME**.                                                                                                                             |
-| STOP MODE               | **IMMEDIATE**, FADE, LOOP          | IMMEDIATE = stop instantly; FADE = fade‑out then stop (time via**FADE TIME**); LOOP = stop at loop end.                                                                             |
-| DUB MODE                | **OVERDUB**, REPLACE1, REPLACE2    | OVERDUB = layer new audio; REPLACE1 = overwrite while playing; REPLACE2 = overwrite silently.                                                                                              |
-| FX                      | **OFF**, ON                        | Enable/disable input or track FX.                                                                                                                                                          |
-| PLAY MODE               | **MULTI**, SINGLE                  | MULTI = play all tracks; SINGLE = only one track plays; the current track stops when another                                                                                               |
-| MEASURE                 | AUTO, FREE, 1 – N                     | Number of measures for the track.**AUTO**follows the first recorded track;**FREE**sets length automatically; manual value fixes it. Available only if**LOOP SYNC**is ON. |
-| LOOP SYNC SW            | **OFF**, ON                        | Turns loop sync on/off.                                                                                                                                                                    |
-| LOOP SYNC MODE          | IMMEDIATE,**MEASURE**, LOOP LENGTH | How syncing is performed.                                                                                                                                                                  |
-| TEMPO SYNC SW           | **OFF**, ON                        | Track plays at its own tempo or at the memory tempo.                                                                                                                                       |
-| TEMPO SYNC MODE         | PITCH,**XFADE**                    | PITCH changes pitch with tempo; XFADE keeps pitch.                                                                                                                                         |
-| TEMPO SYNC SPEED       | HALF,**NORMAL**, DOUBLE            | Playback speed multiplier.                                                                                                                                                                 |
-| BOUNCE IN               | **OFF**, ON                        | Whether playback from other tracks is recorded during overdub.                                                                                                                             |
-| INPUT (MIC/INST/RHYTHM) | **OFF**, ON per source             | Route each input to the track during recording.                                                                                                                                            |
+| Tag   | Parameter               | Values (default in**bold**)        | Explanation                                                                                                                                                                                |
+| ----- | ----------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A     | REVERSE                 | **OFF**, ON                        | Conventional playback (OFF) or reverse playback (ON).*Overdubbing isn’t available once recording finishes if ON.*                                                                       |
+| B     | 1SHOT                   | **OFF**, ON                        | OFF = loop playback. ON = one‑shot playback; stops at the phrase end and can be retriggered; overdubbing disabled. If you don’t want tempo sync, set**TEMPO SYNC SW**OFF.        |
+| C     | PAN                     | L50 … CENTER … R50                     | Stereo position of the track.                                                                                                                                                              |
+| D     | PLAY LEVEL              | 0 …**100**… 200                  | Playback level of the track.                                                                                                                                                               |
+| E     | START MODE              | **IMMEDIATE**, FADE                | FADE starts with a fade‑in; length set in**FADE TIME**.                                                                                                                             |
+| F     | STOP MODE               | **IMMEDIATE**, FADE, LOOP          | IMMEDIATE = stop instantly; FADE = fade‑out then stop (time via**FADE TIME**); LOOP = stop at loop end.                                                                             |
+| G     | DUB MODE                | **OVERDUB**, REPLACE1, REPLACE2    | OVERDUB = layer new audio; REPLACE1 = overwrite while playing; REPLACE2 = overwrite silently.                                                                                              |
+| H     | FX                      | **OFF**, ON                        | Enable/disable input or track FX.                                                                                                                                                          |
+| I     | PLAY MODE               | **MULTI**, SINGLE                  | MULTI = play all tracks; SINGLE = only one track plays; the current track stops when another                                                                                               |
+| J     | MEASURE                 | AUTO, FREE, 1 – N                     | Number of measures for the track.**AUTO**follows the first recorded track;**FREE**sets length automatically; manual value fixes it. Available only if**LOOP SYNC**is ON. |
+| K     | LOOP SYNC SW            | **OFF**, ON                        | Turns loop sync on/off.                                                                                                                                                                    |
+| L     | LOOP SYNC MODE          | IMMEDIATE,**MEASURE**, LOOP LENGTH | How syncing is performed.                                                                                                                                                                  |
+| M     | TEMPO SYNC SW           | **OFF**, ON                        | Track plays at its own tempo or at the memory tempo.                                                                                                                                       |
+| N     | TEMPO SYNC MODE         | PITCH,**XFADE**                    | PITCH changes pitch with tempo; XFADE keeps pitch.                                                                                                                                         |
+| O     | TEMPO SYNC SPEED       | HALF,**NORMAL**, DOUBLE            | Playback speed multiplier.                                                                                                                                                                 |
+| P     | BOUNCE IN               | **OFF**, ON                        | Whether playback from other tracks is recorded during overdub.                                                                                                                             |
+| Q,R,S | INPUT (MIC/INST/RHYTHM) | **OFF**, ON per source             | Route each input to the track during recording.                                                                                                                                            |
 
 ### REC
 
@@ -357,6 +357,8 @@ _Knob Func Values_
 citeturn4file1
 
 ## Input/Track FX – Full Parameter Tables
+
+### SEQ Data
 
 This table describes the SEQ data that exists for FXs that are marked with a YES in the **Enumeration of all FX** table below.
 
@@ -859,8 +861,8 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | GATE TIME                              | 0.1 – 0.5 – 1 s         | Fade-in time  |
 | D.LEVEL / LOW-CUT / HIGH-CUT / E.LEVEL | As above                  |               |
 
-> Note: The effects shown below can only be used with FX A when the 
-TRACK FX MODE (p. 6) is set to “MULTI”
+> Note: The effects shown below can only be used with FX A when the
+> TRACK FX MODE (p. 6) is set to “MULTI”
 
 ### 52 Beat Scatter (track-only)
 
