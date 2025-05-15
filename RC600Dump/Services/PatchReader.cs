@@ -219,94 +219,145 @@ namespace RC600Dump.Services
                 patch.Name = "Untitled";
             }
             
-            // Handle other name-related parameters
+            // Build name from ASCII values stored in single-letter parameters (A, B, C, etc.)
+            var nameChars = new List<KeyValuePair<char, int>>();
+            
+            // Collect all single-letter parameters which represent characters in the name
             foreach (var param in parameters)
             {
-                if (param.Key == "NAME")
+                if (param.Key.Length == 1 && char.IsLetter(param.Key[0]))
                 {
-                    // This would require getting the text value, not just an int
-                    // This is a placeholder - the actual implementation would extract the text
-                    patch.Name = "Memory Patch";
+                    char position = param.Key[0];
+                    nameChars.Add(new KeyValuePair<char, int>(position, param.Value));
                 }
-                // Process other name-related parameters if needed
+            }
+            
+            // Sort by parameter key (A, B, C, etc.) to get correct character order
+            nameChars.Sort((a, b) => a.Key.CompareTo(b.Key));
+            
+            // Build name from ASCII values
+            if (nameChars.Count > 0)
+            {
+                StringBuilder nameBuilder = new StringBuilder();
+                foreach (var charPair in nameChars)
+                {
+                    // Convert integer value to ASCII character
+                    if (charPair.Value >= 32 && charPair.Value <= 126) // Printable ASCII range
+                    {
+                        nameBuilder.Append((char)charPair.Value);
+                    }
+                }
+                
+                string newName = nameBuilder.ToString().Trim();
+                if (!string.IsNullOrEmpty(newName))
+                {
+                    patch.Name = newName;
+                }
             }
         }
         
         private void ProcessPlayGroup(MemoryPatch patch, Dictionary<string, int> parameters)
         {
-            // Process each parameter from the PLAY section
-            foreach (var param in parameters)
+            // Process each parameter from the PLAY section using letter tags
+            // A -> Single Track Change
+            // B -> Fade Time In (there is no Current Track parameter)
+            // C -> Fade Time Out
+            // D -> All Start Tracks
+            // E -> All Stop Tracks
+            // F -> Loop Length
+            // G -> Speed Change
+            // H -> Sync Adjust
+            
+            if (parameters.ContainsKey("A"))
             {
-                switch (param.Key)
+                patch.Play.SingleTrackChange = (SingleTrackChangeEnum)parameters["A"];
+            }
+            
+            if (parameters.ContainsKey("B"))
+            {
+                patch.Play.FadeTimeIn = parameters["B"];
+            }
+            
+            if (parameters.ContainsKey("C"))
+            {
+                patch.Play.FadeTimeOut = parameters["C"];
+            }
+            
+            if (parameters.ContainsKey("D"))
+            {
+                // Set all start tracks based on the bit mask
+                for (int i = 0; i < 6; i++)
                 {
-                    case "S.TRK_CHANGE":
-                        patch.Play.SingleTrackChange = (SingleTrackChangeEnum)param.Value;
-                        break;
-                    case "CURRENT_TRACK":
-                        // Handle current track if needed
-                        break;
-                    case "FADE_TIME_IN":
-                        patch.Play.FadeTimeIn = param.Value;
-                        break;
-                    case "FADE_TIME_OUT":
-                        patch.Play.FadeTimeOut = param.Value;
-                        break;
-                    case "ALL_START_TRK":
-                        // Set all start tracks based on the bit mask
-                        for (int i = 0; i < 6; i++)
-                        {
-                            patch.Play.AllStartTracks[i] = ((param.Value >> i) & 1) == 1;
-                        }
-                        break;
-                    case "ALL_STOP_TRK":
-                        // Set all stop tracks based on the bit mask
-                        for (int i = 0; i < 6; i++)
-                        {
-                            patch.Play.AllStopTracks[i] = ((param.Value >> i) & 1) == 1;
-                        }
-                        break;
-                    case "LOOP_LENGTH":
-                        patch.Play.LoopLength = param.Value;
-                        break;
-                    case "SPEED_CHANGE":
-                        patch.Play.SpeedChange = (SpeedChangeEnum)param.Value;
-                        break;
-                    case "SYNC_ADJUST":
-                        patch.Play.SyncAdjust = (SyncAdjustEnum)param.Value;
-                        break;
-                    // Add more parameters as needed
+                    patch.Play.AllStartTracks[i] = ((parameters["D"] >> i) & 1) == 1;
                 }
+            }
+            
+            if (parameters.ContainsKey("E"))
+            {
+                // Set all stop tracks based on the bit mask
+                for (int i = 0; i < 6; i++)
+                {
+                    patch.Play.AllStopTracks[i] = ((parameters["E"] >> i) & 1) == 1;
+                }
+            }
+            
+            if (parameters.ContainsKey("F"))
+            {
+                patch.Play.LoopLength = parameters["F"];
+            }
+            
+            if (parameters.ContainsKey("G"))
+            {
+                patch.Play.SpeedChange = (SpeedChangeEnum)parameters["G"];
+            }
+            
+            if (parameters.ContainsKey("H"))
+            {
+                patch.Play.SyncAdjust = (SyncAdjustEnum)parameters["H"];
             }
         }
         
         private void ProcessRecGroup(MemoryPatch patch, Dictionary<string, int> parameters)
         {
-            // Process each parameter from the REC section
-            foreach (var param in parameters)
+            // Process each parameter from the REC section using letter tags
+            // A -> Rec Action
+            // B -> Quantize Enabled
+            // C -> Auto Rec Enabled
+            // D -> Auto Rec Sensitivity
+            // E -> Bounce Enabled
+            // F -> Bounce Track
+            
+            if (parameters.ContainsKey("A"))
             {
-                switch (param.Key)
-                {
-                    case "REC_ACTION":
-                        patch.Rec.RecAction = (RecActionEnum)param.Value;
-                        break;
-                    case "QUANTIZE":
-                        patch.Rec.QuantizeEnabled = param.Value == 1;
-                        break;
-                    case "AUTO_REC_SW":
-                        patch.Rec.AutoRecEnabled = param.Value == 1;
-                        break;
-                    case "AUTO_REC_SENS":
-                        patch.Rec.AutoRecSensitivity = param.Value;
-                        break;
-                    case "BOUNCE_SW":
-                        patch.Rec.BounceEnabled = param.Value == 1;
-                        break;
-                    case "BOUNCE_TRACK":
-                        patch.Rec.BounceTrack = param.Value;
-                        break;
-                    // Add more parameters as needed
-                }
+                patch.Rec.RecAction = (RecActionEnum)parameters["A"];
             }
+            
+            if (parameters.ContainsKey("B"))
+            {
+                patch.Rec.QuantizeEnabled = parameters["B"] == 1;
+            }
+            
+            if (parameters.ContainsKey("C"))
+            {
+                patch.Rec.AutoRecEnabled = parameters["C"] == 1;
+            }
+            
+            if (parameters.ContainsKey("D"))
+            {
+                patch.Rec.AutoRecSensitivity = parameters["D"];
+            }
+            
+            if (parameters.ContainsKey("E"))
+            {
+                patch.Rec.BounceEnabled = parameters["E"] == 1;
+            }
+            
+            if (parameters.ContainsKey("F"))
+            {
+                patch.Rec.BounceTrack = parameters["F"];
+            }
+            
+            // Add any other rec parameters as needed
         }
         
         private void ProcessTrackGroup(MemoryPatch patch, string groupTag, Dictionary<string, int> parameters)
@@ -325,126 +376,204 @@ namespace RC600Dump.Services
             
             var track = patch.Tracks[trackNumber];
             
-            // Process each parameter for this track
-            foreach (var param in parameters)
+            // Process each parameter for this track using letter tags
+            // A -> Reverse
+            // B -> One Shot
+            // C -> Pan
+            // D -> Play Level
+            // E -> Start Mode
+            // F -> Stop Mode
+            // G -> Overdub Mode
+            // H -> FX Enabled
+            // I -> Play Mode
+            // J -> Measure Count
+            // K -> Loop Sync Switch
+            // L -> Loop Sync Mode
+            // M -> Tempo Sync Switch
+            // N -> Tempo Sync Mode
+            // O -> Tempo Sync Speed
+            // P -> Bounce In
+            // Q -> Input Mic
+            // R -> Input Inst1
+            // S -> Input Inst2
+            
+            if (parameters.ContainsKey("A"))
             {
-                switch (param.Key)
-                {
-                    case "REVERSE":
-                        track.Reverse = param.Value == 1;
-                        break;
-                    case "1SHOT":
-                        track.OneShot = param.Value == 1;
-                        break;
-                    case "PAN":
-                        track.Pan = param.Value - 50; // Convert from 0-100 to -50 to +50
-                        break;
-                    case "PLAY_LEVEL":
-                        track.Level = param.Value;
-                        break;
-                    case "START_MODE":
-                        track.StartMode = (StartModeEnum)param.Value;
-                        break;
-                    case "STOP_MODE":
-                        track.StopMode = (StopModeEnum)param.Value;
-                        break;
-                    case "DUB_MODE":
-                        track.OverdubMode = (OverdubModeEnum)param.Value;
-                        break;
-                    case "FX":
-                        track.FXEnabled = param.Value == 1;
-                        break;
-                    case "PLAY_MODE":
-                        // Handle play mode if needed
-                        break;
-                    case "MEASURE":
-                        track.MeasureCount = param.Value;
-                        break;
-                    case "LOOP_SYNC_SW":
-                        track.LoopSyncSw = param.Value == 1;
-                        break;
-                    case "LOOP_SYNC_MODE":
-                        track.LoopSyncMode = (LoopSyncModeEnum)param.Value;
-                        break;
-                    case "TEMPO_SYNC_SW":
-                        track.TempoSyncSw = param.Value == 1;
-                        break;
-                    case "TEMPO_SYNC_MODE":
-                        track.TempoSyncMode = (TempoSyncModeEnum)param.Value;
-                        break;
-                    case "TEMPO_SYNC_SPEED":
-                        track.TempoSyncSpeed = (TempoSyncSpeedEnum)param.Value;
-                        break;
-                    case "BOUNCE_IN":
-                        track.BounceIn = param.Value == 1;
-                        break;
-                    // Input routing parameters (MIC, INST, RHYTHM)
-                    case "INPUT_MIC":
-                        if (param.Value == 1)
-                            track.InputRouting.MicIn = InputRouteEnum.Input1;
-                        break;
-                    case "INPUT_INST":
-                        if (param.Value == 1)
-                            track.InputRouting.Inst1 = InputRouteEnum.Input2;
-                        break;
-                    case "INPUT_RHYTHM":
-                        if (param.Value == 1)
-                            track.InputRouting.Inst2 = InputRouteEnum.Input3;
-                        break;
-                    // Add any other track parameters as needed
-                }
+                track.Reverse = parameters["A"] == 1;
+            }
+            
+            if (parameters.ContainsKey("B"))
+            {
+                track.OneShot = parameters["B"] == 1;
+            }
+            
+            if (parameters.ContainsKey("C"))
+            {
+                track.Pan = parameters["C"] - 50; // Convert from 0-100 to -50 to +50
+            }
+            
+            if (parameters.ContainsKey("D"))
+            {
+                track.Level = parameters["D"];
+            }
+            
+            if (parameters.ContainsKey("E"))
+            {
+                track.StartMode = (StartModeEnum)parameters["E"];
+            }
+            
+            if (parameters.ContainsKey("F"))
+            {
+                track.StopMode = (StopModeEnum)parameters["F"];
+            }
+            
+            if (parameters.ContainsKey("G"))
+            {
+                track.OverdubMode = (OverdubModeEnum)parameters["G"];
+            }
+            
+            if (parameters.ContainsKey("H"))
+            {
+                track.FXEnabled = parameters["H"] == 1;
+            }
+            
+            if (parameters.ContainsKey("I"))
+            {
+                track.PlayMode = (PlayModeEnum)parameters["I"];
+            }
+            
+            if (parameters.ContainsKey("J"))
+            {
+                track.MeasureCount = parameters["J"];
+            }
+            
+            if (parameters.ContainsKey("K"))
+            {
+                track.LoopSyncSw = parameters["K"] == 1;
+            }
+            
+            if (parameters.ContainsKey("L"))
+            {
+                track.LoopSyncMode = (LoopSyncModeEnum)parameters["L"];
+            }
+            
+            if (parameters.ContainsKey("M"))
+            {
+                track.TempoSyncSw = parameters["M"] == 1;
+            }
+            
+            if (parameters.ContainsKey("N"))
+            {
+                track.TempoSyncMode = (TempoSyncModeEnum)parameters["N"];
+            }
+            
+            if (parameters.ContainsKey("O"))
+            {
+                track.TempoSyncSpeed = (TempoSyncSpeedEnum)parameters["O"];
+            }
+            
+            if (parameters.ContainsKey("P"))
+            {
+                track.BounceIn = parameters["P"] == 1;
+            }
+            
+            // Input routing parameters
+            if (parameters.ContainsKey("Q") && parameters["Q"] == 1)
+            {
+                track.InputRouting.MicIn = InputRouteEnum.Input1;
+            }
+            
+            if (parameters.ContainsKey("R") && parameters["R"] == 1)
+            {
+                track.InputRouting.Inst1 = InputRouteEnum.Input2;
+            }
+            
+            if (parameters.ContainsKey("S") && parameters["S"] == 1)
+            {
+                track.InputRouting.Inst2 = InputRouteEnum.Input3;
             }
         }
         
         private void ProcessRhythmGroup(MemoryPatch patch, Dictionary<string, int> parameters)
         {
-            // Process each parameter from the RHYTHM section
-            foreach (var param in parameters)
+            // Process each parameter from the RHYTHM section using letter tags
+            // A -> Genre
+            // B -> Pattern
+            // C -> Variation
+            // D -> Kit
+            // E -> Beat
+            // F -> Start Trigger Mode
+            // G -> Stop Trigger Mode
+            // H -> Intro on Rec
+            // I -> Intro on Play
+            // J -> Ending
+            // K -> Fill
+            // L -> Variation Change Timing
+            // M -> Level (not currently used)
+            
+            if (parameters.ContainsKey("A"))
             {
-                switch (param.Key)
-                {
-                    case "GENRE":
-                        patch.Rhythm.Genre = param.Value.ToString();
-                        break;
-                    case "PATTERN":
-                        patch.Rhythm.Pattern = param.Value.ToString();
-                        break;
-                    case "VARIATION":
-                        patch.Rhythm.Variation = (char)('A' + param.Value);
-                        break;
-                    case "KIT":
-                        patch.Rhythm.Kit = param.Value.ToString();
-                        break;
-                    case "BEAT":
-                        patch.Rhythm.Beat = param.Value.ToString();
-                        break;
-                    case "START_TRIG":
-                        patch.Rhythm.StartMode = (RhythmStartTrigEnum)param.Value;
-                        break;
-                    case "STOP_TRIG":
-                        patch.Rhythm.StopMode = (RhythmStopTrigEnum)param.Value;
-                        break;
-                    case "INTRO_REC":
-                        patch.Rhythm.IntroOnRec = param.Value == 1;
-                        break;
-                    case "INTRO_PLAY":
-                        patch.Rhythm.IntroOnPlay = param.Value == 1;
-                        break;
-                    case "ENDING":
-                        patch.Rhythm.Ending = param.Value == 1;
-                        break;
-                    case "FILL":
-                        patch.Rhythm.FillIn = param.Value == 1;
-                        break;
-                    case "VAR.CHANGE":
-                        patch.Rhythm.VariationChangeTiming = (RhythmVariationChangeEnum)param.Value;
-                        break;
-                    case "LEVEL":
-                        // Handle level if needed
-                        break;
-                    // Add any other rhythm parameters as needed
-                }
+                patch.Rhythm.Genre = parameters["A"].ToString();
             }
+            
+            if (parameters.ContainsKey("B"))
+            {
+                // Store both the numeric pattern ID and pattern number (1-based)
+                patch.Rhythm.PatternId = parameters["B"] - 1;
+                patch.Rhythm.Pattern = (parameters["B"] ).ToString();
+            }
+            
+            if (parameters.ContainsKey("C"))
+            {
+                patch.Rhythm.Variation = (char)('A' + parameters["C"]);
+            }
+            
+            if (parameters.ContainsKey("D"))
+            {
+                patch.Rhythm.Kit = parameters["D"].ToString();
+            }
+            
+            if (parameters.ContainsKey("E"))
+            {
+                patch.Rhythm.Beat = parameters["E"].ToString();
+            }
+            
+            if (parameters.ContainsKey("F"))
+            {
+                patch.Rhythm.StartMode = (RhythmStartTrigEnum)parameters["F"];
+            }
+            
+            if (parameters.ContainsKey("G"))
+            {
+                patch.Rhythm.StopMode = (RhythmStopTrigEnum)parameters["G"];
+            }
+            
+            if (parameters.ContainsKey("H"))
+            {
+                patch.Rhythm.IntroOnRec = parameters["H"] == 1;
+            }
+            
+            if (parameters.ContainsKey("I"))
+            {
+                patch.Rhythm.IntroOnPlay = parameters["I"] == 1;
+            }
+            
+            if (parameters.ContainsKey("J"))
+            {
+                patch.Rhythm.Ending = parameters["J"] == 1;
+            }
+            
+            if (parameters.ContainsKey("K"))
+            {
+                patch.Rhythm.FillIn = parameters["K"] == 1;
+            }
+            
+            if (parameters.ContainsKey("L"))
+            {
+                patch.Rhythm.VariationChangeTiming = (RhythmVariationChangeEnum)parameters["L"];
+            }
+            
+            // Level parameter (M) not currently used
         }
         
         private void ProcessControlGroup(MemoryPatch patch, Dictionary<string, int> parameters)
@@ -502,10 +631,51 @@ namespace RC600Dump.Services
         
         private void ProcessFXSection(MemoryPatch patch, string fxContent, Dictionary<string, EffectBank> banks, EffectSlot.Category category)
         {
-            // Use our new custom parser to get top-level tags
+            // Use our custom parser to get top-level tags
             var sectionTags = ParseTagsRecursively(fxContent);
             
-            // First look for the SETUP tag which contains the active bank setting
+            // Process the active bank setting (SETUP tag)
+            ProcessActiveBankSetting(patch, sectionTags, category);
+            
+            // Process top-level bank tags (A, B, C, D)
+            ProcessBankTag(patch, sectionTags, "A", EffectSlot.BankType.A, banks, category);
+            ProcessBankTag(patch, sectionTags, "B", EffectSlot.BankType.B, banks, category);
+            ProcessBankTag(patch, sectionTags, "C", EffectSlot.BankType.C, banks, category);
+            ProcessBankTag(patch, sectionTags, "D", EffectSlot.BankType.D, banks, category);
+            
+            // Process effect slots and their parameters
+            foreach (var tagEntry in sectionTags)
+            {
+                string tagName = tagEntry.Key;
+                string tagContent = tagEntry.Value;
+                
+                // Skip already processed tags
+                if (tagName == "SETUP" || tagName == "A" || tagName == "B" || tagName == "C" || tagName == "D")
+                    continue;
+                
+                if (IsSequenceTag(tagName))
+                {
+                    ProcessSequenceTag(banks, tagName, tagContent);
+                }
+                else if (IsSlotTag(tagName))
+                {
+                    ProcessSlotTag(banks, tagName, tagContent);
+                }
+                else if (IsEffectTag(tagName))
+                {
+                    ProcessEffectTag(banks, tagName, tagContent);
+                }
+                else
+                {
+                    // Unhandled tag format
+                    Console.WriteLine($"Warning: Unhandled bank tag format: {tagName}");
+                }
+            }
+        }
+        
+        // Process the active bank setting from the SETUP tag
+        private void ProcessActiveBankSetting(MemoryPatch patch, Dictionary<string, string> sectionTags, EffectSlot.Category category)
+        {
             if (sectionTags.ContainsKey("SETUP"))
             {
                 var setupParams = ParseTagParameters(sectionTags["SETUP"]);
@@ -513,23 +683,7 @@ namespace RC600Dump.Services
                 {
                     // BANK parameter value will be 0, 1, 2, or 3 corresponding to banks A, B, C, or D
                     int bankValue = setupParams["A"];
-                    EffectSlot.BankType activeBank = EffectSlot.BankType.A; // Default
-                    
-                    switch (bankValue)
-                    {
-                        case 0:
-                            activeBank = EffectSlot.BankType.A;
-                            break;
-                        case 1:
-                            activeBank = EffectSlot.BankType.B;
-                            break;
-                        case 2:
-                            activeBank = EffectSlot.BankType.C;
-                            break;
-                        case 3:
-                            activeBank = EffectSlot.BankType.D;
-                            break;
-                    }
+                    EffectSlot.BankType activeBank = GetBankTypeFromValue(bankValue);
                     
                     // Set the active bank based on category
                     if (category == EffectSlot.Category.InputFX)
@@ -538,277 +692,291 @@ namespace RC600Dump.Services
                         patch.TrackFX.ActiveBank = activeBank;
                 }
             }
-            
-            foreach (var tagEntry in sectionTags)
+        }
+        
+        // Convert numeric bank value to BankType enum
+        private EffectSlot.BankType GetBankTypeFromValue(int bankValue)
+        {
+            switch (bankValue)
             {
-                string bankTag = tagEntry.Key;
-                string effectContent = tagEntry.Value;
+                case 0: return EffectSlot.BankType.A;
+                case 1: return EffectSlot.BankType.B;
+                case 2: return EffectSlot.BankType.C;
+                case 3: return EffectSlot.BankType.D;
+                default: return EffectSlot.BankType.A; // Default to A
+            }
+        }
+        
+        // Check if the tag is a sequence tag (format: AA_LPF_SEQ)
+        private bool IsSequenceTag(string tagName)
+        {
+            return tagName.Contains("_SEQ");
+        }
+        
+        // Check if the tag is a slot tag (format: AA, AB, AC, etc.)
+        private bool IsSlotTag(string tagName)
+        {
+            return tagName.Length == 2 && char.IsLetter(tagName[0]) && char.IsLetter(tagName[1]);
+        }
+        
+        // Check if the tag is an effect tag (format: AA_CHORUS, AA_REVERB, etc.)
+        private bool IsEffectTag(string tagName)
+        {
+            return tagName.Length > 2 && tagName.Contains('_');
+        }
+        
+        // Process a sequence tag (e.g., AA_LPF_SEQ)
+        private void ProcessSequenceTag(Dictionary<string, EffectBank> banks, string tagName, string tagContent)
+        {
+            // Format is like AA_LPF_SEQ, where AA is the bank/slot and LPF is the effect type
+            string[] parts = tagName.Split('_');
+            if (parts.Length < 2)
+                return;
                 
-                // Skip the SETUP tag as we already processed it
-                if (bankTag == "SETUP")
-                    continue;
+            string bankSlotPart = parts[0];
+            
+            if (bankSlotPart.Length == 2 && char.IsLetter(bankSlotPart[0]) && char.IsLetter(bankSlotPart[1]))
+            {
+                // Parse bank and slot
+                char bankLetter = bankSlotPart[0];
+                char slotLetter = bankSlotPart[1];
                 
-                // Handle the bank/slot structure
-                EffectSlot.BankType bankType = EffectSlot.BankType.None;
-                int slotIndex = 1;
+                var bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
+                int slotIndex = slotLetter - 'A' + 1;
                 
-                // First check for the simple A, B, C, D bank tags
-                if (bankTag.Length == 1 && char.IsLetter(bankTag[0]))
+                // Parse sequence parameters
+                var seqParams = ParseTagParameters(tagContent);
+                
+                // Skip if invalid bank or slot
+                if (bankType == EffectSlot.BankType.None || !banks.ContainsKey(bankType.ToString()) || 
+                    slotIndex < 1 || slotIndex > 4)
+                    return;
+                
+                // Get the bank and slot
+                var currentEffectBank = banks[bankType.ToString()];
+                var currentEffectSlot = currentEffectBank.Slots[slotIndex];
+                
+                // Process sequence parameters
+                ProcessSequenceParameters(currentEffectSlot, seqParams);
+            }
+        }
+        
+        // Process sequence parameters for a slot
+        private void ProcessSequenceParameters(EffectSlot slot, Dictionary<string, int> seqParams)
+        {
+            // Map lettered parameters to named sequence parameters
+            // A -> SEQ_SW (Sequence on/off)
+            if (seqParams.ContainsKey("A"))
+                slot.Parameters["SEQ_SW"] = seqParams["A"];
+            
+            // B -> SEQ_SYNC (Sync with loop start)
+            if (seqParams.ContainsKey("B"))
+                slot.Parameters["SEQ_SYNC"] = seqParams["B"];
+            
+            // C -> SEQ_RETRIG (Retrigger when effect is turned on)
+            if (seqParams.ContainsKey("C"))
+                slot.Parameters["SEQ_RETRIG"] = seqParams["C"];
+            
+            // D -> SEQ_TARGET (Which parameter is targeted)
+            if (seqParams.ContainsKey("D"))
+                slot.Parameters["SEQ_TARGET"] = seqParams["D"];
+            
+            // E -> SEQ_RATE (Cycle speed)
+            if (seqParams.ContainsKey("E"))
+                slot.Parameters["SEQ_RATE"] = seqParams["E"];
+            
+            // F -> SEQ_MAX (Maximum steps in sequence)
+            if (seqParams.ContainsKey("F"))
+                slot.Parameters["SEQ_MAX"] = seqParams["F"];
+            
+            // Step Values (VAL1-VAL16)
+            // G through V -> SEQ_VAL1 through SEQ_VAL16
+            char letter = 'G';
+            for (int i = 1; i <= 16; i++)
+            {
+                string letterKey = letter.ToString();
+                if (seqParams.ContainsKey(letterKey))
+                    slot.Parameters[$"SEQ_VAL{i}"] = seqParams[letterKey];
+                
+                letter++;
+                if (letter > 'V') // Only process up to V (16 steps)
+                    break;
+            }
+        }
+        
+        // Process a slot tag (e.g., AA, AB, AC, etc.)
+        private void ProcessSlotTag(Dictionary<string, EffectBank> banks, string tagName, string tagContent)
+        {
+            // First letter represents the bank (A, B, C, D)
+            char bankLetter = tagName[0];
+            // Second letter represents the slot (A, B, C, D = 0, 1, 2, 3)
+            char slotLetter = tagName[1];
+            
+            var bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
+            int slotIndex = slotLetter - 'A' + 1;
+            
+            // Skip if invalid bank or slot
+            if (bankType == EffectSlot.BankType.None || !banks.ContainsKey(bankType.ToString()) || 
+                slotIndex < 1 || slotIndex > 4)
+                return;
+                
+            var slotParams = ParseTagParameters(tagContent);
+            
+            if (slotParams.ContainsKey("C"))
+            {
+                var slotBank = banks[bankType.ToString()];
+                var currentSlot = slotBank.Slots[slotIndex];
+                
+                // C parameter determines the active effect type for this slot
+                int effectTypeValue = slotParams["C"];
+                string effectName = GetEffectTypeFromId(effectTypeValue);
+                
+                // Create effect settings
+                var effectSettings = new EffectSettings
                 {
-                    // Single letter tags like A, B, C, D represent bank settings
-                    bankType = GetEffectBankFromSingleLetter(bankTag);
-                    
-                    // Process bank-level settings
-                    if (bankType != EffectSlot.BankType.None && banks.ContainsKey(bankType.ToString()))
-                    {
-                        var bankParams = ParseTagParameters(effectContent);
-                        var currentEffectBank = banks[bankType.ToString()];
-                        
-                        // Process the bank-level parameters
-                        foreach (var slot in currentEffectBank.Slots.Values)
-                        {
-                            // Apply bank-level settings to all slots in this bank
-                            // In RC-600 format, parameter A=SW, B=MODE, C=TARGET
-                            if (bankParams.ContainsKey("A"))
-                            {
-                                // Bank-level enable/disable (A=SW)
-                                bool bankEnabled = bankParams["A"] == 1;
-                                // Only set if the slot doesn't have a specific setting
-                                if (!slot.Parameters.ContainsKey("BankEnabled"))
-                                    slot.Parameters["BankEnabled"] = bankEnabled ? 1 : 0;
-                            }
-                            
-                            if (bankParams.ContainsKey("B"))
-                            {
-                                // Bank operation mode (B=MODE)
-                                int bankMode = bankParams["B"];
-                                if (!slot.Parameters.ContainsKey("BankMode"))
-                                    slot.Parameters["BankMode"] = bankMode;
-                            }
-                            
-                            if (bankParams.ContainsKey("C"))
-                            {
-                                // FX target tracks/inputs (C=TARGET)
-                                string fxTarget = GetFXTargetFromId(bankParams["C"]);
-                                if (string.IsNullOrEmpty(slot.Target))
-                                    slot.Target = fxTarget;
-                            }
-                        }
-                    }
-                    
-                    // Continue to next tag since we're done with the bank settings
-                    continue;
-                }
-                // Then check for two-letter bank/slot combinations like AA, AB, AC, etc.
-                else if (bankTag.Length == 2 && char.IsLetter(bankTag[0]) && char.IsLetter(bankTag[1]))
-                {
-                    // First letter represents the bank (A, B, C, D)
-                    char bankLetter = bankTag[0];
-                    // Second letter represents the slot (A, B, C, D = 0, 1, 2, 3)
-                    char slotLetter = bankTag[1];
-                    
-                    bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
-                    slotIndex = slotLetter - 'A' + 1;
-                    
-                    // Process slot-level settings from double-letter tags
-                    if (bankType != EffectSlot.BankType.None && banks.ContainsKey(bankType.ToString()))
-                    {
-                        var slotParams = ParseTagParameters(effectContent);
-                        
-                        if (slotParams.ContainsKey("C") && slotIndex >= 1 && slotIndex <= 4)
-                        {
-                            var slotBank = banks[bankType.ToString()];
-                            var currentSlot = slotBank.Slots[slotIndex];
-                            
-                            // C parameter determines the active effect type for this slot
-                            int effectTypeValue = slotParams["C"];
-                            string effectName = GetEffectTypeFromId(effectTypeValue);
-                            
-                            // Store the effect settings first
-                            var effectSettings = new EffectSettings
-                            {
-                                EffectType = effectTypeValue,
-                                EffectName = effectName
-                            };
-                            
-                            // Add to AllEffectSettings and set as current effect
-                            currentSlot.AllEffectSettings[effectTypeValue] = effectSettings;
-                            currentSlot.SwitchToEffect(effectTypeValue, effectName);
-                            
-                            // Parse other slot parameters if present
-                            if (slotParams.ContainsKey("A"))
-                            {
-                                // Usually SW (on/off) state 
-                                currentSlot.Enabled = slotParams["A"] == 1;
-                            }
-                            
-                            if (slotParams.ContainsKey("B"))
-                            {
-                                // Often mode or other setting
-                                currentSlot.Parameters["SlotMode"] = slotParams["B"];
-                                effectSettings.Parameters["SlotMode"] = slotParams["B"];
-                            }
-                            
-                            // Continue processing this slot and save values
-                            continue;
-                        }
-                    }
-                }
-                // Then check for specific effect type tags like AA_CHORUS, AA_REVERB, etc.
-                else if (bankTag.Length > 2 && bankTag.Contains('_'))
-                {
-                    // Format is like AA_CHORUS, where AA is the bank/slot and CHORUS is the effect type
-                    string[] parts = bankTag.Split('_');
-                    if (parts.Length != 2)
-                        continue;
-                        
-                    string bankSlotPart = parts[0];
-                    string effectTypeName = parts[1];
-                    
-                    if (bankSlotPart.Length == 2 && char.IsLetter(bankSlotPart[0]) && char.IsLetter(bankSlotPart[1]))
-                    {
-                        // First letter represents the bank (A, B, C, D)
-                        char bankLetter = bankSlotPart[0];
-                        // Second letter represents the slot (A, B, C, D = 0, 1, 2, 3)
-                        char slotLetter = bankSlotPart[1];
-                        
-                        bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
-                        slotIndex = slotLetter - 'A' + 1;
-                        
-                        // Get the effect type ID from the name
-                        int effectTypeId = GetEffectIdFromName(effectTypeName);
-                        
-                        // Skip if we couldn't determine the effect type
-                        if (effectTypeId < 0)
-                            continue;
-                        
-                        // Process the effect-specific parameters
-                        var effectParamTags = ParseTagParameters(effectContent);
-                        
-                        // Skip if we can't determine the bank or if it's not in a valid range
-                        if (bankType == EffectSlot.BankType.None || !banks.ContainsKey(bankType.ToString()) || 
-                            slotIndex < 1 || slotIndex > 4)
-                            continue;
-                        
-                        // Get the bank and slot
-                        var currentEffectBank = banks[bankType.ToString()];
-                        var currentEffectSlot = currentEffectBank.Slots[slotIndex];
-                        
-                        // Check if we already have settings for this effect type
-                        var effectSettings = currentEffectSlot.AllEffectSettings.ContainsKey(effectTypeId) 
-                            ? currentEffectSlot.AllEffectSettings[effectTypeId] 
-                            : new EffectSettings { 
-                                EffectType = effectTypeId, 
-                                EffectName = effectTypeName 
-                            };
-                        
-                        // Save the effect parameters
-                        foreach (var param in effectParamTags)
-                        {
-                            effectSettings.Parameters[param.Key] = param.Value;
-                        }
-                        
-                        // Store or update the effect settings
-                        currentEffectSlot.AllEffectSettings[effectTypeId] = effectSettings;
-                        
-                        // If this is the active effect for this slot, update the parameters
-                        if (currentEffectSlot.EffectType == effectTypeId)
-                        {
-                            // Sync parameters to the slot
-                            foreach (var param in effectSettings.Parameters)
-                            {
-                                currentEffectSlot.Parameters[param.Key] = param.Value;
-                            }
-                        }
-                        
-                        continue;
-                    }
-                }
-                else
-                {
-                    // Handle old-style bank names (FX1, BANK1, etc.)
-                    // print warning that tag wasn't handled
-                    Console.WriteLine($"Warning: Unhandled bank tag format: {bankTag}");
-
-                    continue;
-                }
+                    EffectType = effectTypeValue,
+                    EffectName = effectName
+                };
                 
-                // Skip if we can't determine the bank or if it's not a valid effect tag
-                if (bankType == EffectSlot.BankType.None || slotIndex < 0 || slotIndex >= 4)
-                    continue;
+                // Add to AllEffectSettings and set as current effect
+                currentSlot.AllEffectSettings[effectTypeValue] = effectSettings;
+                currentSlot.SwitchToEffect(effectTypeValue, effectName);
                 
-                string bankKey = bankType.ToString();
+                // Process other slot parameters
+                ProcessCommonSlotParameters(currentSlot, slotParams, effectSettings);
+            }
+        }
+        
+        // Process common slot parameters
+        private void ProcessCommonSlotParameters(EffectSlot slot, Dictionary<string, int> parameters, EffectSettings effectSettings)
+        {
+            // A parameter is usually SW (on/off) state 
+            if (parameters.ContainsKey("A"))
+            {
+                slot.Enabled = parameters["A"] == 1;
+            }
+            
+            // B parameter is often mode or other setting
+            if (parameters.ContainsKey("B"))
+            {
+                slot.Parameters["SlotMode"] = parameters["B"];
+                effectSettings.Parameters["SlotMode"] = parameters["B"];
+            }
+        }
+        
+        // Process an effect tag (e.g., AA_CHORUS, AA_REVERB, etc.)
+        private void ProcessEffectTag(Dictionary<string, EffectBank> banks, string tagName, string tagContent)
+        {
+            // Format is like AA_CHORUS or AA_SLOW_GEAR, where AA is the bank/slot and CHORUS or SLOW_GEAR is the effect type
+            string[] parts = tagName.Split('_');
+            if (parts.Length < 2)
+                return;
                 
-                // Make sure the bank exists in the container
-                if (!banks.ContainsKey(bankKey))
-                    continue;
+            string bankSlotPart = parts[0];
+            // Combine all parts after the first underscore to handle effect names with underscores like SLOW_GEAR
+            string effectTypeName = string.Join("_", parts.Skip(1));
+            
+            if (bankSlotPart.Length == 2 && char.IsLetter(bankSlotPart[0]) && char.IsLetter(bankSlotPart[1]))
+            {
+                // Parse bank and slot
+                char bankLetter = bankSlotPart[0];
+                char slotLetter = bankSlotPart[1];
                 
-                // Get the effect bank
-                var effectBank = banks[bankKey];
+                var bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
+                int slotIndex = slotLetter - 'A' + 1;
                 
-                // Make sure the slot index is valid
-                if (slotIndex >= effectBank.Slots.Count)
-                    continue;
+                // Get the effect type ID from the name
+                int effectTypeId = GetEffectIdFromName(effectTypeName);
                 
-                // Get the effect slot
-                var effectSlot = effectBank.Slots[slotIndex];
+                // Skip if invalid
+                if (effectTypeId < 0 || bankType == EffectSlot.BankType.None || 
+                    !banks.ContainsKey(bankType.ToString()) || slotIndex < 1 || slotIndex > 4)
+                    return;
                 
-                // Set category
-                effectSlot.SlotCategory = category;
-                effectSlot.Bank = bankType;
+                // Get the bank and slot
+                var currentEffectBank = banks[bankType.ToString()];
+                var currentEffectSlot = currentEffectBank.Slots[slotIndex];
                 
-                // Parse parameters for this effect using our recursive parser
-                var paramTags = ParseTagParameters(effectContent);
+                // Get or create effect settings
+                var effectSettings = currentEffectSlot.AllEffectSettings.ContainsKey(effectTypeId) 
+                    ? currentEffectSlot.AllEffectSettings[effectTypeId] 
+                    : new EffectSettings { 
+                        EffectType = effectTypeId, 
+                        EffectName = effectTypeName 
+                    };
                 
                 // Process effect parameters
-                int currentEffectType = effectSlot.EffectType;
-                
-                foreach (var param in paramTags)
+                var effectParams = ParseTagParameters(tagContent);
+                foreach (var param in effectParams)
                 {
-                    switch (param.Key)
+                    effectSettings.Parameters[param.Key] = param.Value;
+                }
+                
+                // Store or update the effect settings
+                currentEffectSlot.AllEffectSettings[effectTypeId] = effectSettings;
+                
+                // If this is the active effect for this slot, update the parameters
+                if (currentEffectSlot.EffectType == effectTypeId)
+                {
+                    // Sync parameters to the slot
+                    foreach (var param in effectSettings.Parameters)
                     {
-                        case "SW":
-                            effectSlot.Enabled = param.Value == 1;
-                            break;
-                        case "TYPE":
-                            int newEffectType = param.Value;
-                            string newEffectName = GetEffectTypeFromId(newEffectType);
-                            
-                            // Check if we're changing effect types
-                            if (currentEffectType != newEffectType)
-                            {
-                                // Make sure we have settings for this effect type
-                                if (!effectSlot.AllEffectSettings.ContainsKey(newEffectType))
-                                {
-                                    effectSlot.AllEffectSettings[newEffectType] = new EffectSettings
-                                    {
-                                        EffectType = newEffectType,
-                                        EffectName = newEffectName,
-                                        Parameters = new Dictionary<string, int>()
-                                    };
-                                }
-                                
-                                // Switch to the new effect type
-                                effectSlot.SwitchToEffect(newEffectType, newEffectName);
-                            }
-                            break;
-                        case "SW_MODE":
-                            effectSlot.SwitchMode = (SwitchModeEnum)param.Value;
-                            break;
-                        case "TARGET":
-                            effectSlot.Target = GetFXTargetFromId(param.Value);
-                            break;
-                        default:
-                            // Add to parameters dictionary as integer
-                            effectSlot.Parameters[param.Key] = param.Value;
-                            
-                            // Also store in the current effect's settings
-                            if (effectSlot.AllEffectSettings.ContainsKey(effectSlot.EffectType))
-                            {
-                                effectSlot.AllEffectSettings[effectSlot.EffectType].Parameters[param.Key] = param.Value;
-                            }
-                            break;
+                        currentEffectSlot.Parameters[param.Key] = param.Value;
                     }
+                }
+            }
+        }
+        
+        // Helper method to process a bank-level tag (A, B, C, D)
+        private void ProcessBankTag(MemoryPatch patch, Dictionary<string, string> sectionTags, string bankTag, 
+                                    EffectSlot.BankType bankType, Dictionary<string, EffectBank> banks, 
+                                    EffectSlot.Category category)
+        {
+            if (!sectionTags.ContainsKey(bankTag))
+                return;
+                
+            var bankParams = ParseTagParameters(sectionTags[bankTag]);
+            
+            // For each bank, the parameters A, B, C represent:
+            // A: SW (on/off) - Bank enable state
+            // B: Mode - Operating mode for the bank
+            // C: Target - Which input/track the bank effects
+            
+            bool bankEnabled = false;
+            int bankMode = 0;
+            string targetName = "";
+            
+            if (bankParams.ContainsKey("A"))
+            {
+                bankEnabled = bankParams["A"] == 1;
+            }
+            
+            if (bankParams.ContainsKey("B"))
+            {
+                bankMode = bankParams["B"];
+            }
+            
+            if (bankParams.ContainsKey("C"))
+            {
+                int targetId = bankParams["C"];
+                targetName = GetFXTargetFromId(targetId);
+            }
+            
+            // Apply these settings to all slots in this bank
+            if (banks.ContainsKey(bankType.ToString()))
+            {
+                var effectBank = banks[bankType.ToString()];
+                foreach (var slot in effectBank.Slots.Values)
+                {
+                    // Apply settings only if they exist
+                    if (bankParams.ContainsKey("A"))
+                        slot.Enabled = bankEnabled;
+                        
+                    if (bankParams.ContainsKey("B"))
+                        slot.Parameters["BankMode"] = bankMode;
+                        
+                    if (bankParams.ContainsKey("C"))
+                        slot.Target = targetName;
                 }
             }
         }
@@ -883,33 +1051,19 @@ namespace RC600Dump.Services
         
         private string GetFXTargetFromId(int targetId)
         {
-            // Map target values to meaningful descriptions based on the RC-600 documentation
+            // Map target values to FX bank labels (A, B, C, D)
             switch (targetId)
             {
                 case 0:
-                    return "ALL";  // All tracks/inputs
+                    return "A";  // Bank A
                 case 1:
-                    return "TRACK 1";
+                    return "B";  // Bank B
                 case 2:
-                    return "TRACK 2";
+                    return "C";  // Bank C
                 case 3:
-                    return "TRACK 3";
-                case 4:
-                    return "TRACK 4";
-                case 5:
-                    return "TRACK 5";
-                case 6:
-                    return "TRACK 6";
-                case 7:
-                    return "INPUT MIC";
-                case 8:
-                    return "INPUT INST";
-                case 9:
-                    return "INPUT RHYTHM";
-                case 10:
-                    return "CURRENT TRACK";  // Currently selected track
+                    return "D";  // Bank D
                 default:
-                    return $"UNKNOWN TARGET ({targetId})";
+                    return $"UNKNOWN BANK ({targetId})";
             }
         }
 
