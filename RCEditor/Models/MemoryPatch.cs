@@ -65,10 +65,6 @@ namespace RCEditor.Models
     public class MemoryPatch
     {
         public string Name { get; set; }           // max 12 chars
-        public double Tempo { get; set; }
-        public PlayModeEnum PlayMode { get; set; }
-        public SingleModeSwitchEnum SingleModeSwitch { get; set; }
-        public bool LoopSync { get; set; }
         public Track[] Tracks { get; set; } = new Track[6];
         public EffectBanks Effects { get; set; }
         public RhythmSettings Rhythm { get; set; }
@@ -78,9 +74,6 @@ namespace RCEditor.Models
         public MemoryPatch()
         {
             Name = "NEW PATCH";
-            Tempo = 120;
-            PlayMode = PlayModeEnum.Multi;
-            SingleModeSwitch = SingleModeSwitchEnum.Loop;
             
             // Initialize tracks
             for (int i = 0; i < 6; i++)
