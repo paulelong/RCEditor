@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCEditor", "RCEditor\RCEdit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCEditor.Models", "RCEditor.Models\RCEditor.Models.csproj", "{C6360827-25C4-406E-BD7F-F4DFF140DE48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC600Dump", "RC600Dump\RC600Dump.csproj", "{E78C4817-C5C2-48BC-8571-6BF7DE367670}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,18 @@ Global
 		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x64.Build.0 = Release|Any CPU
 		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x86.ActiveCfg = Release|Any CPU
 		{C6360827-25C4-406E-BD7F-F4DFF140DE48}.Release|x86.Build.0 = Release|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Debug|x64.Build.0 = Debug|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Debug|x86.Build.0 = Debug|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Release|x64.ActiveCfg = Release|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Release|x64.Build.0 = Release|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Release|x86.ActiveCfg = Release|Any CPU
+		{E78C4817-C5C2-48BC-8571-6BF7DE367670}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
