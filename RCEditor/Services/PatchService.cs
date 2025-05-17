@@ -109,11 +109,78 @@ namespace RCEditor.Services
                 Console.WriteLine($"Error importing patch: {ex.Message}");
                 return false;
             }
-        }
-
-        public async Task<bool> ExportPatch(string filePath)
+        }        public async Task<bool> ExportPatch(string filePath)
         {
-            return await Task.FromResult(true);
+            try
+            {
+                // First, convert our local MemoryPatch to the Models.MemoryPatch format
+                var modelsPatch = ConvertToModelsPatch(CurrentPatch);
+                
+                // Then use the PatchExportService to write the file
+                var exportService = new RCEditor.Models.Services.PatchExportService();
+                return await exportService.ExportPatchAsync(modelsPatch, filePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error exporting patch: {ex.Message}");
+                return false;
+            }
+        }
+        
+        // Helper method to convert from our local MemoryPatch model to the RCEditor.Models version
+        private RCEditor.Models.MemoryPatch ConvertToModelsPatch(MemoryPatch patch)
+        {
+            var modelsPatch = new RCEditor.Models.MemoryPatch
+            {
+                Name = patch.Name
+            };
+            
+            // Convert tracks
+            for (int i = 0; i < Math.Min(patch.Tracks.Length, modelsPatch.Tracks.Length); i++)
+            {
+                var srcTrack = patch.Tracks[i];
+                var destTrack = new RCEditor.Models.Track
+                {
+                    Level = srcTrack.Level,
+                    Pan = srcTrack.Pan,
+                    Reverse = srcTrack.Reverse,
+                    OneShot = srcTrack.OneShot,
+                    FXEnabled = srcTrack.FXEnabled,
+                    MeasureCount = srcTrack.MeasureCount,
+                    BounceIn = srcTrack.BounceIn
+                    // Add other properties as needed
+                };
+                
+                modelsPatch.Tracks[i] = destTrack;
+            }
+            
+            // Set basic Rhythm settings
+            modelsPatch.Rhythm.Genre = patch.Rhythm.Genre;
+            modelsPatch.Rhythm.Pattern = patch.Rhythm.Pattern;
+            modelsPatch.Rhythm.Variation = patch.Rhythm.Variation;
+              // Set Play settings
+            modelsPatch.Play.SingleTrackChange = (RCEditor.Models.SingleTrackChangeEnum)(int)patch.Play.SingleTrackChange;
+            modelsPatch.Play.FadeTimeIn = patch.Play.FadeTimeIn;
+            modelsPatch.Play.FadeTimeOut = patch.Play.FadeTimeOut;
+            
+            // Copy AllStartTracks and AllStopTracks arrays
+            for (int i = 0; i < Math.Min(patch.Play.AllStartTracks.Length, modelsPatch.Play.AllStartTracks.Length); i++)
+            {
+                modelsPatch.Play.AllStartTracks[i] = patch.Play.AllStartTracks[i];
+                modelsPatch.Play.AllStopTracks[i] = patch.Play.AllStopTracks[i];
+            }
+            
+            // Set Rec settings
+            modelsPatch.Rec.RecAction = (RCEditor.Models.RecActionEnum)(int)patch.Rec.RecAction;
+            modelsPatch.Rec.QuantizeEnabled = patch.Rec.QuantizeEnabled;
+            modelsPatch.Rec.AutoRecEnabled = patch.Rec.AutoRecEnabled;
+            modelsPatch.Rec.AutoRecSensitivity = patch.Rec.AutoRecSensitivity;
+            modelsPatch.Rec.BounceEnabled = patch.Rec.BounceEnabled;
+            modelsPatch.Rec.BounceTrack = patch.Rec.BounceTrack;
+            
+            // Add more conversions as needed for a complete patch
+            
+            return modelsPatch;
         }
 
         public async Task<bool> ImportPatchDirectory(string directoryPath)
