@@ -911,7 +911,7 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 
 # Rhythm Pattern List (RC-600)
 
-### Acoustic
+### ACOUSTIC
 
 | Pattern      | Beat |
 | ------------ | ---- |
@@ -927,7 +927,7 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | CAJON1       | 4/4  |
 | CAJON2       | 4/4  |
 
-### Ballad
+### BALLAD
 
 | Pattern     | Beat |
 | ----------- | ---- |
@@ -943,7 +943,7 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | SWING       | 4/4  |
 | 6/8 BEAT    | 6/8  |
 
-### Blues
+### BLUES
 
 | Pattern  | Beat |
 | -------- | ---- |
@@ -954,7 +954,7 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | SWING    | 4/4  |
 | 6/8 BEAT | 6/8  |
 
-### Jazz
+### JAZZ
 
 | Pattern     | Beat |
 | ----------- | ---- |
@@ -969,239 +969,288 @@ Same parameter block as Panning Delay. Produces time‑reversed echoes. cite�
 | JAZZ SAMBA  | 4/4  |
 | 6/8 BEAT    | 6/8  |
 
-### Fusion
+### FUSION
 
-| Pattern            | Beat |
-| ------------------ | ---- |
-| 16BEAT1 – 16BEAT7 | 4/4  |
-| SWING              | 4/4  |
-| 7/8 BEAT           | 7/8  |
+| Pattern  | Beat |
+| -------- | ---- |
+| 16BEAT1  | 4/4  |
+| 16BEAT2  | 4/4  |
+| 16BEAT3  | 4/4  |
+| 16BEAT4  | 4/4  |
+| 16BEAT5  | 4/4  |
+| 16BEAT6  | 4/4  |
+| 16BEAT7  | 4/4  |
+| SWING    | 4/4  |
+| 7/8 BEAT | 7/8  |
 
 ### R&B
 
-| Pattern                    | Beat |
-| -------------------------- | ---- |
-| SWING1 – SWING3           | 4/4  |
-| SIDE STICK1 – SIDE STICK3 | 4/4  |
-| SHUFFLE1 – SHUFFLE2       | 4/4  |
-| 8BEAT1                     | 4/4  |
-| 16BEAT                     | 4/4  |
-| 7/8 BEAT                   | 7/8  |
+| Pattern     | Beat |
+| ----------- | ---- |
+| SWING1      | 4/4  |
+| SWING2      | 4/4  |
+| SWING3      | 4/4  |
+| SIDE STICK1 | 4/4  |
+| SIDE STICK2 | 4/4  |
+| SIDE STICK3 | 4/4  |
+| SHUFFLE1    | 4/4  |
+| SHUFFLE2    | 4/4  |
+| 8BEAT1      | 4/4  |
+| 16BEAT      | 4/4  |
+| 7/8 BEAT    | 7/8  |
 
-### Soul
+### SOUL
 
-| Pattern              | Beat |
-| -------------------- | ---- |
-| SWING1 – SWING4     | 4/4  |
-| 16BEAT1 – 16BEAT3   | 4/4  |
-| SIDESTK1 – SIDESTK2 | 4/4  |
-| MOTOWN               | 4/4  |
-| PERCUS               | 4/4  |
+| Pattern  | Beat |
+| -------- | ---- |
+| SWING1   | 4/4  |
+| SWING2   | 4/4  |
+| SWING3   | 4/4  |
+| SWING4   | 4/4  |
+| 16BEAT1  | 4/4  |
+| 16BEAT2  | 4/4  |
+| 16BEAT3  | 4/4  |
+| SIDESTK1 | 4/4  |
+| SIDESTK2 | 4/4  |
+| MOTOWN   | 4/4  |
+| PERCUS   | 4/4  |
 
-### Funk
+### FUNK
 
-| Pattern            | Beat |
-| ------------------ | ---- |
-| 8BEAT1 – 8BEAT4   | 4/4  |
-| 16BEAT1 – 16BEAT4 | 4/4  |
-| SWING1 – SWING3   | 4/4  |
+| Pattern | Beat |
+| ------- | ---- |
+| 8BEAT1  | 4/4  |
+| 8BEAT2  | 4/4  |
+| 8BEAT3  | 4/4  |
+| 8BEAT4  | 4/4  |
+| 16BEAT1 | 4/4  |
+| 16BEAT2 | 4/4  |
+| 16BEAT3 | 4/4  |
+| 16BEAT4 | 4/4  |
+| SWING1  | 4/4  |
+| SWING2  | 4/4  |
+| SWING3  | 4/4  |
 
-### Pop
-
-| Pattern                    | Beat |
-| -------------------------- | ---- |
-| 8BEAT1 – 8BEAT2           | 4/4  |
-| 16BEAT1 – 16BEAT2         | 4/4  |
-| PERCUS1                    | 4/4  |
-| SHUFFLE1 – SHUFFLE2       | 4/4  |
-| SIDE STICK1 – SIDE STICK2 | 4/4  |
-| SWING1 – SWING2           | 4/4  |
-| PERCUS2                    | 6/8  |
-
-### Soft Rock
-
-| Pattern                    | Beat |
-| -------------------------- | ---- |
-| 16BEAT1 – 16BEAT4         | 4/4  |
-| 8BEAT                      | 4/4  |
-| SWING1 – SWING4           | 4/4  |
-| SIDE STICK1 – SIDE STICK2 | 4/4  |
-| PERCUS1 – PERCUS2         | 4/4  |
-
-### Rock
-
-| Pattern              | Beat |
-| -------------------- | ---- |
-| 8BEAT1 – 8BEAT6     | 4/4  |
-| 16BEAT1 – 16BEAT4   | 4/4  |
-| SHUFFLE1 – SHUFFLE2 | 4/4  |
-| SWING1 – SWING4     | 4/4  |
-
-### Alt Rock
-
-| Pattern            | Beat |
-| ------------------ | ---- |
-| RIDEBEAT           | 4/4  |
-| 8BEAT1 – 8BEAT4   | 4/4  |
-| 16BEAT1 – 16BEAT4 | 4/4  |
-| SWING              | 4/4  |
-| 5/4 BEAT           | 5/4  |
-
-### Punk
-
-| Pattern            | Beat |
-| ------------------ | ---- |
-| 8BEAT1 – 8BEAT6   | 4/4  |
-| 16BEAT1 – 16BEAT3 | 4/4  |
-| SIDE STICK         | 4/4  |
-
-### Heavy Rock
-
-| Pattern              | Beat |
-| -------------------- | ---- |
-| 8BEAT1 – 8BEAT3     | 4/4  |
-| 16BEAT1 – 16BEAT3   | 4/4  |
-| SHUFFLE1 – SHUFFLE2 | 4/4  |
-| SWING1 – SWING3     | 4/4  |
-
-### Metal
-
-| Pattern          | Beat |
-| ---------------- | ---- |
-| 8BEAT1 – 8BEAT6 | 4/4  |
-| 2XBD1 – 2XBD5   | 4/4  |
-
-### Trad
-
-| Pattern              | Beat |
-| -------------------- | ---- |
-| TRAIN2               | 2/4  |
-| ROCKN ROLL           | 4/4  |
-| TRAIN1               | 4/4  |
-| COUNTRY1 – COUNTRY3 | 4/4  |
-| FOXTROT              | 4/4  |
-| TRAD1 – TRAD2       | 4/4  |
-
-### World
-
-| Pattern                    | Beat |
-| -------------------------- | ---- |
-| BOSSA1 – BOSSA2           | 4/4  |
-| SAMBA1 – SAMBA2           | 4/4  |
-| BOOGALOO                   | 4/4  |
-| MERENGUE                   | 4/4  |
-| REGGAE                     | 4/4  |
-| LATIN ROCK1 – LATIN ROCK2 | 4/4  |
-| LATIN PERC                 | 4/4  |
-| SURDO                      | 4/4  |
-| LATIN1 – LATIN2           | 4/4  |
-
-### Ballroom
-
-| Pattern          | Beat |
-| ---------------- | ---- |
-| CUMBIA           | 2/4  |
-| WALTZ1 – WALTZ2 | 3/4  |
-| CHACHA           | 4/4  |
-| BEGUINE          | 4/4  |
-| RHUMBA           | 4/4  |
-| TANGO1 – TANGO2 | 4/4  |
-| JIVE             | 4/4  |
-| CHARLSTON        | 4/4  |
-
-### Electro
-
-| Pattern              | Beat |
-| -------------------- | ---- |
-| ELCTRO01 – ELCTRO08 | 4/4  |
-| 5/4 BEAT             | 5/4  |
-
-### Guide
-
-| Pattern          | Beat                            |
-| ---------------- | ------------------------------- |
-| 2/4 TRIPLE       | 2/4                             |
-| 3/4              | 3/4                             |
-| 3/4 TRIPLE       | 3/4                             |
-| 4/4              | 4/4                             |
-| 4/4 TRIPLE       | 4/4                             |
-| BD 8BEAT         | 4/4                             |
-| BD 16BEAT        | 4/4                             |
-| BD SHUFFLE       | 4/4                             |
-| HH 8BEAT         | 4/4                             |
-| HH 16BEAT        | 4/4                             |
-| HH SWING2        | 4/4                             |
-| 8BEAT1 – 8BEAT4 | 4/4                             |
-| 5/4              | 5/4                             |
-| 5/4 TRIPLE       | 5/4                             |
-| 6/4              | 6/4                             |
-| 6/4 TRIPLE       | 6/4                             |
-| 7/4              | 7/4                             |
-| 7/4 TRIPLE       | 7/4                             |
-| 5/8 – 15/8      | (corresponding irregular beats) |
-
-### User
+### POP
 
 | Pattern     | Beat |
 | ----------- | ---- |
-| SIMPLE BEAT | 4/4  |
+| 8BEAT1      | 4/4  |
+| 8BEAT2      | 4/4  |
+| 16BEAT1     | 4/4  |
+| 16BEAT2     | 4/4  |
+| PERCUS1     | 4/4  |
+| SHUFFLE1    | 4/4  |
+| SHUFFLE2    | 4/4  |
+| SIDE STICK1 | 4/4  |
+| SIDE STICK2 | 4/4  |
+| SWING1      | 4/4  |
+| SWING2      | 4/4  |
+| PERCUS2     | 6/8  |
 
-## Enumeration of all FX
+### SOFT ROCK
 
-| #  | Effect name                 | Seq |
-| -- | --------------------------- | --- |
-| 1  | LPF (Low-pass filter)       | Yes |
-| 2  | BPF (Band-pass filter)      | Yes |
-| 3  | HPF (High-pass filter)      | Yes |
-| 4  | Phaser                      | Yes |
-| 5  | Flanger                     | Yes |
-| 6  | Synth                       | Yes |
-| 7  | Lo-Fi                       | No  |
-| 8  | Radio                       | No  |
-| 9  | Ring Mod                    | Yes |
-| 10 | G2B (Guitar-to-Bass)        | No  |
-| 11 | Sustainer                   | No  |
-| 12 | Auto Riff                   | No  |
-| 13 | Slow Gear                   | No  |
-| 14 | Transpose                   | Yes |
-| 15 | Pitch Bend                  | Yes |
-| 16 | Robot                       | No  |
-| 17 | Electric                    | No  |
-| 18 | HRM Manual                  | No  |
-| 19 | HRM Auto (MIDI)             | No  |
-| 20 | Vocoder                     | No  |
-| 21 | OSC Voc (MIDI)              | No  |
-| 22 | OSC Bot                     | Yes |
-| 23 | Preamp                      | No  |
-| 24 | Dist (Distortion)           | No  |
-| 25 | Dynamics (Comp/Lim presets) | No  |
-| 26 | EQ (4-band)                 | No  |
-| 27 | Isolator                    | Yes |
-| 28 | Octave                      | Yes |
-| 29 | Auto Pan                    | No  |
-| 30 | Manual Pan                  | Yes |
-| 31 | Stereo Enhance              | No  |
-| 32 | Tremolo                     | Yes |
-| 33 | Vibrato                     | Yes |
-| 34 | Pattern Slicer              | No  |
-| 35 | Step Slicer                 | No  |
-| 36 | Delay                       | No  |
-| 37 | Panning Delay               | No  |
-| 38 | Reverse Delay               | No  |
-| 39 | Mod Delay                   | No  |
-| 40 | Tape Echo 1                 | No  |
-| 41 | Tape Echo 2                 | No  |
-| 42 | Granular Delay              | No  |
-| 43 | Warp                        | No  |
-| 44 | Twist                       | No  |
-| 45 | Roll 1                      | No  |
-| 46 | Roll 2                      | No  |
-| 47 | Freeze                      | No  |
-| 48 | Chorus                      | No  |
-| 49 | Reverb                      | No  |
-| 50 | Gate Reverb                 | No  |
-| 51 | Reverse Reverb              | No  |
-| 52 | Beat Scatter (Track-only)   | No  |
-| 53 | Beat Repeat (Track-only)    | No  |
-| 54 | Beat Shift (Track-only)     | No  |
-| 55 | Vinyl Flick (Track-only)    | No  |
+| Pattern     | Beat |
+| ----------- | ---- |
+| 16BEAT1     | 4/4  |
+| 16BEAT2     | 4/4  |
+| 16BEAT3     | 4/4  |
+| 16BEAT4     | 4/4  |
+| 8BEAT       | 4/4  |
+| SWING1      | 4/4  |
+| SWING2      | 4/4  |
+| SWING3      | 4/4  |
+| SWING4      | 4/4  |
+| SIDE STICK1 | 4/4  |
+| SIDE STICK2 | 4/4  |
+| PERCUS1     | 4/4  |
+| PERCUS2     | 4/4  |
+
+### ROCK
+
+| Pattern  | Beat |
+| -------- | ---- |
+| 8BEAT1   | 4/4  |
+| 8BEAT2   | 4/4  |
+| 8BEAT3   | 4/4  |
+| 8BEAT4   | 4/4  |
+| 8BEAT5   | 4/4  |
+| 8BEAT6   | 4/4  |
+| 16BEAT1  | 4/4  |
+| 16BEAT2  | 4/4  |
+| 16BEAT3  | 4/4  |
+| 16BEAT4  | 4/4  |
+| SHUFFLE1 | 4/4  |
+| SHUFFLE2 | 4/4  |
+| SWING1   | 4/4  |
+| SWING2   | 4/4  |
+| SWING3   | 4/4  |
+| SWING4   | 4/4  |
+
+### ALT ROCK
+
+| Pattern  | Beat |
+| -------- | ---- |
+| RIDEBEAT | 4/4  |
+| 8BEAT1   | 4/4  |
+| 8BEAT2   | 4/4  |
+| 8BEAT3   | 4/4  |
+| 8BEAT4   | 4/4  |
+| 16BEAT1  | 4/4  |
+| 16BEAT2  | 4/4  |
+| 16BEAT3  | 4/4  |
+| 16BEAT4  | 4/4  |
+| SWING    | 4/4  |
+| 5/4 BEAT | 5/4  |
+
+### PUNK
+
+| Pattern    | Beat |
+| ---------- | ---- |
+| 8BEAT1     | 4/4  |
+| 8BEAT2     | 4/4  |
+| 8BEAT3     | 4/4  |
+| 8BEAT4     | 4/4  |
+| 8BEAT5     | 4/4  |
+| 8BEAT6     | 4/4  |
+| 16BEAT1    | 4/4  |
+| 16BEAT2    | 4/4  |
+| 16BEAT3    | 4/4  |
+| SIDE STICK | 4/4  |
+
+### HEAVY ROCK
+
+| Pattern  | Beat |
+| -------- | ---- |
+| 8BEAT1   | 4/4  |
+| 8BEAT2   | 4/4  |
+| 8BEAT3   | 4/4  |
+| 16BEAT1  | 4/4  |
+| 16BEAT2  | 4/4  |
+| 16BEAT3  | 4/4  |
+| SHUFFLE1 | 4/4  |
+| SHUFFLE2 | 4/4  |
+| SWING1   | 4/4  |
+| SWING2   | 4/4  |
+| SWING3   | 4/4  |
+
+### METAL
+
+| Pattern | Beat |
+| ------- | ---- |
+| 8BEAT1  | 4/4  |
+| 8BEAT2  | 4/4  |
+| 8BEAT3  | 4/4  |
+| 8BEAT4  | 4/4  |
+| 8BEAT5  | 4/4  |
+| 8BEAT6  | 4/4  |
+| 2XBD1   | 4/4  |
+| 2XBD2   | 4/4  |
+| 2XBD3   | 4/4  |
+| 2XBD4   | 4/4  |
+| 2XBD5   | 4/4  |
+
+### TRAD
+
+| Pattern    | Beat |
+| ---------- | ---- |
+| TRAIN2     | 2/4  |
+| ROCKN ROLL | 4/4  |
+| TRAIN1     | 4/4  |
+| COUNTRY1   | 4/4  |
+| COUNTRY2   | 4/4  |
+| COUNTRY3   | 4/4  |
+| FOXTROT    | 4/4  |
+| TRAD1      | 4/4  |
+| TRAD2      | 4/4  |
+
+### WORLD
+
+| Pattern     | Beat |
+| ----------- | ---- |
+| BOSSA1      | 4/4  |
+| BOSSA2      | 4/4  |
+| SAMBA1      | 4/4  |
+| SAMBA2      | 4/4  |
+| BOOGALOO    | 4/4  |
+| MERENGUE    | 4/4  |
+| REGGAE      | 4/4  |
+| LATIN ROCK1 | 4/4  |
+| LATIN ROCK2 | 4/4  |
+| LATIN PERC  | 4/4  |
+| SURDO       | 4/4  |
+| LATIN1      | 4/4  |
+| LATIN2      | 4/4  |
+
+### BALLRM
+
+| Pattern   | Beat |
+| --------- | ---- |
+| CUMBIA    | 2/4  |
+| WALTZ1    | 3/4  |
+| WALTZ2    | 3/4  |
+| CHACHA    | 4/4  |
+| BEGUINE   | 4/4  |
+| RHUMBA    | 4/4  |
+| TANGO1    | 4/4  |
+| TANGO2    | 4/4  |
+| JIVE      | 4/4  |
+| CHARLSTON | 4/4  |
+
+### ELCTRO
+
+| Pattern  | Beat |
+| -------- | ---- |
+| ELCTRO01 | 4/4  |
+| ELCTRO02 | 4/4  |
+| ELCTRO03 | 4/4  |
+| ELCTRO04 | 4/4  |
+| ELCTRO05 | 4/4  |
+| ELCTRO06 | 4/4  |
+| ELCTRO07 | 4/4  |
+| ELCTRO08 | 4/4  |
+| 5/4 BEAT | 5/4  |
+
+### GUIDE
+
+| Pattern    | Beat |
+| ---------- | ---- |
+| 2/4 TRIPLE | 2/4  |
+| 3/4        | 3/4  |
+| 3/4 TRIPLE | 3/4  |
+| 4/4        | 4/4  |
+| 4/4 TRIPLE | 4/4  |
+| BD 8BEAT   | 4/4  |
+| BD 16BEAT  | 4/4  |
+| BD SHUFFLE | 4/4  |
+| HH 8BEAT   | 4/4  |
+| HH 16BEAT  | 4/4  |
+| HH SWING1  | 4/4  |
+| HH SWING2  | 4/4  |
+| 8BEAT1     | 4/4  |
+| 8BEAT2     | 4/4  |
+| 8BEAT3     | 4/4  |
+| 8BEAT4     | 4/4  |
+| 5/4        | 5/4  |
+| 5/4 TRIPLE | 5/4  |
+| 6/4        | 6/4  |
+| 6/4 TRIPLE | 6/4  |
+| 7/4        | 7/4  |
+| 7/4 TRIPLE | 7/4  |
+| 5/8        | 5/8  |
+| 6/8        | 6/8  |
+| 7/8        | 7/8  |
+| 8/8        | 8/8  |
+| 9/8        | 9/8  |
+| 10/8       | 10/8 |
+| 11/8       | 11/8 |
+| 12/8       | 12/8 |
+| 13/8       | 13/8 |
+| 14/8       | 14/8 |
+| 15/8       | 15/8 |
+
+### USER
+
+| Pattern          | Beat |
+| ---------------- | ---- |
+| SIMPLE BEAT (*1) | 4/4  |
