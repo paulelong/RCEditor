@@ -123,10 +123,17 @@ namespace RCEditor.Models.Services
             // 3. <tfx> section for track effects
             
             // Process the <mem> section
-            Match memMatch = Regex.Match(content, @"<mem id=""[^""]*"">(.*?)</mem>", RegexOptions.Singleline);
+            Match memMatch = Regex.Match(content, @"<mem id=""([^""]*)"">(.*?)</mem>", RegexOptions.Singleline);
             if (memMatch.Success)
             {
-                string memContent = memMatch.Groups[1].Value;
+                // Extract memory patch ID from the mem tag
+                string memIdStr = memMatch.Groups[1].Value;
+                if (int.TryParse(memIdStr, out int memId))
+                {
+                    patch.Id = memId;
+                }
+                
+                string memContent = memMatch.Groups[2].Value;
                 // Process each group tag and its content in the mem section
                 foreach (Match groupMatch in GroupTagRegex.Matches(memContent))
                 {
@@ -310,17 +317,12 @@ namespace RCEditor.Models.Services
             {
                 patch.Play.SpeedChange = (SpeedChangeEnum)parameters["G"];
             }
-            
-            if (parameters.ContainsKey("H"))
+              if (parameters.ContainsKey("H"))
             {
                 patch.Play.SyncAdjust = (SyncAdjustEnum)parameters["H"];
             }
             
-            // Add Tempo parameter
-            if (parameters.ContainsKey("I"))
-            {
-                patch.Play.Tempo = parameters["I"];
-            }
+            // Note: 'I' (Tempo) parameter is not saved in PlaySettings
         }
         
         private void ProcessRecGroup(MemoryPatch patch, Dictionary<string, int> parameters)
@@ -482,8 +484,7 @@ namespace RCEditor.Models.Services
             {
                 track.BounceIn = parameters["P"] == 1;
             }
-            
-            // Input routing parameters
+              // Input routing parameters
             if (parameters.ContainsKey("Q") && parameters["Q"] == 1)
             {
                 track.InputRouting.MicIn = InputRouteEnum.Input1;
@@ -497,6 +498,11 @@ namespace RCEditor.Models.Services
             if (parameters.ContainsKey("S") && parameters["S"] == 1)
             {
                 track.InputRouting.Inst2 = InputRouteEnum.Input3;
+            }
+            
+            if (parameters.ContainsKey("T") && parameters["T"] == 1)
+            {
+                track.InputRouting.Rhythm = InputRouteEnum.Rhythm;
             }
         }
         
