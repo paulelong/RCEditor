@@ -3,11 +3,11 @@ using System.Collections.Generic;
 namespace RCEditor.Models
 {    public class InputRouting
     {
-        public InputRouteEnum Mic1 { get; set; }
-        public InputRouteEnum Mic2 { get; set; }
-        public InputRouteEnum Inst1 { get; set; }
-        public InputRouteEnum Inst2 { get; set; }
-        public InputRouteEnum Rhythm { get; set; }
+        public bool Mic1Enabled { get; set; }
+        public bool Mic2Enabled { get; set; }
+        public bool Inst1Enabled { get; set; }
+        public bool Inst2Enabled { get; set; }
+        public bool RhythmEnabled { get; set; }
     }
 
     public class Track

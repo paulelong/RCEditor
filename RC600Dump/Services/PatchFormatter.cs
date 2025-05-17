@@ -760,11 +760,11 @@ namespace RC600Dump.Services
                         sb.AppendLine($"  Unknown X: {track.UnknownX}");
                         // Input routing
                     sb.AppendLine($"  Input Routing:");
-                    sb.AppendLine($"    Mic 1: {(track.InputRouting?.Mic1 != InputRouteEnum.None ? "ON" : "OFF")}");
-                    sb.AppendLine($"    Mic 2: {(track.InputRouting?.Mic2 != InputRouteEnum.None ? "ON" : "OFF")}");
-                    sb.AppendLine($"    Inst 1: {(track.InputRouting?.Inst1 != InputRouteEnum.None ? "ON" : "OFF")}");
-                    sb.AppendLine($"    Inst 2: {(track.InputRouting?.Inst2 != InputRouteEnum.None ? "ON" : "OFF")}");
-                    sb.AppendLine($"    Rhythm: {(track.InputRouting?.Rhythm != InputRouteEnum.None ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Mic 1: {(track.InputRouting?.Mic1Enabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Mic 2: {(track.InputRouting?.Mic2Enabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Inst 1: {(track.InputRouting?.Inst1Enabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Inst 2: {(track.InputRouting?.Inst2Enabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Rhythm: {(track.InputRouting?.RhythmEnabled == true ? "ON" : "OFF")}");
                 }
                 else
                 {

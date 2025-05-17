@@ -4,9 +4,9 @@ namespace RCEditor.Models
 {
     public class InputRouting
     {
-        public InputRouteEnum MicIn { get; set; }
-        public InputRouteEnum Inst1 { get; set; }
-        public InputRouteEnum Inst2 { get; set; }
+        public bool MicInEnabled { get; set; }
+        public bool Inst1Enabled { get; set; }
+        public bool Inst2Enabled { get; set; }
     }
 
     public class Track

@@ -177,8 +177,7 @@ namespace RCEditor.Models.Services
             
             return patch;
         }
-        
-        private void ProcessMemGroup(MemoryPatch patch, string groupTag, Dictionary<string, int> parameters)
+          private void ProcessMemGroup(MemoryPatch patch, string groupTag, Dictionary<string, int> parameters)
         {
             switch (groupTag)
             {
@@ -201,6 +200,10 @@ namespace RCEditor.Models.Services
                 case "TRACK5":
                 case "TRACK6":
                     ProcessTrackGroup(patch, groupTag, parameters);
+                    break;
+                    
+                case "MASTER":
+                    ProcessMasterGroup(patch, parameters);
                     break;
                     
                 case "RHYTHM":
@@ -535,27 +538,26 @@ namespace RCEditor.Models.Services
             if (parameters.ContainsKey("Y"))
             {
                 track.LoopSyncMode = (LoopSyncModeEnum)parameters["Y"];
-            }
-              // Handle input routing bit values (Tag Q in the document)
+            }              // Handle input routing bit values (Tag Q in the document)
             if (parameters.ContainsKey("Q"))
             {
                 int inputMask = parameters["Q"];
                 
                 // Check each bit position for the inputs
                 // Bit 0: MIC1
-                track.InputRouting.Mic1 = ((inputMask & 0x01) != 0) ? InputRouteEnum.Input1 : InputRouteEnum.None;
+                track.InputRouting.Mic1Enabled = (inputMask & 0x01) != 0;
                 
                 // Bit 1: MIC2
-                track.InputRouting.Mic2 = ((inputMask & 0x02) != 0) ? InputRouteEnum.Input2 : InputRouteEnum.None;
+                track.InputRouting.Mic2Enabled = (inputMask & 0x02) != 0;
                 
                 // Bit 2: INST1
-                track.InputRouting.Inst1 = ((inputMask & 0x04) != 0) ? InputRouteEnum.Input3 : InputRouteEnum.None;
+                track.InputRouting.Inst1Enabled = (inputMask & 0x04) != 0;
                 
                 // Bit 3: INST2
-                track.InputRouting.Inst2 = ((inputMask & 0x08) != 0) ? InputRouteEnum.Input4 : InputRouteEnum.None;
+                track.InputRouting.Inst2Enabled = (inputMask & 0x08) != 0;
                 
                 // Bit 4: RHYTHM
-                track.InputRouting.Rhythm = ((inputMask & 0x10) != 0) ? InputRouteEnum.Rhythm : InputRouteEnum.None;
+                track.InputRouting.RhythmEnabled = (inputMask & 0x10) != 0;
             }
         }
         
@@ -1121,6 +1123,35 @@ namespace RCEditor.Models.Services
                 case 20: return "MASTER_LEVEL";
                 // Add more mappings as needed
                 default: return $"TARGET_{targetId}";
+            }
+        }
+        
+        private void ProcessMasterGroup(MemoryPatch patch, Dictionary<string, int> parameters)
+        {
+            // Process each parameter from the MASTER section using letter tags
+            // A -> Loop Position
+            // B -> Loop Length
+            // C -> Mode Flag
+            // D -> Mode Value
+            
+            if (parameters.ContainsKey("A"))
+            {
+                patch.Master.LoopPosition = parameters["A"];
+            }
+            
+            if (parameters.ContainsKey("B"))
+            {
+                patch.Master.LoopLength = parameters["B"];
+            }
+            
+            if (parameters.ContainsKey("C"))
+            {
+                patch.Master.ModeFlag = parameters["C"];
+            }
+            
+            if (parameters.ContainsKey("D"))
+            {
+                patch.Master.ModeValue = parameters["D"];
             }
         }
     }
