@@ -22,6 +22,15 @@ namespace RCEditor.Models
         // Additional unknown parameter from the table
         public int UnknownM { get; set; }
 
+        // Computed property that gets the friendly pattern name based on genre and pattern ID
+        public string PatternName
+        {
+            get
+            {
+                return Services.RhythmPatternNameService.GetPatternNameByGenre(Genre, PatternId);
+            }
+        }
+
         public RhythmSettings()
         {
             Enabled = false;
