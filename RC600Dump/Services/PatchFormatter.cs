@@ -669,6 +669,17 @@ namespace RC600Dump.Services
             
             // sb.AppendLine($"PlayMode: {playMode}");
             
+            // Master section
+            if (patch.Master != null)
+            {
+                sb.AppendLine();
+                sb.AppendLine("Master Settings:");
+                sb.AppendLine($"  Loop Position: {patch.Master.LoopPosition}");
+                sb.AppendLine($"  Loop Length: {patch.Master.LoopLength}");
+                sb.AppendLine($"  Mode Flag: {patch.Master.ModeFlag}");
+                sb.AppendLine($"  Mode Value: {patch.Master.ModeValue}");
+            }
+            
             // Rec settings
             sb.AppendLine();
             sb.AppendLine("Rec Settings:");
