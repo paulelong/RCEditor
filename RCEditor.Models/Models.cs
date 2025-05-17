@@ -9,16 +9,18 @@ namespace RCEditor.Models
         public string Pattern { get; set; }
         public int PatternId { get; set; }  // Raw pattern ID value (0-based index)
         public char Variation { get; set; }      // 'A','B','C','D'
+        public RhythmVariationChangeEnum VariationChangeTiming { get; set; }
         public string Kit { get; set; }
         public string Beat { get; set; }
         public double Tempo { get; set; }
-        public RhythmStartTrigEnum StartMode { get; set; }
-        public RhythmStopTrigEnum StopMode { get; set; }
+        public bool FillIn { get; set; }
         public bool IntroOnRec { get; set; }
         public bool IntroOnPlay { get; set; }
         public bool Ending { get; set; }
-        public bool FillIn { get; set; }
-        public RhythmVariationChangeEnum VariationChangeTiming { get; set; }
+        public RhythmStopTrigEnum StopMode { get; set; }
+        public RhythmStartTrigEnum StartMode { get; set; }
+        // Additional unknown parameter from the table
+        public int UnknownM { get; set; }
 
         public RhythmSettings()
         {
@@ -27,9 +29,17 @@ namespace RCEditor.Models
             Pattern = string.Empty;
             PatternId = 0;
             Variation = 'A';
+            VariationChangeTiming = RhythmVariationChangeEnum.Measure;
             Kit = string.Empty;
             Beat = string.Empty;
             Tempo = 120;
+            FillIn = false;
+            IntroOnRec = false;
+            IntroOnPlay = false;
+            Ending = false;
+            StopMode = RhythmStopTrigEnum.Off;
+            StartMode = RhythmStartTrigEnum.LoopStart;
+            UnknownM = 0;
         }
     }
 

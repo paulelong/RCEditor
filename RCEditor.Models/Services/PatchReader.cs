@@ -560,23 +560,22 @@ namespace RCEditor.Models.Services
                 track.InputRouting.RhythmEnabled = (inputMask & 0x10) != 0;
             }
         }
-        
-        private void ProcessRhythmGroup(MemoryPatch patch, Dictionary<string, int> parameters)
+          private void ProcessRhythmGroup(MemoryPatch patch, Dictionary<string, int> parameters)
         {
-            // Process each parameter from the RHYTHM section using letter tags
+            // Process each parameter from the RHYTHM section according to RC600Param.md
             // A -> Genre
             // B -> Pattern
             // C -> Variation
-            // D -> Kit
-            // E -> Beat
-            // F -> Start Trigger Mode
-            // G -> Stop Trigger Mode
-            // H -> Intro on Rec
-            // I -> Intro on Play
+            // D -> VAR.CHANGE (Variation Change Timing)
+            // E -> Kit
+            // F -> Beat
+            // G -> Fill
+            // H -> Intro Rec
+            // I -> Intro Play
             // J -> Ending
-            // K -> Fill
-            // L -> Variation Change Timing
-            // M -> Level (not currently used)
+            // K -> Stop Trig
+            // L -> Start Trig
+            // M -> Unknown (preserving for future use)
             
             if (parameters.ContainsKey("A"))
             {
@@ -587,7 +586,7 @@ namespace RCEditor.Models.Services
             {
                 // Store both the numeric pattern ID and pattern number (1-based)
                 patch.Rhythm.PatternId = parameters["B"] - 1;
-                patch.Rhythm.Pattern = (parameters["B"] ).ToString();
+                patch.Rhythm.Pattern = (parameters["B"]).ToString();
             }
             
             if (parameters.ContainsKey("C"))
@@ -597,22 +596,22 @@ namespace RCEditor.Models.Services
             
             if (parameters.ContainsKey("D"))
             {
-                patch.Rhythm.Kit = parameters["D"].ToString();
+                patch.Rhythm.VariationChangeTiming = (RhythmVariationChangeEnum)parameters["D"];
             }
             
             if (parameters.ContainsKey("E"))
             {
-                patch.Rhythm.Beat = parameters["E"].ToString();
+                patch.Rhythm.Kit = parameters["E"].ToString();
             }
             
             if (parameters.ContainsKey("F"))
             {
-                patch.Rhythm.StartMode = (RhythmStartTrigEnum)parameters["F"];
+                patch.Rhythm.Beat = parameters["F"].ToString();
             }
             
             if (parameters.ContainsKey("G"))
             {
-                patch.Rhythm.StopMode = (RhythmStopTrigEnum)parameters["G"];
+                patch.Rhythm.FillIn = parameters["G"] == 1;
             }
             
             if (parameters.ContainsKey("H"))
@@ -632,15 +631,18 @@ namespace RCEditor.Models.Services
             
             if (parameters.ContainsKey("K"))
             {
-                patch.Rhythm.FillIn = parameters["K"] == 1;
+                patch.Rhythm.StopMode = (RhythmStopTrigEnum)parameters["K"];
             }
             
             if (parameters.ContainsKey("L"))
             {
-                patch.Rhythm.VariationChangeTiming = (RhythmVariationChangeEnum)parameters["L"];
+                patch.Rhythm.StartMode = (RhythmStartTrigEnum)parameters["L"];
             }
             
-            // Level parameter (M) not currently used
+            if (parameters.ContainsKey("M"))
+            {
+                patch.Rhythm.UnknownM = parameters["M"];
+            }
         }
         
         private void ProcessControlGroup(MemoryPatch patch, Dictionary<string, int> parameters)
