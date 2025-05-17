@@ -111,16 +111,15 @@ namespace RCEditor.Models
         Immediate,
         End,
         Measure
-    }
-
-    public enum InputRouteEnum
+    }    public enum InputRouteEnum
     {
         None,
         Input1,
         Input2,
         Input3,
         Input4,
-        All
+        All,
+        Rhythm
     }
 
     // Rhythm settings enums
