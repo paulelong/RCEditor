@@ -742,15 +742,12 @@ namespace RC600Dump.Services
                     sb.AppendLine($"  Tempo Sync Mode: {track.TempoSyncMode}");
                     sb.AppendLine($"  Tempo Sync Speed: {track.TempoSyncSpeed}");
                     sb.AppendLine($"  Bounce In: {(track.BounceIn ? "ON" : "OFF")}");
-                    
-                    // Input routing
+                      // Input routing
                     sb.AppendLine($"  Input Routing:");
                     sb.AppendLine($"    Mic In: {track.InputRouting?.MicIn}");
                     sb.AppendLine($"    Inst 1: {track.InputRouting?.Inst1}");
                     sb.AppendLine($"    Inst 2: {track.InputRouting?.Inst2}");
-                    
-                    // Output assignment
-                    sb.AppendLine($"  Output Assign: {track.OutputAssign}");
+                    sb.AppendLine($"    Rhythm: {track.InputRouting?.Rhythm}");
                 }
                 else
                 {
