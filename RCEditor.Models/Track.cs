@@ -3,7 +3,8 @@ using System.Collections.Generic;
 namespace RCEditor.Models
 {    public class InputRouting
     {
-        public InputRouteEnum MicIn { get; set; }
+        public InputRouteEnum Mic1 { get; set; }
+        public InputRouteEnum Mic2 { get; set; }
         public InputRouteEnum Inst1 { get; set; }
         public InputRouteEnum Inst2 { get; set; }
         public InputRouteEnum Rhythm { get; set; }
@@ -35,6 +36,7 @@ namespace RCEditor.Models
         
         // Unknown parameters that must be preserved
         public int UnknownK { get; set; }           // Tag K - Unknown parameter
+        public int UnknownP { get; set; }           // Tag P - Unknown parameter
         public int UnknownR { get; set; }           // Tag R - Unknown parameter
         public int UnknownT { get; set; }           // Tag T - Unknown parameter (if not used for InputRouting.Rhythm)
         public int UnknownU { get; set; }           // Tag U - Unknown parameter

@@ -736,18 +736,35 @@ namespace RC600Dump.Services
                     sb.AppendLine($"  Track FX: {(track.FXEnabled ? "ON" : "OFF")}");
                     sb.AppendLine($"  Play Mode: {(track.PlayMode == PlayModeEnum.Multi ? "MULTI" : "SINGLE")}");
                     sb.AppendLine($"  Measure Count: {track.MeasureCount}");
+                    if (track.UnknownK != 0)
+                        sb.AppendLine($"  Unknown K: {track.UnknownK}");
                     sb.AppendLine($"  Loop Sync: {(track.LoopSyncSw ? "ON" : "OFF")}");
                     sb.AppendLine($"  Loop Sync Mode: {track.LoopSyncMode}");
                     sb.AppendLine($"  Tempo Sync: {(track.TempoSyncSw ? "ON" : "OFF")}");
                     sb.AppendLine($"  Tempo Sync Mode: {track.TempoSyncMode}");
                     sb.AppendLine($"  Tempo Sync Speed: {track.TempoSyncSpeed}");
+                    if (track.UnknownP != 0)
+                        sb.AppendLine($"  Unknown P: {track.UnknownP}");
                     sb.AppendLine($"  Bounce In: {(track.BounceIn ? "ON" : "OFF")}");
-                      // Input routing
+                    sb.AppendLine($"  Measure Count B: {track.MeasureCountB}");
+                      // Unknown parameters
+                    if (track.UnknownR != 0)
+                        sb.AppendLine($"  Unknown R: {track.UnknownR}");
+                    if (track.UnknownT != 0)
+                        sb.AppendLine($"  Unknown T: {track.UnknownT}");
+                    if (track.UnknownU != 0)
+                        sb.AppendLine($"  Unknown U: {track.UnknownU}");
+                    if (track.UnknownV != 0)
+                        sb.AppendLine($"  Unknown V: {track.UnknownV}");
+                    if (track.UnknownX != 0)
+                        sb.AppendLine($"  Unknown X: {track.UnknownX}");
+                        // Input routing
                     sb.AppendLine($"  Input Routing:");
-                    sb.AppendLine($"    Mic In: {track.InputRouting?.MicIn}");
-                    sb.AppendLine($"    Inst 1: {track.InputRouting?.Inst1}");
-                    sb.AppendLine($"    Inst 2: {track.InputRouting?.Inst2}");
-                    sb.AppendLine($"    Rhythm: {track.InputRouting?.Rhythm}");
+                    sb.AppendLine($"    Mic 1: {(track.InputRouting?.Mic1 != InputRouteEnum.None ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Mic 2: {(track.InputRouting?.Mic2 != InputRouteEnum.None ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Inst 1: {(track.InputRouting?.Inst1 != InputRouteEnum.None ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Inst 2: {(track.InputRouting?.Inst2 != InputRouteEnum.None ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Rhythm: {(track.InputRouting?.Rhythm != InputRouteEnum.None ? "ON" : "OFF")}");
                 }
                 else
                 {

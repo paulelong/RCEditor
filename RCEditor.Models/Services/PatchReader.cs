@@ -484,21 +484,10 @@ namespace RCEditor.Models.Services
             {
                 track.TempoSyncSpeed = (TempoSyncSpeedEnum)parameters["O"];
             }
-            
-            if (parameters.ContainsKey("P"))
+              if (parameters.ContainsKey("P"))
             {
                 // In the updated documentation, P is described as unknown
                 track.UnknownP = parameters["P"];
-            }
-            
-            // Input routing parameters
-            if (parameters.ContainsKey("Q"))
-            {
-                // Q represents the input routing bit mask in updated docs
-                if ((parameters["Q"] & 0x01) != 0)
-                {
-                    track.InputRouting.MicIn = InputRouteEnum.Input1;
-                }
             }
             
             // R is an unknown parameter in the updated docs
@@ -506,7 +495,6 @@ namespace RCEditor.Models.Services
             {
                 track.UnknownR = parameters["R"];
             }
-            
             // S is MEASUREB in the updated docs
             if (parameters.ContainsKey("S"))
             {
@@ -548,24 +536,26 @@ namespace RCEditor.Models.Services
             {
                 track.LoopSyncMode = (LoopSyncModeEnum)parameters["Y"];
             }
-            
-            // Handle input routing bit values (Tag Q in the document)
+              // Handle input routing bit values (Tag Q in the document)
             if (parameters.ContainsKey("Q"))
             {
                 int inputMask = parameters["Q"];
                 
                 // Check each bit position for the inputs
-                // Bit 0: MIC1/MIC2
-                track.InputRouting.MicIn = ((inputMask & 0x01) != 0) ? InputRouteEnum.Input1 : InputRouteEnum.None;
+                // Bit 0: MIC1
+                track.InputRouting.Mic1 = ((inputMask & 0x01) != 0) ? InputRouteEnum.Input1 : InputRouteEnum.None;
                 
-                // Bit 1: INST1
-                track.InputRouting.Inst1 = ((inputMask & 0x02) != 0) ? InputRouteEnum.Input2 : InputRouteEnum.None;
+                // Bit 1: MIC2
+                track.InputRouting.Mic2 = ((inputMask & 0x02) != 0) ? InputRouteEnum.Input2 : InputRouteEnum.None;
                 
-                // Bit 2: INST2
-                track.InputRouting.Inst2 = ((inputMask & 0x04) != 0) ? InputRouteEnum.Input3 : InputRouteEnum.None;
+                // Bit 2: INST1
+                track.InputRouting.Inst1 = ((inputMask & 0x04) != 0) ? InputRouteEnum.Input3 : InputRouteEnum.None;
                 
-                // Bit 3: RHYTHM
-                track.InputRouting.Rhythm = ((inputMask & 0x08) != 0) ? InputRouteEnum.Rhythm : InputRouteEnum.None;
+                // Bit 3: INST2
+                track.InputRouting.Inst2 = ((inputMask & 0x08) != 0) ? InputRouteEnum.Input4 : InputRouteEnum.None;
+                
+                // Bit 4: RHYTHM
+                track.InputRouting.Rhythm = ((inputMask & 0x10) != 0) ? InputRouteEnum.Rhythm : InputRouteEnum.None;
             }
         }
         
