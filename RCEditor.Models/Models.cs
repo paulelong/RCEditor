@@ -108,11 +108,9 @@ namespace RCEditor.Models
         public int FadeTimeIn { get; set; }
         public int FadeTimeOut { get; set; }
         public bool[] AllStartTracks { get; set; } = new bool[6];
-        public bool[] AllStopTracks { get; set; } = new bool[6];
-        public int LoopLength { get; set; }
+        public bool[] AllStopTracks { get; set; } = new bool[6];        public int LoopLength { get; set; }
         public SpeedChangeEnum SpeedChange { get; set; }
         public SyncAdjustEnum SyncAdjust { get; set; }
-        public int Tempo { get; set; }
 
         public PlaySettings()
         {
@@ -124,12 +122,26 @@ namespace RCEditor.Models
             LoopLength = 0; // 0 = AUTO
             SpeedChange = SpeedChangeEnum.Immediate;
             SyncAdjust = SyncAdjustEnum.Measure;
-            Tempo = 120; // Default tempo
+        }
+    }    public class MasterSettings
+    {
+        public int LoopPosition { get; set; }     // A parameter
+        public int LoopLength { get; set; }       // B parameter
+        public int ModeFlag { get; set; }         // C parameter
+        public int ModeValue { get; set; }        // D parameter
+
+        public MasterSettings()
+        {
+            LoopPosition = 0;
+            LoopLength = 0;
+            ModeFlag = 0;
+            ModeValue = 2; // Default value from example file
         }
     }
 
     public class MemoryPatch
     {
+        public int Id { get; set; } // The memory patch ID, typically 0-based index
         public string Name { get; set; }           // max 12 chars
         public Track[] Tracks { get; set; } = new Track[6];
         
@@ -137,14 +149,14 @@ namespace RCEditor.Models
         public EffectBanks InputFX { get; set; }
         public EffectBanks TrackFX { get; set; }
         
+        public MasterSettings Master { get; set; } // Added Master settings
         public RhythmSettings Rhythm { get; set; }
         public ControlAssignments Controls { get; set; }
         public List<AssignSlot> Assigns { get; set; }
         public RecSettings Rec { get; set; }
-        public PlaySettings Play { get; set; }
-
-        public MemoryPatch()
+        public PlaySettings Play { get; set; }        public MemoryPatch()
         {
+            Id = 0; // Default to 0 for new patches
             Name = "NEW PATCH";
             
             // Initialize tracks
@@ -157,6 +169,7 @@ namespace RCEditor.Models
             InputFX = new EffectBanks();
             TrackFX = new EffectBanks();
             
+            Master = new MasterSettings();
             Rhythm = new RhythmSettings();
             Controls = new ControlAssignments();
             Assigns = new List<AssignSlot>();
