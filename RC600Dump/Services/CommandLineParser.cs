@@ -6,6 +6,8 @@ namespace RC600Dump.Services
         public string? PatchDirectory { get; set; }
         public int? PatchNumber { get; set; }
         public char? PatchVariation { get; set; }
+        public bool TestWriter { get; set; }
+        public string? OutputDirectory { get; set; }
     }
 
     public static class CommandLineParser
@@ -33,6 +35,19 @@ namespace RC600Dump.Services
                             if (i + 1 < args.Length)
                             {
                                 ParsePatchNumberAndVariation(args[++i], options);
+                            }
+                            break;
+                            
+                        case "-w":
+                        case "--write":
+                            options.TestWriter = true;
+                            break;
+                            
+                        case "-o":
+                        case "--output":
+                            if (i + 1 < args.Length)
+                            {
+                                options.OutputDirectory = args[++i];
                             }
                             break;
 
