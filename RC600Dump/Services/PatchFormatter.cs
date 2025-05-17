@@ -316,12 +316,14 @@ namespace RC600Dump.Services
             sb.AppendLine("Rhythm Settings:");
             string genreName = RhythmPatternNameService.GetGenreName(Convert.ToInt32(patch.Rhythm.Genre));
             sb.AppendLine($"  Genre: {genreName}");
-            
-            // Get the pattern name using the stored PatternId (0-based)
+              // Get the pattern name using the stored PatternId (0-based)
             string patternName = RhythmPatternNameService.GetPatternNameByGenre(genreName, patch.Rhythm.PatternId);
             sb.AppendLine($"  Pattern: {patch.Rhythm.Pattern} ({patternName})");
             sb.AppendLine($"  Variation: {patch.Rhythm.Variation} ({RhythmPatternNameService.GetVariationDescription(patch.Rhythm.Variation)})");
-            sb.AppendLine($"  Kit: {patch.Rhythm.Kit}");
+            
+            // Get the kit name using the stored Kit value
+            string kitName = RhythmPatternNameService.GetKitName(patch.Rhythm.Kit);
+            sb.AppendLine($"  Kit: {patch.Rhythm.Kit} ({kitName})");
             sb.AppendLine($"  Beat: {patch.Rhythm.Beat}");
             sb.AppendLine($"  Start Mode: {patch.Rhythm.StartMode}");
             sb.AppendLine($"  Stop Mode: {patch.Rhythm.StopMode}");
