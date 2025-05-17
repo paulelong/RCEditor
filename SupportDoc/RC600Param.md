@@ -95,20 +95,21 @@ Not all paramaters are known, but we must load and save all of them to mantain t
 
 ### RHYTHM
 
-| Parameter  | Values (default in**bold**)      | Explanation                                       |
-| ---------- | -------------------------------------- | ------------------------------------------------- |
-| GENRE      | ACOUSTIC, BALLAD, BLUES, … USER       | Chooses rhythm genre.                             |
-| PATTERN    | Genre‑specific list                   | Selects a rhythm pattern within the genre.        |
-| VARIATION  | A, B, C, D                             | Variation of the selected pattern.                |
-| KIT        | STUDIO, LIVE, LIGHT, HEAVY, … 808+909 | Drum kit used for playback.                       |
-| BEAT       | 2/4 – 7/4, 5/8 – 15/8                | Time signature for rhythm.                        |
-| START TRIG | LOOP START, REC END, BEFORE LOOP       | Timing for rhythm start relative to loop actions. |
-| STOP TRIG  | OFF, LOOP STOP, REC END                | Timing for rhythm stop.                           |
-| INTRO REC  | **OFF**, ON                      | Adds an intro before recording when ON.           |
-| INTRO PLAY | **OFF**, ON                      | Adds an intro before playback when ON.            |
-| ENDING     | **OFF**, ON                      | Adds an ending when rhythm stops.                 |
-| FILL       | **OFF**, ON                      | Inserts fill‑ins during rhythm playback.         |
-| VAR.CHANGE | MEASURE, LOOP END                      | When pattern variation changes.                   |
+| Tag | Parameter  | Values (default in**bold**)      | Explanation                                       |
+| --- | ---------- | -------------------------------------- | ------------------------------------------------- |
+| A   | GENRE      | ACOUSTIC, BALLAD, BLUES, … USER       | Chooses rhythm genre.                             |
+| B   | PATTERN    | Genre‑specific list                   | Selects a rhythm pattern within the genre.        |
+| C   | VARIATION  | A, B, C, D                             | Variation of the selected pattern.                |
+| D   | VAR.CHANGE | MEASURE, LOOP END                      | When pattern variation changes.                   |
+| E   | KIT        | STUDIO, LIVE, LIGHT, HEAVY, … 808+909 | Drum kit used for playback.                       |
+| F   | BEAT       | 2/4 – 7/4, 5/8 – 15/8                | Time signature for rhythm.                        |
+| G   | FILL       | **OFF**, ON                      | Inserts fill‑ins during rhythm playback.         |
+| H   | INTRO REC  | **OFF**, ON                      | Adds an intro before recording when ON.           |
+| I   | INTRO PLAY | **OFF**, ON                      | Adds an intro before playback when ON.            |
+| J   | ENDING     | **OFF**, ON                      | Adds an ending when rhythm stops.                 |
+| K   | STOP TRIG  | OFF, LOOP STOP, REC END                | Timing for rhythm stop.                           |
+| L   | START TRIG | LOOP START, REC END, BEFORE LOOP       | Timing for rhythm start relative to loop actions. |
+| M   | unknown    |                                        |                                                   |
 
 ### NAME
 
