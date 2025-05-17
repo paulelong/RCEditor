@@ -156,9 +156,7 @@ namespace RCEditor.Models
             ModeFlag = 0;
             ModeValue = 2; // Default value from example file
         }
-    }
-
-    public class MemoryPatch
+    }    public class MemoryPatch
     {
         public int Id { get; set; } // The memory patch ID, typically 0-based index
         public string Name { get; set; }           // max 12 chars
@@ -173,7 +171,12 @@ namespace RCEditor.Models
         public ControlAssignments Controls { get; set; }
         public List<AssignSlot> Assigns { get; set; }
         public RecSettings Rec { get; set; }
-        public PlaySettings Play { get; set; }        public MemoryPatch()
+        public PlaySettings Play { get; set; }
+        
+        // New RC0 Control Settings
+        public ControlSettings ControlSettings { get; set; }
+        
+        public MemoryPatch()
         {
             Id = 0; // Default to 0 for new patches
             Name = "NEW PATCH";
@@ -194,6 +197,9 @@ namespace RCEditor.Models
             Assigns = new List<AssignSlot>();
             Rec = new RecSettings();
             Play = new PlaySettings();
+            
+            // Initialize new RC0 Control Settings
+            ControlSettings = new ControlSettings();
         }
     }
 }

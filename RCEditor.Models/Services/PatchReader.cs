@@ -1,5 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Threading.Tasks;
 using RCEditor.Models;
 
 namespace RCEditor.Models.Services
@@ -166,14 +168,17 @@ namespace RCEditor.Models.Services
                 string ifxContent = ifxMatch.Groups[1].Value;
                 ProcessInputFXSection(patch, ifxContent);
             }
-            
-            // Process the <tfx> section for track effects
+              // Process the <tfx> section for track effects
             Match tfxMatch = Regex.Match(content, @"<tfx id=""[^""]*"">(.*?)</tfx>", RegexOptions.Singleline);
             if (tfxMatch.Success)
             {
                 string tfxContent = tfxMatch.Groups[1].Value;
                 ProcessTrackFXSection(patch, tfxContent);
             }
+            
+            // Process the control settings from the content
+            // This section extracts and processes all control settings (ICTL, ECTL, etc.)
+            patch.ControlSettings = ControlSettingsParser.ParseControlSettings(content);
             
             return patch;
         }
