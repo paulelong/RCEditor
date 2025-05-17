@@ -367,8 +367,7 @@ namespace RCEditor.Models.Services
             
             // Add any other rec parameters as needed
         }
-        
-        private void ProcessTrackGroup(MemoryPatch patch, string groupTag, Dictionary<string, int> parameters)
+          private void ProcessTrackGroup(MemoryPatch patch, string groupTag, Dictionary<string, int> parameters)
         {
             // Extract track number from the tag (e.g., "TRACK1" -> 1)
             int trackNumber = int.Parse(groupTag.Replace("TRACK", ""));
@@ -395,15 +394,21 @@ namespace RCEditor.Models.Services
             // H -> FX Enabled
             // I -> Play Mode
             // J -> Measure Count
-            // K -> Loop Sync Switch
-            // L -> Loop Sync Mode
+            // K -> Unknown Parameter K
+            // L -> Loop Sync Switch
             // M -> Tempo Sync Switch
             // N -> Tempo Sync Mode
             // O -> Tempo Sync Speed
-            // P -> Bounce In
-            // Q -> Input Mic
+            // P -> Unknown Parameter P
+            // Q -> Input Mic1/Mic2
             // R -> Input Inst1
             // S -> Input Inst2
+            // T -> Input Rhythm
+            // U -> Unknown Parameter U
+            // V -> Unknown Parameter V
+            // W -> Bounce In
+            // X -> Unknown Parameter X
+            // Y -> Loop Sync Mode
             
             if (parameters.ContainsKey("A"))
             {
@@ -439,8 +444,7 @@ namespace RCEditor.Models.Services
             {
                 track.OverdubMode = (OverdubModeEnum)parameters["G"];
             }
-            
-            if (parameters.ContainsKey("H"))
+              if (parameters.ContainsKey("H"))
             {
                 track.FXEnabled = parameters["H"] == 1;
             }
@@ -455,14 +459,15 @@ namespace RCEditor.Models.Services
                 track.MeasureCount = parameters["J"];
             }
             
+            // K is an unknown parameter
             if (parameters.ContainsKey("K"))
             {
-                track.LoopSyncSw = parameters["K"] == 1;
+                track.UnknownK = parameters["K"];
             }
             
             if (parameters.ContainsKey("L"))
             {
-                track.LoopSyncMode = (LoopSyncModeEnum)parameters["L"];
+                track.LoopSyncSw = parameters["L"] == 1;
             }
             
             if (parameters.ContainsKey("M"))
@@ -482,27 +487,85 @@ namespace RCEditor.Models.Services
             
             if (parameters.ContainsKey("P"))
             {
-                track.BounceIn = parameters["P"] == 1;
-            }
-              // Input routing parameters
-            if (parameters.ContainsKey("Q") && parameters["Q"] == 1)
-            {
-                track.InputRouting.MicIn = InputRouteEnum.Input1;
+                // In the updated documentation, P is described as unknown
+                track.UnknownP = parameters["P"];
             }
             
-            if (parameters.ContainsKey("R") && parameters["R"] == 1)
+            // Input routing parameters
+            if (parameters.ContainsKey("Q"))
             {
-                track.InputRouting.Inst1 = InputRouteEnum.Input2;
+                // Q represents the input routing bit mask in updated docs
+                if ((parameters["Q"] & 0x01) != 0)
+                {
+                    track.InputRouting.MicIn = InputRouteEnum.Input1;
+                }
             }
             
-            if (parameters.ContainsKey("S") && parameters["S"] == 1)
+            // R is an unknown parameter in the updated docs
+            if (parameters.ContainsKey("R"))
             {
-                track.InputRouting.Inst2 = InputRouteEnum.Input3;
+                track.UnknownR = parameters["R"];
             }
             
-            if (parameters.ContainsKey("T") && parameters["T"] == 1)
+            // S is MEASUREB in the updated docs
+            if (parameters.ContainsKey("S"))
             {
-                track.InputRouting.Rhythm = InputRouteEnum.Rhythm;
+                track.MeasureCountB = parameters["S"];
+            }
+            
+            // T is an unknown parameter
+            if (parameters.ContainsKey("T"))
+            {
+                track.UnknownT = parameters["T"];
+            }
+            
+            // U is an unknown parameter
+            if (parameters.ContainsKey("U"))
+            {
+                track.UnknownU = parameters["U"];
+            }
+            
+            // V is an unknown parameter
+            if (parameters.ContainsKey("V"))
+            {
+                track.UnknownV = parameters["V"];
+            }
+            
+            // W is BOUNCE IN
+            if (parameters.ContainsKey("W"))
+            {
+                track.BounceIn = parameters["W"] == 1;
+            }
+            
+            // X is an unknown parameter
+            if (parameters.ContainsKey("X"))
+            {
+                track.UnknownX = parameters["X"];
+            }
+            
+            // Y is LOOP SYNC MODE
+            if (parameters.ContainsKey("Y"))
+            {
+                track.LoopSyncMode = (LoopSyncModeEnum)parameters["Y"];
+            }
+            
+            // Handle input routing bit values (Tag Q in the document)
+            if (parameters.ContainsKey("Q"))
+            {
+                int inputMask = parameters["Q"];
+                
+                // Check each bit position for the inputs
+                // Bit 0: MIC1/MIC2
+                track.InputRouting.MicIn = ((inputMask & 0x01) != 0) ? InputRouteEnum.Input1 : InputRouteEnum.None;
+                
+                // Bit 1: INST1
+                track.InputRouting.Inst1 = ((inputMask & 0x02) != 0) ? InputRouteEnum.Input2 : InputRouteEnum.None;
+                
+                // Bit 2: INST2
+                track.InputRouting.Inst2 = ((inputMask & 0x04) != 0) ? InputRouteEnum.Input3 : InputRouteEnum.None;
+                
+                // Bit 3: RHYTHM
+                track.InputRouting.Rhythm = ((inputMask & 0x08) != 0) ? InputRouteEnum.Rhythm : InputRouteEnum.None;
             }
         }
         
