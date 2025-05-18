@@ -929,13 +929,6 @@ namespace RCEditor.Models.Services
             {
                 slot.Enabled = parameters["A"] == 1;
             }
-            
-            // B parameter is often mode or other setting
-            if (parameters.ContainsKey("B"))
-            {
-                slot.Parameters["SlotMode"] = parameters["B"];
-                effectSettings.Parameters["SlotMode"] = parameters["B"];
-            }
         }
         
         // Process an effect tag (e.g., AA_CHORUS, AA_REVERB, etc.)
