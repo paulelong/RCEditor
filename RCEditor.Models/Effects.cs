@@ -34,13 +34,33 @@ namespace RCEditor.Models
         
         public int EffectType { get; set; }
         public string EffectName { get; set; }
-        
-        // Get the current effect's settings
+          // Get the current effect's settings
         public EffectSettings GetCurrentEffectSettings()
         {
             if (AllEffectSettings.ContainsKey(EffectType))
             {
-                return AllEffectSettings[EffectType];
+                // Get existing settings
+                var existingSettings = AllEffectSettings[EffectType];
+                
+                // Make sure any new parameters from the current state are merged into the settings
+                bool parametersUpdated = false;
+                foreach (var param in this.Parameters)
+                {
+                    if (!existingSettings.Parameters.ContainsKey(param.Key))
+                    {
+                        existingSettings.Parameters[param.Key] = param.Value;
+                        parametersUpdated = true;
+                    }
+                }
+                
+                // If any parameters were added, update the effect name if needed
+                if (parametersUpdated && !string.IsNullOrEmpty(this.EffectName) && 
+                    existingSettings.EffectName != this.EffectName)
+                {
+                    existingSettings.EffectName = this.EffectName;
+                }
+                
+                return existingSettings;
             }
             
             // If no settings exist for the current effect type, create new settings

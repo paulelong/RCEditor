@@ -1054,47 +1054,14 @@ namespace RCEditor.Models.Services
                 default: return EffectSlot.BankType.None;
             }
         }
-        
-        private string GetEffectTypeFromId(int effectTypeId)
+          private string GetEffectTypeFromId(int effectTypeId)
         {
-            // This would map numeric effect IDs to their string names
-            // Would need to be adapted to your specific effect mapping
-            // Example:
-            switch(effectTypeId)
-            {
-                case 0: return "THRU";
-                case 1: return "DISTORTION";
-                case 2: return "OVERDRIVE";
-                case 3: return "FUZZ";
-                case 4: return "CHORUS";
-                case 5: return "FLANGER";
-                case 6: return "PHASER";
-                case 7: return "DELAY";
-                case 8: return "REVERB";
-                // Add more mappings as needed
-                default: return $"EFFECT_{effectTypeId}";
-            }
-        }
-        
-        private int GetEffectIdFromName(string effectName)
+            // Use the centralized mapping class
+            return EffectMappings.GetEffectNameFromId(effectTypeId);
+        }        private int GetEffectIdFromName(string effectName)
         {
-            // This would map effect names to their numeric IDs
-            // Inverse of GetEffectTypeFromId
-            // Example:
-            switch(effectName)
-            {
-                case "THRU": return 0;
-                case "DISTORTION": return 1;
-                case "OVERDRIVE": return 2;
-                case "FUZZ": return 3;
-                case "CHORUS": return 4;
-                case "FLANGER": return 5;
-                case "PHASER": return 6;
-                case "DELAY": return 7;
-                case "REVERB": return 8;
-                // Add more mappings as needed
-                default: return -1; // Unknown effect
-            }
+            // Use the centralized mapping class
+            return EffectMappings.GetEffectIdFromName(effectName);
         }
         
         private string GetControlSourceName(int sourceId)
