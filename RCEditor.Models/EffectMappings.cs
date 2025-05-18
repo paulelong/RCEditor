@@ -50,8 +50,16 @@ namespace RCEditor.Models
                 case 14: return "TRANSPOSE";
                 case 15: return "PITCH_BEND";
                 case 16: return "ROBOT";
+                case 17: return "ELECTRIC";
+                case 18: return "HARMONIST_MANUAL";
+                case 19: return "HARMONIST_AUTO";
+                case 20: return "VOCODER";
                 case 28: return "OCTAVE";
 
+                // Vocal/Oscillator effects
+                case 21: return "OSC_VOCODER";
+                case 22: return "OSC_BOT";
+                
                 // Dynamics/EQ effects
                 case 25: return "DYNAMICS";
                 case 26: return "EQ";
@@ -63,7 +71,7 @@ namespace RCEditor.Models
                 case 43: return "WARP";
                 case 44: return "TWIST";
                 case 45: return "ROLL";
-                case 46: return "ROLL_2";
+                case 46: return "ROLL_V505V2";
                 case 47: return "FREEZE";
 
                 // Delay effects
@@ -80,31 +88,15 @@ namespace RCEditor.Models
                 case 50: return "GATE_REVERB";
                 case 51: return "REVERSE_REVERB";
 
-                // Additional effects
-                case 21: return "OSC_VOC";
-                case 22: return "OSC_BOT";
-                case 52: return "BIT_CRUSHER";
-                case 53: return "DEFRETTER";
-                case 54: return "PEDAL_BEND";
-                case 55: return "RESONATOR";
-                case 56: return "SEEKER";
-                case 57: return "STEP_FILTER";
-                case 58: return "STUTTER";
-                case 59: return "TERA_ECHO";
-                case 60: return "WAH_AUTO";
-                case 61: return "WAH_MANUAL";
-
                 // Track-only effects
-                case 17: return "BEAT_SCATTER_1";
-                case 18: return "BEAT_SCATTER_2";
-                case 19: return "BEAT_SHIFT";
-                case 20: return "VINYL_FLICK";
+                case 52: return "AA_BEAT_SCATTER";
+                case 53: return "AA_BEAT_REPEAT";
+                case 54: return "BEAT_SHIFT";
+                case 55: return "VINYL_FLICK";
 
                 default: return $"EFFECT_{effectTypeId}";
             }
-        }
-
-        /// <summary>
+        }        /// <summary>
         /// Maps effect name to effect type ID using RC600Param.md specifications
         /// </summary>
         /// <param name="effectName">The effect name to get the ID for</param>
@@ -115,33 +107,24 @@ namespace RCEditor.Models
             {
                 case "THRU": return 0;
 
-                // Filter effects
+                // Filter effects (1-3)
                 case "LPF": return 1;
                 case "BPF": return 2;
                 case "HPF": return 3;
 
-                // Modulation effects
+                // Modulation effects (4-5)
                 case "PHASER": return 4;
                 case "FLANGER": return 5;
-                case "CHORUS": return 48;
-                case "TREMOLO": return 32;
-                case "AUTO_PAN": return 29;
-                case "MANUAL_PAN": return 30;
-                case "VIBRATO": return 33;
 
-                // Character effects
+                // Character effects (6-9)
                 case "SYNTH": return 6;
                 case "LOFI":
                 case "LO-FI": return 7;
                 case "RADIO": return 8;
                 case "RING_MODULATOR":
                 case "RING_MOD": return 9;
-                case "STEREO_ENHANCE": return 31;
-                case "DIST":
-                case "DISTORTION": return 24;
-                case "PREAMP": return 23;
 
-                // Pitch/Utility effects
+                // Pitch/Utility effects (10-20)
                 case "G2B": return 10;
                 case "SUSTAINER": return 11;
                 case "AUTO_RIFF": return 12;
@@ -149,25 +132,44 @@ namespace RCEditor.Models
                 case "TRANSPOSE": return 14;
                 case "PITCH_BEND": return 15;
                 case "ROBOT": return 16;
-                case "OCTAVE": return 28;
+                case "ELECTRIC": return 17;
+                case "HARMONIST_MANUAL": return 18;
+                case "HARMONIST_AUTO": return 19;
+                case "VOCODER": return 20;
 
-                // Dynamics/EQ effects
+                // Vocal/Oscillator effects (21-22)
+                case "OSC_VOCODER":
+                case "OSC_VOC_MIDI": return 21;
+                case "OSC_BOT": return 22;
+
+                // Character effects (23-24)
+                case "PREAMP": return 23;
+                case "DIST":
+                case "DISTORTION":
+                case "OVERDRIVE": // Legacy name to support old RC0 files
+                case "FUZZ": return 24;      // Legacy name to support old RC0 files
+
+                // Dynamics/EQ effects (25-27)
                 case "DYNAMICS": return 25;
                 case "EQ":
                 case "4BAND_EQ": return 26;
                 case "ISOLATOR": return 27;
 
-                // Sequence/DJ effects
+                // Pitch/Utility continued (28)
+                case "OCTAVE": return 28;
+
+                // Modulation effects (29-33)
+                case "AUTO_PAN": return 29;
+                case "MANUAL_PAN": return 30;
+                case "STEREO_ENHANCE": return 31;
+                case "TREMOLO": return 32;
+                case "VIBRATO": return 33;
+
+                // Sequence/DJ effects (34-35)
                 case "PATTERN_SLICER": return 34;
                 case "STEP_SLICER": return 35;
-                case "WARP": return 43;
-                case "TWIST": return 44;
-                case "ROLL":
-                case "ROLL_1": return 45;
-                case "ROLL_2": return 46;
-                case "FREEZE": return 47;
 
-                // Delay effects
+                // Delay effects (36-42)
                 case "DELAY": return 36;
                 case "PANNING_DELAY": return 37;
                 case "REVERSE_DELAY": return 38;
@@ -178,36 +180,31 @@ namespace RCEditor.Models
                 case "TAPE_ECHO_2": return 41;
                 case "GRANULAR_DELAY": return 42;
 
-                // Reverb effects
+                // Sequence/DJ effects (43-47)
+                case "WARP": return 43;
+                case "TWIST": return 44;
+                case "ROLL":
+                case "ROLL_1": return 45;
+                case "ROLL_V505V2": return 46;
+                case "FREEZE": return 47;
+
+                // Modulation effects (48)
+                case "CHORUS": return 48;
+
+                // Reverb effects (49-51)
                 case "REVERB": return 49;
                 case "GATE_REVERB": return 50;
                 case "REVERSE_REVERB": return 51;
-
-                // Additional effects
-                case "OSC_VOC":
-                case "OSC_VOC_MIDI": return 21;
-                case "OSC_BOT": return 22;
-                case "BIT_CRUSHER": return 52;
-                case "DEFRETTER": return 53;
-                case "PEDAL_BEND": return 54;
-                case "RESONATOR": return 55;
-                case "SEEKER": return 56;
-                case "STEP_FILTER": return 57;
-                case "STUTTER": return 58;
-                case "TERA_ECHO": return 59;
-                case "WAH_AUTO": return 60;
-                case "WAH_MANUAL": return 61;
-
-                // Track-only effects
-                case "BEAT_SCATTER_1": return 17;
-                case "BEAT_SCATTER_2": return 18;
-                case "BEAT_SHIFT": return 19;
-                case "VINYL_FLICK": return 20;
-
-                // Legacy names to support old RC0 files
-                case "OVERDRIVE": return 24; // Map to DIST
-                case "FUZZ": return 24;      // Map to DIST
-                case "ELECTRIC": return 16;  // Map to ROBOT
+                
+                // Track-only effects (52-55)
+                case "BEAT_SCATTER_1":
+                case "AA_BEAT_SCATTER": return 52; // Legacy mapping from older code
+                case "AA_BEAT_REPEAT":
+                case "DEFRETTER": return 53;   // Legacy mapping from older code
+                case "BEAT_SHIFT":
+                case "PEDAL_BEND": return 54;  // Legacy mapping from older code
+                case "VINYL_FLICK":
+                case "RESONATOR": return 55;   // Legacy mapping from older code
 
                 default:
                     // Try to parse EFFECT_X format
@@ -298,7 +295,7 @@ namespace RCEditor.Models
                 16, // Robot
                 17, // Electric
                 18, // HRM Manual
-                19, // HRM Auto (MIDI)
+                19, // HRM Auto
                 20, // Vocoder
                 21, // OSC Voc (MIDI)
                 22, // OSC Bot
@@ -335,13 +332,6 @@ namespace RCEditor.Models
                 53, // Beat Repeat (Track-only)
                 54, // Beat Shift (Track-only)
                 55, // Vinyl Flick (Track-only)
-                // Add the remaining effect IDs (56-61) to maintain backward compatibility
-                56, // Bit Crusher
-                57, // Defretter
-                58, // Pedal Bend
-                59, // Resonator
-                60, // Seeker
-                61  // Tera Echo
             };
         }
     }
