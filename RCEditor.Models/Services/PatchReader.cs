@@ -798,16 +798,16 @@ namespace RCEditor.Models.Services
         {
             return tagName.Length > 2 && tagName.Contains('_');
         }
-        
-        // Process a sequence tag (e.g., AA_LPF_SEQ)
+          // Process a sequence tag (e.g., AA_LPF_SEQ)
         private void ProcessSequenceTag(Dictionary<string, EffectBank> banks, string tagName, string tagContent)
         {
             // Format is like AA_LPF_SEQ, where AA is the bank/slot and LPF is the effect type
             string[] parts = tagName.Split('_');
-            if (parts.Length < 2)
+            if (parts.Length < 3) // Need at least 3 parts for AA_LPF_SEQ format
                 return;
                 
             string bankSlotPart = parts[0];
+            string effectName = parts[1]; // Extract the effect name (e.g., LPF)
             
             if (bankSlotPart.Length == 2 && char.IsLetter(bankSlotPart[0]) && char.IsLetter(bankSlotPart[1]))
             {
@@ -818,11 +818,14 @@ namespace RCEditor.Models.Services
                 var bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
                 int slotIndex = slotLetter - 'A' + 1;
                 
+                // Get the effect type ID from the name
+                int effectTypeId = GetEffectIdFromName(effectName);
+                
                 // Parse sequence parameters
                 var seqParams = ParseTagParameters(tagContent);
                 
                 // Skip if invalid bank or slot
-                if (bankType == EffectSlot.BankType.None || !banks.ContainsKey(bankType.ToString()) || 
+                if (effectTypeId < 0 || bankType == EffectSlot.BankType.None || !banks.ContainsKey(bankType.ToString()) || 
                     slotIndex < 1 || slotIndex > 4)
                     return;
                 
@@ -830,38 +833,57 @@ namespace RCEditor.Models.Services
                 var currentEffectBank = banks[bankType.ToString()];
                 var currentEffectSlot = currentEffectBank.Slots[slotIndex];
                 
-                // Process sequence parameters
-                ProcessSequenceParameters(currentEffectSlot, seqParams);
+                // Process sequence parameters for this specific effect
+                ProcessSequenceParameters(currentEffectSlot, effectTypeId, effectName, seqParams);
             }
         }
-        
-        // Process sequence parameters for a slot
-        private void ProcessSequenceParameters(EffectSlot slot, Dictionary<string, int> seqParams)
+          // Process sequence parameters for a specific effect
+        private void ProcessSequenceParameters(EffectSlot slot, int effectTypeId, string effectName, Dictionary<string, int> seqParams)
         {
+            // Get or create effect settings for this effect
+            EffectSettings effectSettings;
+            
+            if (slot.AllEffectSettings.TryGetValue(effectTypeId, out var settings))
+            {
+                effectSettings = settings;
+            }
+            else
+            {
+                // Create new effect settings if it doesn't exist
+                effectSettings = new EffectSettings
+                {
+                    EffectType = effectTypeId,
+                    EffectName = effectName
+                };
+                
+                // Add to the slot's all effect settings
+                slot.AllEffectSettings[effectTypeId] = effectSettings;
+            }
+            
             // Map lettered parameters to named sequence parameters
             // A -> SEQ_SW (Sequence on/off)
             if (seqParams.ContainsKey("A"))
-                slot.Parameters["SEQ_SW"] = seqParams["A"];
+                effectSettings.Parameters["SEQ_SW"] = seqParams["A"];
             
             // B -> SEQ_SYNC (Sync with loop start)
             if (seqParams.ContainsKey("B"))
-                slot.Parameters["SEQ_SYNC"] = seqParams["B"];
+                effectSettings.Parameters["SEQ_SYNC"] = seqParams["B"];
             
             // C -> SEQ_RETRIG (Retrigger when effect is turned on)
             if (seqParams.ContainsKey("C"))
-                slot.Parameters["SEQ_RETRIG"] = seqParams["C"];
+                effectSettings.Parameters["SEQ_RETRIG"] = seqParams["C"];
             
             // D -> SEQ_TARGET (Which parameter is targeted)
             if (seqParams.ContainsKey("D"))
-                slot.Parameters["SEQ_TARGET"] = seqParams["D"];
+                effectSettings.Parameters["SEQ_TARGET"] = seqParams["D"];
             
             // E -> SEQ_RATE (Cycle speed)
             if (seqParams.ContainsKey("E"))
-                slot.Parameters["SEQ_RATE"] = seqParams["E"];
+                effectSettings.Parameters["SEQ_RATE"] = seqParams["E"];
             
             // F -> SEQ_MAX (Maximum steps in sequence)
             if (seqParams.ContainsKey("F"))
-                slot.Parameters["SEQ_MAX"] = seqParams["F"];
+                effectSettings.Parameters["SEQ_MAX"] = seqParams["F"];
             
             // Step Values (VAL1-VAL16)
             // G through V -> SEQ_VAL1 through SEQ_VAL16
@@ -870,11 +892,22 @@ namespace RCEditor.Models.Services
             {
                 string letterKey = letter.ToString();
                 if (seqParams.ContainsKey(letterKey))
-                    slot.Parameters[$"SEQ_VAL{i}"] = seqParams[letterKey];
+                    effectSettings.Parameters[$"SEQ_VAL{i}"] = seqParams[letterKey];
                 
                 letter++;
                 if (letter > 'V') // Only process up to V (16 steps)
                     break;
+            }
+            
+            // If this is the currently active effect in the slot, also sync the parameters to the slot
+            if (slot.EffectType == effectTypeId)
+            {
+                // Copy sequence parameters to the slot for backward compatibility
+                // This can be removed in the future when all code is updated to read from effect settings
+                foreach (var param in effectSettings.Parameters.Where(p => p.Key.StartsWith("SEQ_")))
+                {
+                    slot.Parameters[param.Key] = param.Value;
+                }
             }
         }
         
@@ -920,14 +953,30 @@ namespace RCEditor.Models.Services
                 ProcessCommonSlotParameters(currentSlot, slotParams, effectSettings);
             }
         }
-        
-        // Process common slot parameters
+          // Process common slot parameters
         private void ProcessCommonSlotParameters(EffectSlot slot, Dictionary<string, int> parameters, EffectSettings effectSettings)
         {
             // A parameter is usually SW (on/off) state 
             if (parameters.ContainsKey("A"))
             {
                 slot.Enabled = parameters["A"] == 1;
+                effectSettings.Parameters["A"] = parameters["A"];
+            }
+            
+            // Process B, C, D parameters
+            if (parameters.ContainsKey("B"))
+            {
+                effectSettings.Parameters["B"] = parameters["B"];
+            }
+            
+            if (parameters.ContainsKey("C"))
+            {
+                effectSettings.Parameters["C"] = parameters["C"];
+            }
+            
+            if (parameters.ContainsKey("D"))
+            {
+                effectSettings.Parameters["D"] = parameters["D"];
             }
         }
         
