@@ -382,14 +382,19 @@ namespace RC600Dump.Services
                     if (track.UnknownV != 0)
                         sb.AppendLine($"  Unknown V: {track.UnknownV}");
                     if (track.UnknownX != 0)
-                        sb.AppendLine($"  Unknown X: {track.UnknownX}");
-                        // Input routing
-                    sb.AppendLine($"  Input Routing:");
+                        sb.AppendLine($"  Unknown X: {track.UnknownX}");                    // Input routing                    sb.AppendLine($"  Input Routing:");
+                    
+                    // Display all available input routing fields
                     sb.AppendLine($"    Mic 1: {(track.InputRouting?.Mic1Enabled == true ? "ON" : "OFF")}");
                     sb.AppendLine($"    Mic 2: {(track.InputRouting?.Mic2Enabled == true ? "ON" : "OFF")}");
-                    sb.AppendLine($"    Inst 1: {(track.InputRouting?.Inst1Enabled == true ? "ON" : "OFF")}");
-                    sb.AppendLine($"    Inst 2: {(track.InputRouting?.Inst2Enabled == true ? "ON" : "OFF")}");
                     sb.AppendLine($"    Rhythm: {(track.InputRouting?.RhythmEnabled == true ? "ON" : "OFF")}");
+                    
+                    // Show all stereo channel info for completeness
+                    sb.AppendLine($"    Mic 1 Left: {(track.InputRouting?.Mic1LeftEnabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Mic 1 Right: {(track.InputRouting?.Mic1RightEnabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Mic 2 Left: {(track.InputRouting?.Mic2LeftEnabled == true ? "ON" : "OFF")}");
+                    sb.AppendLine($"    Mic 2 Right: {(track.InputRouting?.Mic2RightEnabled == true ? "ON" : "OFF")}");
+                    
                 }
                 else
                 {

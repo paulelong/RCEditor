@@ -547,8 +547,7 @@ namespace RCEditor.Models.Services
             {
                 track.UnknownX = parameters["X"];
             }
-            
-            // Y is LOOP SYNC MODE
+              // Y is LOOP SYNC MODE
             if (parameters.ContainsKey("Y"))
             {
                 track.LoopSyncMode = (LoopSyncModeEnum)parameters["Y"];
@@ -557,21 +556,28 @@ namespace RCEditor.Models.Services
             {
                 int inputMask = parameters["Q"];
                 
-                // Check each bit position for the inputs
-                // Bit 0: MIC1
+                // Check each bit position for the inputs based on the provided bit mapping
+                // Bit 0: MIC1 (0x01)
                 track.InputRouting.Mic1Enabled = (inputMask & 0x01) != 0;
                 
-                // Bit 1: MIC2
+                // Bit 1: MIC2 (0x02)
                 track.InputRouting.Mic2Enabled = (inputMask & 0x02) != 0;
                 
-                // Bit 2: INST1
-                track.InputRouting.Inst1Enabled = (inputMask & 0x04) != 0;
+                // Stereo unlinked properties (mapped directly from the same Q parameter)
+                // Bit 2: Inst1Left -> Mic1Left (0x04)
+                track.InputRouting.Mic1LeftEnabled = (inputMask & 0x04) != 0;
                 
-                // Bit 3: INST2
-                track.InputRouting.Inst2Enabled = (inputMask & 0x08) != 0;
+                // Bit 3: Inst1Right -> Mic1Right (0x08)
+                track.InputRouting.Mic1RightEnabled = (inputMask & 0x08) != 0;
                 
-                // Bit 4: RHYTHM
-                track.InputRouting.RhythmEnabled = (inputMask & 0x10) != 0;
+                // Bit 4: Inst2Left -> Mic2Left (0x10)
+                track.InputRouting.Mic2LeftEnabled = (inputMask & 0x10) != 0;
+                
+                // Bit 5: Inst2Right -> Mic2Right (0x20)
+                track.InputRouting.Mic2RightEnabled = (inputMask & 0x20) != 0;
+                
+                // Bit 6: RHYTHM (0x40)
+                track.InputRouting.RhythmEnabled = (inputMask & 0x40) != 0;
             }
         }
           private void ProcessRhythmGroup(MemoryPatch patch, Dictionary<string, int> parameters)

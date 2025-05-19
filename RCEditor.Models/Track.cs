@@ -3,11 +3,25 @@ using System.Collections.Generic;
 namespace RCEditor.Models
 {    public class InputRouting
     {
-        public bool Mic1Enabled { get; set; }
-        public bool Mic2Enabled { get; set; }
-        public bool Inst1Enabled { get; set; }
-        public bool Inst2Enabled { get; set; }
+        // Mic inputs
+        public bool Mic1Enabled { get; set; } // Mic1 is Left microphone input
+        public bool Mic2Enabled { get; set; } // Mic2 is Right microphone input
+        
+        // Stereo unlinked mic options
+        public bool Mic1LeftEnabled { get; set; }
+        public bool Mic1RightEnabled { get; set; }
+        public bool Mic2LeftEnabled { get; set; }
+        public bool Mic2RightEnabled { get; set; }
+        
+        // Rhythm input
         public bool RhythmEnabled { get; set; }
+        
+        // Helper to determine if any of the stereo unlinked options are used
+        public bool HasStereoUnlinkedInputs()
+        {
+            return Mic1LeftEnabled || Mic1RightEnabled ||
+                   Mic2LeftEnabled || Mic2RightEnabled;
+        }
     }
 
     public class Track
