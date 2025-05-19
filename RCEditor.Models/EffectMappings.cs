@@ -89,8 +89,8 @@ namespace RCEditor.Models
                 case 51: return "REVERSE_REVERB";
 
                 // Track-only effects
-                case 52: return "AA_BEAT_SCATTER";
-                case 53: return "AA_BEAT_REPEAT";
+                case 52: return "BEAT_SCATTER";
+                case 53: return "BEAT_REPEAT";
                 case 54: return "BEAT_SHIFT";
                 case 55: return "VINYL_FLICK";
 
@@ -197,9 +197,8 @@ namespace RCEditor.Models
                 case "REVERSE_REVERB": return 51;
                 
                 // Track-only effects (52-55)
-                case "BEAT_SCATTER_1":
-                case "AA_BEAT_SCATTER": return 52; // Legacy mapping from older code
-                case "AA_BEAT_REPEAT":
+                case "BEAT_SCATTER": return 52; // Legacy mapping from older code
+                case "BEAT_REPEAT":
                 case "DEFRETTER": return 53;   // Legacy mapping from older code
                 case "BEAT_SHIFT":
                 case "PEDAL_BEND": return 54;  // Legacy mapping from older code

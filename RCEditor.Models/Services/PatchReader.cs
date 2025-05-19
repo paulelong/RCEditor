@@ -899,16 +899,16 @@ namespace RCEditor.Models.Services
                     break;
             }
             
-            // If this is the currently active effect in the slot, also sync the parameters to the slot
-            if (slot.EffectType == effectTypeId)
-            {
-                // Copy sequence parameters to the slot for backward compatibility
-                // This can be removed in the future when all code is updated to read from effect settings
-                foreach (var param in effectSettings.Parameters.Where(p => p.Key.StartsWith("SEQ_")))
-                {
-                    slot.Parameters[param.Key] = param.Value;
-                }
-            }
+            // // If this is the currently active effect in the slot, also sync the parameters to the slot
+            // if (slot.EffectType == effectTypeId)
+            // {
+            //     // Copy sequence parameters to the slot for backward compatibility
+            //     // This can be removed in the future when all code is updated to read from effect settings
+            //     foreach (var param in effectSettings.Parameters.Where(p => p.Key.StartsWith("SEQ_")))
+            //     {
+            //         slot.Parameters[param.Key] = param.Value;
+            //     }
+            // }
         }
         
         // Process a slot tag (e.g., AA, AB, AC, etc.)
@@ -952,31 +952,35 @@ namespace RCEditor.Models.Services
                 // Process other slot parameters
                 ProcessCommonSlotParameters(currentSlot, slotParams, effectSettings);
             }
-        }
-          // Process common slot parameters
+        }          // Process common slot parameters
         private void ProcessCommonSlotParameters(EffectSlot slot, Dictionary<string, int> parameters, EffectSettings effectSettings)
         {
             // A parameter is usually SW (on/off) state 
             if (parameters.ContainsKey("A"))
             {
                 slot.Enabled = parameters["A"] == 1;
-                effectSettings.Parameters["A"] = parameters["A"];
+                // effectSettings.Parameters["A"] = parameters["A"];
+                slot.Parameters["A"] = parameters["A"]; // Store in both places
             }
             
             // Process B, C, D parameters
             if (parameters.ContainsKey("B"))
             {
-                effectSettings.Parameters["B"] = parameters["B"];
+                // effectSettings.Parameters["B"] = parameters["B"];
+                slot.Parameters["B"] = parameters["B"]; // Store in both places
             }
             
             if (parameters.ContainsKey("C"))
             {
-                effectSettings.Parameters["C"] = parameters["C"];
+                // effectSettings.Parameters["C"] = parameters["C"];
+                // C is stored as slot.EffectType, but also keep in parameters for consistency
+                slot.Parameters["C"] = parameters["C"]; 
             }
             
             if (parameters.ContainsKey("D"))
             {
-                effectSettings.Parameters["D"] = parameters["D"];
+                // effectSettings.Parameters["D"] = parameters["D"];
+                slot.Parameters["D"] = parameters["D"]; // Store in both places
             }
         }
         
@@ -991,55 +995,57 @@ namespace RCEditor.Models.Services
             string bankSlotPart = parts[0];
             // Combine all parts after the first underscore to handle effect names with underscores like SLOW_GEAR
             string effectTypeName = string.Join("_", parts.Skip(1));
-            
+
             if (bankSlotPart.Length == 2 && char.IsLetter(bankSlotPart[0]) && char.IsLetter(bankSlotPart[1]))
             {
                 // Parse bank and slot
                 char bankLetter = bankSlotPart[0];
                 char slotLetter = bankSlotPart[1];
-                
+
                 var bankType = GetEffectBankFromSingleLetter(bankLetter.ToString());
                 int slotIndex = slotLetter - 'A' + 1;
-                
+
                 // Get the effect type ID from the name
                 int effectTypeId = GetEffectIdFromName(effectTypeName);
-                
+
                 // Skip if invalid
-                if (effectTypeId < 0 || bankType == EffectSlot.BankType.None || 
+                if (effectTypeId < 0 || bankType == EffectSlot.BankType.None ||
                     !banks.ContainsKey(bankType.ToString()) || slotIndex < 1 || slotIndex > 4)
                     return;
-                
+
                 // Get the bank and slot
                 var currentEffectBank = banks[bankType.ToString()];
                 var currentEffectSlot = currentEffectBank.Slots[slotIndex];
-                
+
                 // Get or create effect settings
-                var effectSettings = currentEffectSlot.AllEffectSettings.ContainsKey(effectTypeId) 
-                    ? currentEffectSlot.AllEffectSettings[effectTypeId] 
-                    : new EffectSettings { 
-                        EffectType = effectTypeId, 
-                        EffectName = effectTypeName 
+                var effectSettings = currentEffectSlot.AllEffectSettings.ContainsKey(effectTypeId)
+                    ? currentEffectSlot.AllEffectSettings[effectTypeId]
+                    : new EffectSettings
+                    {
+                        EffectType = effectTypeId,
+                        EffectName = effectTypeName
                     };
-                
+
                 // Process effect parameters
                 var effectParams = ParseTagParameters(tagContent);
                 foreach (var param in effectParams)
                 {
                     effectSettings.Parameters[param.Key] = param.Value;
                 }
-                
+
                 // Store or update the effect settings
                 currentEffectSlot.AllEffectSettings[effectTypeId] = effectSettings;
-                
-                // If this is the active effect for this slot, update the parameters
-                if (currentEffectSlot.EffectType == effectTypeId)
-                {
-                    // Sync parameters to the slot
-                    foreach (var param in effectSettings.Parameters)
-                    {
-                        currentEffectSlot.Parameters[param.Key] = param.Value;
-                    }
-                }
+
+                // Slot parameters are not meant for effect parameters.                  
+                // // If this is the active effect for this slot, update the parameters
+                // if (currentEffectSlot.EffectType == effectTypeId)
+                // {
+                //     // Sync parameters to the slot
+                //     foreach (var param in effectSettings.Parameters)
+                //     {
+                //         currentEffectSlot.Parameters[param.Key] = param.Value;
+                //     }
+                // }
             }
         }
         
