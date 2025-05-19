@@ -7,6 +7,11 @@ namespace RC600Dump.Services
     public class PatchFormatter
     {
         /// <summary>
+        /// Stores the count value from the RC0 file
+        /// </summary>
+        public string Count { get; set; } = "001F"; // Default value
+        
+        /// <summary>
         /// Formats a bit mask that represents the 6 tracks to a readable string
         /// </summary>
         private string FormatBounceTrackBitMask(int bitMask)
@@ -264,8 +269,9 @@ namespace RC600Dump.Services
         {
             var sb = new StringBuilder();
             
-            // Patch header
+            // Patch header with count value
             sb.AppendLine($"Patch {patchNumber:D2}{variation} - \"{patch.Name}\" (Full Dump):");
+            sb.AppendLine($"Count: {Count}");
             sb.AppendLine();
             
             // Basic patch info

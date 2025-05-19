@@ -60,11 +60,10 @@ namespace RCEditor.Models
         public ActionModeEnum ActionMode { get; set; }
         public double? RangeMin { get; set; }
         public double? RangeMax { get; set; }
-    }
-
-    public class MemoryPatch
+    }    public class MemoryPatch
     {
         public string Name { get; set; }           // max 12 chars
+        public string Count { get; set; } = "001F"; // Count value from the RC0 file
         public Track[] Tracks { get; set; } = new Track[6];
         public EffectBanks Effects { get; set; }
         public RhythmSettings Rhythm { get; set; }

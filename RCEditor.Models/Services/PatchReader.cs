@@ -1,15 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
 using System.Threading.Tasks;
 using RCEditor.Models;
 
 namespace RCEditor.Models.Services
-{
-    public class PatchReader
+{    public class PatchReader
     {
         private static readonly Regex GroupTagRegex = new Regex(@"<([A-Z0-9]+)>(.*?)</\1>", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex ParameterTagRegex = new Regex(@"<([A-Z#0-9]+)>([^<]*)</\1>", RegexOptions.Compiled);
+        private static readonly Regex CountTagRegex = new Regex(@"<count>([^<]*)</count>", RegexOptions.Compiled);
 
         // Custom recursive parser for handling nested XML-like tags
         private Dictionary<string, string> ParseTagsRecursively(string content)
@@ -110,19 +113,18 @@ namespace RCEditor.Models.Services
             }
             
             return parameters;
-        }
-
-        public async Task<MemoryPatch?> ReadPatchAsync(string filePath)
+        }        public async Task<MemoryPatch?> ReadPatchAsync(string filePath)
         {
             string content = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
             
             // Parse the patch data from the XML-like content
             var patch = new MemoryPatch();
             
-            // The file has two main sections:
+            // The file has several main sections:
             // 1. <mem> section for memory patch settings
             // 2. <ifx> section for input effects
             // 3. <tfx> section for track effects
+            // 4. <count> tag at the end with a counter value
             
             // Process the <mem> section
             Match memMatch = Regex.Match(content, @"<mem id=""([^""]*)"">(.*?)</mem>", RegexOptions.Singleline);
@@ -175,10 +177,17 @@ namespace RCEditor.Models.Services
                 string tfxContent = tfxMatch.Groups[1].Value;
                 ProcessTrackFXSection(patch, tfxContent);
             }
-            
-            // Process the control settings from the content
+              // Process the control settings from the content
             // This section extracts and processes all control settings (ICTL, ECTL, etc.)
             patch.ControlSettings = ControlSettingsParser.ParseControlSettings(content);
+            
+            // Process the count tag if present
+            Match countMatch = CountTagRegex.Match(content);
+            if (countMatch.Success)
+            {
+                string countValue = countMatch.Groups[1].Value;
+                patch.Count = countValue;
+            }
             
             return patch;
         }

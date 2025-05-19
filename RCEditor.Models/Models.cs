@@ -160,6 +160,7 @@ namespace RCEditor.Models
     {
         public int Id { get; set; } // The memory patch ID, typically 0-based index
         public string Name { get; set; }           // max 12 chars
+        public string Count { get; set; } = "001F"; // Count value from the RC0 file
         public Track[] Tracks { get; set; } = new Track[6];
         
         // Update to use new effect models
