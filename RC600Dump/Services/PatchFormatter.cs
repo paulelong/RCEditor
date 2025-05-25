@@ -1,6 +1,8 @@
 using System.Text;
 using RCEditor.Models;
 using RCEditor.Models.Services;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace RC600Dump.Services
 {
@@ -10,6 +12,384 @@ namespace RC600Dump.Services
         /// Stores the count value from the RC0 file
         /// </summary>
         public string Count { get; set; } = "001F"; // Default value
+          /// <summary>        /// <summary>
+        /// Reads and displays high-level system information from SYSTEM1.RC0 and SYSTEM2.RC0 files
+        /// Uses count-based logic to determine which system file has the highest count
+        /// </summary>
+        /// <param name="dataPath">Path to the DATA directory containing the system files</param>
+        /// <returns>Formatted string containing system information</returns>
+        public async Task<string> FormatSystemInformationAsync(string dataPath)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("=== SYSTEM INFORMATION ===");
+            sb.AppendLine();
+            
+            var systemParser = new SystemSettingsParser();
+            
+            try
+            {
+                SystemSettings? system1Settings = null;
+                SystemSettings? system2Settings = null;
+                string system1Path = Path.Combine(dataPath, "SYSTEM1.RC0");
+                string system2Path = Path.Combine(dataPath, "SYSTEM2.RC0");
+                
+                // Read both system files if they exist
+                if (File.Exists(system1Path))
+                {
+                    system1Settings = await systemParser.ReadSystemFileAsync(system1Path);
+                }
+                
+                if (File.Exists(system2Path))
+                {
+                    system2Settings = await systemParser.ReadSystemFileAsync(system2Path);
+                }
+                
+                // Determine which system file has the highest count
+                SystemSettings? primarySystemSettings = null;
+                string? primarySystemFile = null;
+                  if (system1Settings != null && system2Settings != null)
+                {
+                    // Compare count values using the helper method
+                    if (IsCountHigherOrEqual(system1Settings.Count, system2Settings.Count))
+                    {
+                        primarySystemSettings = system1Settings;
+                        primarySystemFile = "SYSTEM1.RC0";
+                        this.Count = system1Settings.Count ?? "001F"; // Update the formatter's count property
+                    }
+                    else
+                    {
+                        primarySystemSettings = system2Settings;
+                        primarySystemFile = "SYSTEM2.RC0";
+                        this.Count = system2Settings.Count ?? "001F"; // Update the formatter's count property
+                    }
+                    
+                    sb.AppendLine($"Primary System File: {primarySystemFile} (Count: {primarySystemSettings.Count ?? "001F"})");
+                    sb.AppendLine($"Secondary System File: {(primarySystemFile == "SYSTEM1.RC0" ? "SYSTEM2.RC0" : "SYSTEM1.RC0")} (Count: {(primarySystemFile == "SYSTEM1.RC0" ? system2Settings.Count ?? "001F" : system1Settings.Count ?? "001F")})");
+                    sb.AppendLine();
+                }
+                else if (system1Settings != null)
+                {
+                    primarySystemSettings = system1Settings;
+                    primarySystemFile = "SYSTEM1.RC0";
+                    this.Count = system1Settings.Count ?? "001F";
+                    sb.AppendLine($"Using: {primarySystemFile} (Count: {primarySystemSettings.Count ?? "001F"})");
+                    sb.AppendLine("SYSTEM2.RC0: File not found");
+                    sb.AppendLine();
+                }
+                else if (system2Settings != null)
+                {
+                    primarySystemSettings = system2Settings;
+                    primarySystemFile = "SYSTEM2.RC0";
+                    this.Count = system2Settings.Count ?? "001F";
+                    sb.AppendLine("SYSTEM1.RC0: File not found");
+                    sb.AppendLine($"Using: {primarySystemFile} (Count: {primarySystemSettings.Count ?? "001F"})");
+                    sb.AppendLine();
+                }
+                else
+                {
+                    sb.AppendLine("SYSTEM1.RC0: File not found");
+                    sb.AppendLine("SYSTEM2.RC0: File not found");
+                    sb.AppendLine();
+                }
+                
+                // Display detailed information for the primary system file
+                if (primarySystemSettings != null)
+                {
+                    sb.AppendLine($"=== {primarySystemFile} SETTINGS (Primary) ===");
+                    FormatSystemSettingsInfo(sb, primarySystemSettings);
+                    sb.AppendLine();
+                }
+                
+                // Show count comparison summary
+                if (system1Settings != null && system2Settings != null)
+                {
+                    sb.AppendLine("=== COUNT COMPARISON ===");
+                    sb.AppendLine($"SYSTEM1.RC0 Count: {system1Settings.Count ?? "001F"}");
+                    sb.AppendLine($"SYSTEM2.RC0 Count: {system2Settings.Count ?? "001F"}");
+                    sb.AppendLine($"Selected: {primarySystemFile} (highest count)");
+                    sb.AppendLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"Error reading system files: {ex.Message}");
+                sb.AppendLine();
+            }
+            
+            sb.AppendLine("=== END SYSTEM INFORMATION ===");
+            sb.AppendLine();
+            return sb.ToString();
+        }
+          /// <summary>
+        /// Formats system settings information into a readable string
+        /// </summary>
+        /// <param name="sb">StringBuilder to append the information to</param>
+        /// <param name="settings">The system settings to format</param>
+        private void FormatSystemSettingsInfo(StringBuilder sb, SystemSettings settings)
+        {
+            // SETUP section
+            if (settings.Setup != null)
+            {
+                sb.AppendLine("  SETUP:");
+                sb.AppendLine($"    Contrast: {settings.Setup.Contrast}");
+                sb.AppendLine($"    Display Mode: {settings.Setup.DisplayMode}");
+                sb.AppendLine($"    Loop Indicators: {settings.Setup.LoopIndicators}");
+                sb.AppendLine($"    Auto Off: {(settings.Setup.AutoOff ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Memory Range: {settings.Setup.MemoryExtentMin:D2}-{settings.Setup.MemoryExtentMax:D2}");
+                if (settings.Setup.KnobFunc?.Length > 0)
+                {
+                    sb.AppendLine($"    Knob Functions: {string.Join(", ", settings.Setup.KnobFunc.Where(k => !string.IsNullOrEmpty(k)))}");
+                }
+                sb.AppendLine();
+            }
+            
+            // USB section
+            if (settings.Usb != null)
+            {
+                sb.AppendLine("  USB:");
+                sb.AppendLine($"    Storage: {(settings.Usb.Storage ? "Connected" : "Off")}");
+                sb.AppendLine($"    Audio Mode: {settings.Usb.AudioMode}");
+                sb.AppendLine($"    Routing: {settings.Usb.Routing}");
+                sb.AppendLine($"    Input Level: {settings.Usb.InputLevel}");
+                sb.AppendLine($"    Output Level: {settings.Usb.OutputLevel}");
+                sb.AppendLine();
+            }
+            
+            // MIDI section
+            if (settings.Midi != null)
+            {
+                sb.AppendLine("  MIDI:");
+                sb.AppendLine($"    RX Ch Control: {settings.Midi.RxChCtl}");
+                sb.AppendLine($"    RX Ch Rhythm: {settings.Midi.RxChRhythm}");
+                sb.AppendLine($"    RX Ch Voice: {settings.Midi.RxChVoice}");
+                sb.AppendLine($"    TX Channel: {settings.Midi.TxCh}");
+                sb.AppendLine($"    Sync Clock: {settings.Midi.SyncClock}");
+                sb.AppendLine($"    Clock Out: {(settings.Midi.ClockOut ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Start Sync: {settings.Midi.StartSync}");
+                sb.AppendLine($"    PC Out: {(settings.Midi.PcOut ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Thru: {settings.Midi.Thru}");
+                sb.AppendLine();
+            }
+            
+            // Input section
+            if (settings.Input?.Setup != null)
+            {
+                sb.AppendLine("  INPUT:");
+                sb.AppendLine($"    Phantom Mic1: {(settings.Input.Setup.PhantomMic1 ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Phantom Mic2: {(settings.Input.Setup.PhantomMic2 ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Inst1 Gain: {settings.Input.Setup.Inst1Gain}");
+                sb.AppendLine($"    Inst2 Gain: {settings.Input.Setup.Inst2Gain}");
+                sb.AppendLine($"    Stereo Link Mic: {(settings.Input.Setup.StereoLinkMic ? "Enabled" : "Disabled")}");
+                sb.AppendLine();
+            }
+            
+            // Output section
+            if (settings.Output?.Setup != null)
+            {
+                sb.AppendLine("  OUTPUT:");
+                sb.AppendLine($"    Output Knob: {settings.Output.Setup.OutputKnob}");
+                sb.AppendLine($"    Stereo Link Main: {(settings.Output.Setup.StereoLinkMain ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Stereo Link Sub1: {(settings.Output.Setup.StereoLinkSub1 ? "Enabled" : "Disabled")}");
+                sb.AppendLine($"    Stereo Link Sub2: {(settings.Output.Setup.StereoLinkSub2 ? "Enabled" : "Disabled")}");
+                sb.AppendLine();
+            }
+            
+            // Mixer section
+            if (settings.Mixer != null)
+            {
+                sb.AppendLine("  MIXER:");
+                sb.AppendLine($"    Mic1 In: {settings.Mixer.Mic1In}");
+                sb.AppendLine($"    Mic2 In: {settings.Mixer.Mic2In}");
+                sb.AppendLine($"    Main L Out: {settings.Mixer.MainLOut}");
+                sb.AppendLine($"    Main R Out: {settings.Mixer.MainROut}");
+                sb.AppendLine($"    Rhythm Out: {settings.Mixer.RhythmOut}");
+                sb.AppendLine($"    Master Out: {settings.Mixer.MasterOut}");
+                sb.AppendLine();
+            }
+            
+            // Show parameter count if available
+            if (!string.IsNullOrEmpty(settings.Count))
+            {
+                sb.AppendLine($"  Parameter Count: {settings.Count}");
+                sb.AppendLine();
+            }        }
+        
+        /// <summary>
+        /// Formats a detailed view of a patch including system information
+        /// </summary>
+        public async Task<string> FormatPatchDetailsAsync(int patchNumber, char variation, MemoryPatch patch, string dataPath)
+        {
+            var sb = new StringBuilder();
+            
+            // Include system information first
+            if (!string.IsNullOrEmpty(dataPath))
+            {
+                string systemInfo = await FormatSystemInformationAsync(dataPath);
+                sb.Append(systemInfo);
+            }
+            
+            // Then include the regular patch details
+            string patchDetails = FormatPatchDetails(patchNumber, variation, patch);
+            sb.Append(patchDetails);
+            
+            return sb.ToString();
+        }
+        
+        /// <summary>
+        /// Reads a system RC0 file and extracts high-level information
+        /// </summary>
+        /// <param name="filePath">Path to the system RC0 file</param>
+        /// <returns>Dictionary containing parsed system information</returns>
+        private Dictionary<string, object> ReadSystemFile(string filePath)
+        {
+            var systemInfo = new Dictionary<string, object>();
+            
+            try
+            {
+                string content = File.ReadAllText(filePath);
+                
+                // Extract count value and update the Count property
+                var countMatch = Regex.Match(content, @"<count>([^<]*)</count>");
+                if (countMatch.Success)
+                {
+                    Count = countMatch.Groups[1].Value;
+                    systemInfo["Count"] = Count;
+                }
+                
+                // Extract main sections
+                systemInfo["Setup"] = ExtractSystemSection(content, "SETUP");
+                systemInfo["Color"] = ExtractSystemSection(content, "COLOR");
+                systemInfo["USB"] = ExtractSystemSection(content, "USB");
+                systemInfo["MIDI"] = ExtractSystemSection(content, "MIDI");
+                systemInfo["Input_Controls"] = new Dictionary<string, object>
+                {
+                    ["ICTL1"] = ExtractSystemSection(content, "ICTL1"),
+                    ["ICTL2"] = ExtractSystemSection(content, "ICTL2"),
+                    ["ICTL3"] = ExtractSystemSection(content, "ICTL3")
+                };
+                systemInfo["External_Controls"] = ExtractSystemSection(content, "ECTL");
+                systemInfo["Preferences"] = ExtractSystemSection(content, "PREF");
+                systemInfo["Input_Settings"] = ExtractSystemSection(content, "INPUT");
+                systemInfo["Output_Settings"] = ExtractSystemSection(content, "OUTPUT");
+                systemInfo["Routing"] = ExtractSystemSection(content, "ROUTING");
+                systemInfo["Mixer"] = ExtractSystemSection(content, "MIXER");
+                systemInfo["EQ"] = ExtractSystemSection(content, "EQ");
+            }
+            catch (Exception ex)
+            {
+                systemInfo["Error"] = ex.Message;
+            }
+            
+            return systemInfo;
+        }
+        
+        /// <summary>
+        /// Extracts parameters from a specific XML section
+        /// </summary>
+        /// <param name="content">The full XML content</param>
+        /// <param name="sectionName">Name of the section to extract</param>
+        /// <returns>Dictionary containing the section parameters</returns>
+        private Dictionary<string, int> ExtractSystemSection(string content, string sectionName)
+        {
+            var parameters = new Dictionary<string, int>();
+            
+            var sectionPattern = $@"<{sectionName}>(.*?)</{sectionName}>";
+            var sectionMatch = Regex.Match(content, sectionPattern, RegexOptions.Singleline);
+            
+            if (sectionMatch.Success)
+            {
+                string sectionContent = sectionMatch.Groups[1].Value;
+                var paramPattern = @"<([A-Z])>([0-9]+)</[A-Z]>";
+                var paramMatches = Regex.Matches(sectionContent, paramPattern);
+                
+                foreach (Match match in paramMatches)
+                {
+                    string paramName = match.Groups[1].Value;
+                    if (int.TryParse(match.Groups[2].Value, out int paramValue))
+                    {
+                        parameters[paramName] = paramValue;
+                    }
+                }
+            }
+            
+            return parameters;
+        }
+        
+        /// <summary>
+        /// Formats system file information for display
+        /// </summary>
+        /// <param name="sb">StringBuilder to append formatted information to</param>
+        /// <param name="systemInfo">Dictionary containing system information</param>
+        private void FormatSystemFileInfo(StringBuilder sb, Dictionary<string, object> systemInfo)
+        {
+            if (systemInfo.ContainsKey("Error"))
+            {
+                sb.AppendLine($"  Error: {systemInfo["Error"]}");
+                return;
+            }
+            
+            // Display count
+            if (systemInfo.ContainsKey("Count"))
+            {
+                sb.AppendLine($"  Count: {systemInfo["Count"]}");
+            }
+            
+            // Display high-level setup information
+            if (systemInfo["Setup"] is Dictionary<string, int> setup && setup.Count > 0)
+            {
+                sb.AppendLine("  Setup Configuration:");
+                sb.AppendLine($"    Global Settings: {setup.Count} parameters configured");
+                if (setup.ContainsKey("A")) sb.AppendLine($"    Parameter A: {setup["A"]}");
+                if (setup.ContainsKey("B")) sb.AppendLine($"    Parameter B: {setup["B"]}");
+                if (setup.ContainsKey("C")) sb.AppendLine($"    Parameter C: {setup["C"]}");
+            }
+            
+            // Display MIDI settings
+            if (systemInfo["MIDI"] is Dictionary<string, int> midi && midi.Count > 0)
+            {
+                sb.AppendLine("  MIDI Configuration:");
+                sb.AppendLine($"    MIDI Settings: {midi.Count} parameters configured");
+                if (midi.ContainsKey("E")) sb.AppendLine($"    MIDI Channel: {midi["E"]}");
+            }
+            
+            // Display USB settings
+            if (systemInfo["USB"] is Dictionary<string, int> usb && usb.Count > 0)
+            {
+                sb.AppendLine("  USB Configuration:");
+                sb.AppendLine($"    USB Settings: {usb.Count} parameters configured");
+            }
+            
+            // Display input controls summary
+            if (systemInfo["Input_Controls"] is Dictionary<string, object> inputControls)
+            {
+                int totalInputs = 0;
+                foreach (var control in inputControls.Values)
+                {
+                    if (control is Dictionary<string, int> controlDict)
+                        totalInputs += controlDict.Count;
+                }
+                if (totalInputs > 0)
+                {
+                    sb.AppendLine($"  Input Controls: {totalInputs} total parameters across ICTL1, ICTL2, ICTL3");
+                }
+            }
+            
+            // Display mixer and routing info
+            if (systemInfo["Mixer"] is Dictionary<string, int> mixer && mixer.Count > 0)
+            {
+                sb.AppendLine($"  Mixer: {mixer.Count} parameters configured");
+            }
+            
+            if (systemInfo["Routing"] is Dictionary<string, int> routing && routing.Count > 0)
+            {
+                sb.AppendLine($"  Routing: {routing.Count} parameters configured");
+            }
+            
+            if (systemInfo["EQ"] is Dictionary<string, int> eq && eq.Count > 0)
+            {
+                sb.AppendLine($"  EQ: {eq.Count} parameters configured");
+            }
+        }
         
         /// <summary>
         /// Formats a bit mask that represents the 6 tracks to a readable string
@@ -261,8 +641,7 @@ namespace RC600Dump.Services
         {
             return $"Patch {patchNumber:D2}: Name={patch.Name}";
         }
-        
-        /// <summary>
+          /// <summary>
         /// Formats a detailed view of a patch
         /// </summary>
         public string FormatPatchDetails(int patchNumber, char variation, MemoryPatch patch)
@@ -591,6 +970,27 @@ namespace RC600Dump.Services
             sb.AppendLine($"      MODE: {bankMode}");
             sb.AppendLine($"      FX Target: {target}");
             sb.AppendLine();
+        }
+
+        /// <summary>
+        /// Compares two count values treating them as hexadecimal numbers
+        /// </summary>
+        /// <param name="count1">First count value (hex string)</param>
+        /// <param name="count2">Second count value (hex string)</param>
+        /// <returns>True if count1 is greater than or equal to count2</returns>
+        private bool IsCountHigherOrEqual(string? count1, string? count2)
+        {
+            try
+            {
+                int value1 = Convert.ToInt32(count1 ?? "001F", 16);
+                int value2 = Convert.ToInt32(count2 ?? "001F", 16);
+                return value1 >= value2;
+            }
+            catch (Exception)
+            {
+                // If conversion fails, fall back to string comparison
+                return string.Compare(count1 ?? "001F", count2 ?? "001F", StringComparison.OrdinalIgnoreCase) >= 0;
+            }
         }
     }
 }

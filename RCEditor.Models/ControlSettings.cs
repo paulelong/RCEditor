@@ -377,9 +377,7 @@ namespace RCEditor.Models
             A = 0;
             B = 1;
         }
-    }
-
-    /// <summary>
+    }    /// <summary>
     /// Main class to store all control settings
     /// </summary>
     public class ControlSettings
@@ -387,72 +385,72 @@ namespace RCEditor.Models
         /// <summary>
         /// Track controls group 1
         /// </summary>
-        public Dictionary<string, ControlParameter> TrackControls1 { get; set; }
+        public Dictionary<string, ControlParameter> TrackControls1 { get; set; } = new Dictionary<string, ControlParameter>();
 
         /// <summary>
         /// Track controls group 2
         /// </summary>
-        public Dictionary<string, ControlParameter> TrackControls2 { get; set; }
+        public Dictionary<string, ControlParameter> TrackControls2 { get; set; } = new Dictionary<string, ControlParameter>();
 
         /// <summary>
         /// Pedal controls group 1
         /// </summary>
-        public Dictionary<string, ControlParameter> PedalControls1 { get; set; }
+        public Dictionary<string, ControlParameter> PedalControls1 { get; set; } = new Dictionary<string, ControlParameter>();
 
         /// <summary>
         /// Pedal controls group 2
         /// </summary>
-        public Dictionary<string, ControlParameter> PedalControls2 { get; set; }
+        public Dictionary<string, ControlParameter> PedalControls2 { get; set; } = new Dictionary<string, ControlParameter>();
 
         /// <summary>
         /// Pedal controls group 3
         /// </summary>
-        public Dictionary<string, ControlParameter> PedalControls3 { get; set; }
+        public Dictionary<string, ControlParameter> PedalControls3 { get; set; } = new Dictionary<string, ControlParameter>();
 
         /// <summary>
         /// External controls
         /// </summary>
-        public Dictionary<string, ExtControlParameter> ExternalControls { get; set; }
+        public Dictionary<string, ExtControlParameter> ExternalControls { get; set; } = new Dictionary<string, ExtControlParameter>();
 
         /// <summary>
         /// Assignments
         /// </summary>
-        public Dictionary<int, AssignParameter> Assignments { get; set; }
+        public Dictionary<int, AssignParameter> Assignments { get; set; } = new Dictionary<int, AssignParameter>();
 
         /// <summary>
         /// Input settings
         /// </summary>
-        public InputParameter Input { get; set; }
+        public InputParameter Input { get; set; } = new InputParameter();
 
         /// <summary>
         /// Output settings
         /// </summary>
-        public OutputParameter Output { get; set; }
+        public OutputParameter Output { get; set; } = new OutputParameter();
 
         /// <summary>
         /// Routing settings
         /// </summary>
-        public RoutingParameter Routing { get; set; }
+        public RoutingParameter Routing { get; set; } = new RoutingParameter();
 
         /// <summary>
         /// Mixer settings
         /// </summary>
-        public MixerParameter Mixer { get; set; }
+        public MixerParameter Mixer { get; set; } = new MixerParameter();
 
         /// <summary>
         /// EQ settings for different channels
         /// </summary>
-        public Dictionary<string, EqParameter> EqSettings { get; set; }
+        public Dictionary<string, EqParameter> EqSettings { get; set; } = new Dictionary<string, EqParameter>();
 
         /// <summary>
         /// Master FX settings
         /// </summary>
-        public MasterFxParameter MasterFx { get; set; }
+        public MasterFxParameter MasterFx { get; set; } = new MasterFxParameter();
 
         /// <summary>
         /// Fixed value settings
         /// </summary>
-        public FixedValueParameter FixedValue { get; set; }
+        public FixedValueParameter FixedValue { get; set; } = new FixedValueParameter();
 
         /// <summary>
         /// Default constructor
