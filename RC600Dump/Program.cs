@@ -113,15 +113,26 @@ namespace RC600Dump
             {
                 Console.Error.WriteLine($"Error: Patch data for patch {patchNumber}{patchVariationToUse} was not found in the directory.");
                 return;
-            }
-
-            try
+            }            try
             {
                 var patch = await patchReader.ReadPatchAsync(patchFilePath);
                 if (patch != null)
                 {
                     var formatter = new PatchFormatter();
-                    Console.WriteLine(formatter.FormatPatchDetails(patchNumber, patchVariationToUse, patch));
+                    // Determine the data path for system files
+                    string? dataPath = Path.GetDirectoryName(patchFilePath);
+                    if (dataPath != null && Path.GetFileName(dataPath) != "DATA")
+                    {
+                        dataPath = Path.Combine(dataPath, "DATA");
+                    }
+                      if (dataPath != null)
+                    {
+                        Console.WriteLine(await formatter.FormatPatchDetailsAsync(patchNumber, patchVariationToUse, patch, dataPath));
+                    }
+                    else
+                    {
+                        Console.WriteLine(formatter.FormatPatchDetails(patchNumber, patchVariationToUse, patch));
+                    }
                 }
                 else
                 {
