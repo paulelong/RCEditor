@@ -4,19 +4,16 @@ using System.Xml.Linq; // Add this namespace for XDocument
 using System.Text.RegularExpressions; // Add this namespace for Regex
 
 namespace RCEditor.Services
-{
-    public class PatchService
+{    public class PatchService
     {
-        private static PatchService _instance;
+        private static PatchService? _instance;
         public static PatchService Instance => _instance ??= new PatchService();
 
-        public event EventHandler<MemoryPatch> CurrentPatchChanged;
+        public event EventHandler<RCEditor.Models.MemoryPatch>? CurrentPatchChanged;
 
-        private MemoryPatch _currentPatch;
+        private RCEditor.Models.MemoryPatch _currentPatch;        public ObservableCollection<PatchListItem> Patches { get; private set; }
 
-        public ObservableCollection<PatchListItem> Patches { get; private set; }
-
-        public MemoryPatch CurrentPatch
+        public RCEditor.Models.MemoryPatch CurrentPatch
         {
             get => _currentPatch;
             set
@@ -45,12 +42,10 @@ namespace RCEditor.Services
             }
 
             // Create a default current patch
-            _currentPatch = new MemoryPatch();
-        }
-
-        public void CreateNewPatch()
+            _currentPatch = new RCEditor.Models.MemoryPatch();
+        }        public void CreateNewPatch()
         {
-            var newPatch = new MemoryPatch();
+            var newPatch = new RCEditor.Models.MemoryPatch();
             newPatch.Name = $"NEW PATCH {Patches.Count + 1}";
 
             var newPatchItem = new PatchListItem
@@ -75,9 +70,7 @@ namespace RCEditor.Services
 
             // In a real app, we would load the actual patch data from storage
             CurrentPatch.Name = patchItem.Name;
-        }
-
-        public async Task<bool> ImportPatch(string filePath)
+        }        public async Task<bool> ImportPatch(string filePath)
         {
             try
             {
@@ -113,76 +106,16 @@ namespace RCEditor.Services
         {
             try
             {
-                // First, convert our local MemoryPatch to the Models.MemoryPatch format
-                var modelsPatch = ConvertToModelsPatch(CurrentPatch);
-                
-                // Then use the PatchExportService to write the file
+                // Use the RCEditor.Models.Services.PatchExportService directly with our models
                 var exportService = new RCEditor.Models.Services.PatchExportService();
-                return await exportService.ExportPatchAsync(modelsPatch, filePath);
+                return await exportService.ExportPatchAsync(CurrentPatch, filePath);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error exporting patch: {ex.Message}");
                 return false;
             }
-        }
-        
-        // Helper method to convert from our local MemoryPatch model to the RCEditor.Models version
-        private RCEditor.Models.MemoryPatch ConvertToModelsPatch(MemoryPatch patch)
-        {
-            var modelsPatch = new RCEditor.Models.MemoryPatch
-            {
-                Name = patch.Name
-            };
-            
-            // Convert tracks
-            for (int i = 0; i < Math.Min(patch.Tracks.Length, modelsPatch.Tracks.Length); i++)
-            {
-                var srcTrack = patch.Tracks[i];
-                var destTrack = new RCEditor.Models.Track
-                {
-                    Level = srcTrack.Level,
-                    Pan = srcTrack.Pan,
-                    Reverse = srcTrack.Reverse,
-                    OneShot = srcTrack.OneShot,
-                    FXEnabled = srcTrack.FXEnabled,
-                    MeasureCount = srcTrack.MeasureCount,
-                    BounceIn = srcTrack.BounceIn
-                    // Add other properties as needed
-                };
-                
-                modelsPatch.Tracks[i] = destTrack;
-            }
-            
-            // Set basic Rhythm settings
-            modelsPatch.Rhythm.Genre = patch.Rhythm.Genre;
-            modelsPatch.Rhythm.Pattern = patch.Rhythm.Pattern;
-            modelsPatch.Rhythm.Variation = patch.Rhythm.Variation;
-              // Set Play settings
-            modelsPatch.Play.SingleTrackChange = (RCEditor.Models.SingleTrackChangeEnum)(int)patch.Play.SingleTrackChange;
-            modelsPatch.Play.FadeTimeIn = patch.Play.FadeTimeIn;
-            modelsPatch.Play.FadeTimeOut = patch.Play.FadeTimeOut;
-            
-            // Copy AllStartTracks and AllStopTracks arrays
-            for (int i = 0; i < Math.Min(patch.Play.AllStartTracks.Length, modelsPatch.Play.AllStartTracks.Length); i++)
-            {
-                modelsPatch.Play.AllStartTracks[i] = patch.Play.AllStartTracks[i];
-                modelsPatch.Play.AllStopTracks[i] = patch.Play.AllStopTracks[i];
-            }
-            
-            // Set Rec settings
-            modelsPatch.Rec.RecAction = (RCEditor.Models.RecActionEnum)(int)patch.Rec.RecAction;
-            modelsPatch.Rec.QuantizeEnabled = patch.Rec.QuantizeEnabled;
-            modelsPatch.Rec.AutoRecEnabled = patch.Rec.AutoRecEnabled;
-            modelsPatch.Rec.AutoRecSensitivity = patch.Rec.AutoRecSensitivity;
-            modelsPatch.Rec.BounceEnabled = patch.Rec.BounceEnabled;
-            modelsPatch.Rec.BounceTrack = patch.Rec.BounceTrack;
-            
-            // Add more conversions as needed for a complete patch
-            
-            return modelsPatch;
-        }
-
+        }        
         public async Task<bool> ImportPatchDirectory(string directoryPath)
         {
             try
@@ -209,10 +142,8 @@ namespace RCEditor.Services
                 Console.WriteLine($"Error importing patches: {ex.Message}");
                 return false;
             }
-        }
-
-        // Updated method: if the file is a .rc0 file, use our custom loader.
-        private async Task<MemoryPatch> ParseRc0FileAsync(string filePath)
+        }        // Updated method: if the file is a .rc0 file, use our custom loader.
+        private async Task<RCEditor.Models.MemoryPatch?> ParseRc0FileAsync(string filePath)
         {
             if (Path.GetExtension(filePath).Equals(".rc0", StringComparison.OrdinalIgnoreCase))
             {
@@ -226,7 +157,7 @@ namespace RCEditor.Services
                 var memElement = doc.Descendants("mem").FirstOrDefault();
                 if (memElement == null) return null;
 
-                var patch = new MemoryPatch();
+                var patch = new RCEditor.Models.MemoryPatch();
                 var nameElement = memElement.Element("NAME");
                 if (nameElement != null)
                 {
@@ -236,13 +167,12 @@ namespace RCEditor.Services
                     patch.Name = new string(nameChars).TrimEnd();
                 }
 
-                patch.Tracks = new Track[6];
                 for (int i = 1; i <= 6; i++)
                 {
                     var trackElement = memElement.Element($"TRACK{i}");
                     if (trackElement != null)
                     {
-                        patch.Tracks[i - 1] = new Track
+                        patch.Tracks[i - 1] = new RCEditor.Models.Track
                         {
                             Level = int.Parse(trackElement.Element("C")?.Value ?? "0"),
                             Pan = int.Parse(trackElement.Element("D")?.Value ?? "0")
@@ -257,10 +187,8 @@ namespace RCEditor.Services
                 Console.WriteLine($"Error parsing RC0 file: {ex.Message}");
                 return null;
             }
-        }
-
-        // Updated custom loader: wrap the content so that only one root exists.
-        public async Task<MemoryPatch> LoadCustomRc0FileAsync(string filePath)
+        }        // Updated custom loader: wrap the content so that only one root exists.
+        public Task<RCEditor.Models.MemoryPatch?> LoadCustomRc0FileAsync(string filePath)
         {
             try
             {
@@ -285,9 +213,9 @@ namespace RCEditor.Services
                 var doc = XDocument.Parse(content);
                 // Locate the <mem> element anywhere in the document.
                 var memElement = doc.Descendants("mem").FirstOrDefault();
-                if (memElement == null) return null;
+                if (memElement == null) return Task.FromResult<RCEditor.Models.MemoryPatch?>(null);
 
-                var patch = new MemoryPatch();
+                var patch = new RCEditor.Models.MemoryPatch();
                 var nameElement = memElement.Element("NAME");
                 if (nameElement != null)
                 {
@@ -297,7 +225,6 @@ namespace RCEditor.Services
                     patch.Name = new string(nameChars).TrimEnd();
                 }
 
-                patch.Tracks = new Track[6];
                 for (int i = 1; i <= 6; i++)
                 {
                     var trackElement = memElement.Element($"TRACK{i}");
@@ -305,7 +232,7 @@ namespace RCEditor.Services
                     {
                         int level = int.Parse(trackElement.Element("C")?.Value ?? "0");
                         int pan = int.Parse(trackElement.Element("D")?.Value ?? "0");
-                        patch.Tracks[i - 1] = new Track
+                        patch.Tracks[i - 1] = new RCEditor.Models.Track
                         {
                             Level = level,
                             Pan = pan
@@ -313,12 +240,12 @@ namespace RCEditor.Services
                     }
                 }
 
-                return patch;
+                return Task.FromResult<RCEditor.Models.MemoryPatch?>(patch);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error parsing custom RC0 file: {ex.Message}");
-                return null;
+                return Task.FromResult<RCEditor.Models.MemoryPatch?>(null);
             }
         }
 
@@ -330,23 +257,19 @@ namespace RCEditor.Services
             content = Regex.Replace(content, @"</(\d+)>", m => $"</Element{m.Groups[1].Value}>");
             content = Regex.Replace(content, @"</(\#)>", "</ElementHash>");
             return content;
-        }
-
-        private double ExtractTempo(byte[] data)
+        }        private double ExtractTempo(byte[] data)
         {
-            const int tempoOffset = 100;
+            // TODO: Implement tempo extraction from byte data
             return 120.0;
         }
 
-        private PlayModeEnum ExtractPlayMode(byte[] data)
+        private RCEditor.Models.PlayModeEnum ExtractPlayMode(byte[] data)
         {
-            const int playModeOffset = 120;
-            return PlayModeEnum.Multi;
-        }
-
-        private SingleModeSwitchEnum ExtractSingleModeSwitch(byte[] data)
+            // TODO: Implement play mode extraction from byte data
+            return RCEditor.Models.PlayModeEnum.Multi;
+        }        private RCEditor.Models.SingleModeSwitchEnum ExtractSingleModeSwitch(byte[] data)
         {
-            return SingleModeSwitchEnum.Loop;
+            return RCEditor.Models.SingleModeSwitchEnum.Loop;
         }
 
         private bool ExtractLoopSync(byte[] data)
@@ -354,30 +277,30 @@ namespace RCEditor.Services
             return false;
         }
 
-        private Track ExtractTrackData(byte[] data, int trackIndex)
+        private RCEditor.Models.Track ExtractTrackData(byte[] data, int trackIndex)
         {
-            var track = new Track();
+            var track = new RCEditor.Models.Track();
             return track;
         }
 
-        private EffectBanks ExtractEffectsData(byte[] data)
+        private RCEditor.Models.EffectBanks ExtractEffectsData(byte[] data)
         {
-            return new EffectBanks();
+            return new RCEditor.Models.EffectBanks();
         }
 
-        private RhythmSettings ExtractRhythmSettings(byte[] data)
+        private RCEditor.Models.RhythmSettings ExtractRhythmSettings(byte[] data)
         {
-            return new RhythmSettings();
+            return new RCEditor.Models.RhythmSettings();
         }
 
-        private ControlAssignments ExtractControlAssignments(byte[] data)
+        private RCEditor.Models.ControlAssignments ExtractControlAssignments(byte[] data)
         {
-            return new ControlAssignments();
+            return new RCEditor.Models.ControlAssignments();
         }
 
-        private List<AssignSlot> ExtractAssignSlots(byte[] data)
+        private List<RCEditor.Models.AssignSlot> ExtractAssignSlots(byte[] data)
         {
-            return new List<AssignSlot>();
+            return new List<RCEditor.Models.AssignSlot>();
         }
     }
 }

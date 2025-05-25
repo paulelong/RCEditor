@@ -5,7 +5,7 @@ namespace RCEditor.Models
 {
     public class PatchListItem : INotifyPropertyChanged
     {
-        private string _name;
+        private string _name = string.Empty;
         private int _patchNumber;
         private bool _isSelected;
         private bool _isVisible = true;
@@ -48,11 +48,9 @@ namespace RCEditor.Models
                 _isVisible = value;
                 OnPropertyChanged();
             }
-        }
+        }        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

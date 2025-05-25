@@ -28,12 +28,11 @@ public partial class MainPage : ContentPage
         
         // Set the current patch from the service
         PatchDetailsPanel.BindingContext = PatchService.Instance.CurrentPatch;
-        
-        // Subscribe to patch changes
+          // Subscribe to patch changes
         PatchService.Instance.CurrentPatchChanged += OnCurrentPatchChanged;
     }
 
-    private void OnCurrentPatchChanged(object sender, MemoryPatch currentPatch)
+    private void OnCurrentPatchChanged(object? sender, RCEditor.Models.MemoryPatch currentPatch)
     {
         // Update the binding context when the current patch changes
         PatchDetailsPanel.BindingContext = currentPatch;

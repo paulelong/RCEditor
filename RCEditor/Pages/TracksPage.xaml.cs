@@ -12,19 +12,18 @@ public partial class TracksPage : ContentPage
 
         // Use the current patch from the service
         CurrentPatch = PatchService.Instance.CurrentPatch;
-        
-        // Subscribe to patch changes
+          // Subscribe to patch changes
         PatchService.Instance.CurrentPatchChanged += OnCurrentPatchChanged;
     }
 
-    private void OnCurrentPatchChanged(object sender, MemoryPatch currentPatch)
+    private void OnCurrentPatchChanged(object? sender, RCEditor.Models.MemoryPatch currentPatch)
     {
         // Update the binding context when the current patch changes
         CurrentPatch = currentPatch;
     }
 
     // Property that binds to the current patch
-    public MemoryPatch CurrentPatch { get; set; }
+    public RCEditor.Models.MemoryPatch? CurrentPatch { get; set; }
 
     private void OnTrackTabClicked(object sender, EventArgs e)
     {

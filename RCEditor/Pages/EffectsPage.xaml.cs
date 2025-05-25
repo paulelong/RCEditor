@@ -1,5 +1,6 @@
 using RCEditor.Models;
 using RCEditor.Services;
+using System.Text;
 
 namespace RCEditor.Pages;
 
@@ -17,7 +18,7 @@ public partial class EffectsPage : ContentPage
         PatchService.Instance.CurrentPatchChanged += OnCurrentPatchChanged;
     }
 
-    private void OnCurrentPatchChanged(object sender, MemoryPatch currentPatch)
+    private void OnCurrentPatchChanged(object? sender, MemoryPatch currentPatch)
     {
         // Update the binding context when the current patch changes
         CurrentPatch = currentPatch;
@@ -56,17 +57,15 @@ public partial class EffectsPage : ContentPage
         }
     }
 
-    private async void OnEditParametersClicked(object sender, EventArgs e)
+    private async void OnEditParametersClicked(object? sender, EventArgs e)
     {
         var button = sender as Button;
         if (button != null && button.BindingContext is string slotId)
         {
             // Parse the slot ID to determine which bank and slot
             char bankLetter = slotId[0];
-            int slotNumber = int.Parse(slotId[1].ToString());
-
-            // Get the corresponding effect slot
-            EffectSlot slot = null;
+            int slotNumber = int.Parse(slotId[1].ToString());            // Get the corresponding effect slot
+            EffectSlot? slot = null;
             switch (bankLetter)
             {
                 case 'A':
