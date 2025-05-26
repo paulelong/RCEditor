@@ -202,18 +202,18 @@
 	<H>1</H>
 </PLAY>
 <RHYTHM>
-	<A>19</A>
-	<B>4</B>
-	<C>0</C>
+	<A>11</A>
+	<B>5</B>
+	<C>2</C>
 	<D>0</D>
-	<E>0</E>
+	<E>6</E>
 	<F>2</F>
 	<G>1</G>
 	<H>0</H>
 	<I>0</I>
 	<J>0</J>
-	<K>0</K>
-	<L>1</L>
+	<K>2</K>
+	<L>2</L>
 	<M>0</M>
 </RHYTHM>
 <ICTL1_TRACK1_FX>
@@ -25502,4 +25502,4 @@
 </DD_VINYL_FLICK>
 </tfx>
 </database>
-<count>0004</count>
+<count>0006</count>
