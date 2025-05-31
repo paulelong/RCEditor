@@ -131,6 +131,10 @@ namespace RCEditor.Models
         public Dictionary<string, EffectBank> Banks { get; set; } = new Dictionary<string, EffectBank>();
         public EffectSlot.BankType ActiveBank { get; set; } = EffectSlot.BankType.A;  // Default to Bank A if not specified
 
+        public EffectBank BankA => Banks["A"];
+        public EffectBank BankB => Banks["B"];  
+        public EffectBank BankC => Banks["C"];
+        public EffectBank BankD => Banks["D"];
         public EffectBanks()
         {
             Banks["A"] = new EffectBank();

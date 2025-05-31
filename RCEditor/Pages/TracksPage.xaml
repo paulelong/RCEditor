@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:RCEditor.Converters"
+             xmlns:models="clr-namespace:RCEditor.Models;assembly=RCEditor.Models"
              x:Class="RCEditor.Pages.TracksPage"
+             xmlns:local="clr-namespace:RCEditor.Pages"
+             x:DataType="local:RhythmPage"
              Title="Track Settings">
 
     <ContentPage.Resources>
@@ -12,29 +15,30 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *" 
+          BindingContext="{Binding Source={x:Reference MainPage}, Path=BindingContext}">
         <Label Grid.Row="0" Text="Track Settings" FontSize="24" FontAttributes="Bold" Margin="20,10" />
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20">
                 <!-- Track selection tabs -->
-                <HorizontalStackLayout x:Name="TrackTabs" Spacing="5" Margin="0,0,0,20">
+                <HorizontalStackLayout x:Name="TrackTabs" Spacing="5" Margin="0,0,0,20" x:DataType="models:Track" >
                     <Button Text="Track 1" Clicked="OnTrackTabClicked" x:Name="Track1" 
-                            BackgroundColor="{Binding Source={x:Reference Track1Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference Track1Panel}, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Track 2" Clicked="OnTrackTabClicked" x:Name="Track2" 
-                            BackgroundColor="{Binding Source={x:Reference Track2Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference Track2Panel}, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Track 3" Clicked="OnTrackTabClicked" x:Name="Track3" 
-                            BackgroundColor="{Binding Source={x:Reference Track3Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference Track3Panel}, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Track 4" Clicked="OnTrackTabClicked" x:Name="Track4" 
-                            BackgroundColor="{Binding Source={x:Reference Track4Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference Track4Panel}, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Track 5" Clicked="OnTrackTabClicked" x:Name="Track5" 
-                            BackgroundColor="{Binding Source={x:Reference Track5Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference Track5Panel}, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Track 6" Clicked="OnTrackTabClicked" x:Name="Track6" 
-                            BackgroundColor="{Binding Source={x:Reference Track6Panel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference Track6Panel}, Converter={StaticResource BoolToColorConverter}}"/>
                 </HorizontalStackLayout>
 
                 <!-- Track 1 Panel -->
-                <VerticalStackLayout x:Name="Track1Panel" IsVisible="True" BindingContext="{Binding CurrentPatch.Tracks[0]}">
+                <VerticalStackLayout x:Name="Track1Panel" IsVisible="True" BindingContext="{Binding CurrentPatch.Tracks[0]}" x:DataType="models:Track">
                     <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
                         <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
                             <!-- Basic track settings -->
@@ -142,12 +146,12 @@
                     </Frame>
                     
                     <!-- Input Routing -->
-                    <Frame BorderColor="#CCCCCC" Padding="15">
+                    <Frame BorderColor="#CCCCCC" Padding="15" x:DataType="models:Track">
                         <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
                             <Label Grid.Row="0" Grid.Column="0" Text="Input Routing:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
                             
                             <Label Grid.Row="1" Grid.Column="0" Text="Mic In:" VerticalOptions="Center"/>
-                            <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding InputRouting.MicIn}" WidthRequest="200">
+                            <Picker Grid.Row="1" Grid.Column="1" SelectedItem="{Binding InputRouting.Mic1Enabled}" WidthRequest="200">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>None</x:String>
@@ -161,7 +165,7 @@
                             </Picker>
                             
                             <Label Grid.Row="2" Grid.Column="0" Text="Instrument 1:" VerticalOptions="Center"/>
-                            <Picker Grid.Row="2" Grid.Column="1" SelectedItem="{Binding InputRouting.Inst1}" WidthRequest="200">
+                            <Picker Grid.Row="2" Grid.Column="1" SelectedItem="{Binding InputRouting.Mic1LeftEnabled}" WidthRequest="200">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>None</x:String>
@@ -175,7 +179,7 @@
                             </Picker>
                             
                             <Label Grid.Row="3" Grid.Column="0" Text="Instrument 2:" VerticalOptions="Center"/>
-                            <Picker Grid.Row="3" Grid.Column="1" SelectedItem="{Binding InputRouting.Inst2}" WidthRequest="200">
+                            <Picker Grid.Row="3" Grid.Column="1" SelectedItem="{Binding InputRouting.Mic1RightEnabled}" WidthRequest="200">
                                 <Picker.ItemsSource>
                                     <x:Array Type="{x:Type x:String}">
                                         <x:String>None</x:String>

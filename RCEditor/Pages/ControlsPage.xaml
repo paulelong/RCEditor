@@ -2,9 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:RCEditor.Converters"
-             xmlns:models="clr-namespace:RCEditor.Models"
+             xmlns:models="clr-namespace:RCEditor.Models;assembly=RCEditor.Models"
              x:Class="RCEditor.Pages.ControlsPage"
-             Title="Controls Settings">
+             Title="Controls Settings"
+             xmlns:local="clr-namespace:RCEditor.Pages"
+             x:DataType="local:ControlsPage">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -19,7 +21,8 @@
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20">
                 <!-- Pedal Assignment Matrix -->
-                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15"
+                    >
                     <VerticalStackLayout>
                         <Label Text="Pedal Assignments" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
                         
@@ -30,7 +33,7 @@
                             <Label Grid.Column="2" Text="Mode 2" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"/>
                             <Label Grid.Column="3" Text="Mode 3" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"/>                        </Grid>                        <!-- Pedal 1 row -->
                         <Grid ColumnDefinitions="120, *, *, *" RowDefinitions="Auto" Margin="0,5,0,0"
-                              BindingContext="{Binding CurrentPatch.Controls.Pedals[1]}">
+                              BindingContext="{Binding CurrentPatch.Controls.Pedals[1]}" x:DataType="models:PedalModeAssignment">
                             <Label Grid.Column="0" Text="Pedal 1" VerticalOptions="Center"/>
                             <Picker Grid.Column="1" SelectedItem="{Binding Mode1}" Margin="5,0" HorizontalOptions="Fill">
                                 <Picker.ItemsSource>
@@ -78,7 +81,8 @@
                         
                         <!-- Pedal 2 row -->
                         <Grid ColumnDefinitions="120, *, *, *" RowDefinitions="Auto" Margin="0,5,0,0"
-                              BindingContext="{Binding CurrentPatch.Controls.Pedals[2]}">
+                              BindingContext="{Binding CurrentPatch.Controls.Pedals[2]}"
+                              x:DataType="models:PedalModeAssignment">
                             <Label Grid.Column="0" Text="Pedal 2" VerticalOptions="Center"/>
                             <Picker Grid.Column="1" SelectedItem="{Binding Mode1}" Margin="5,0" HorizontalOptions="Fill">
                                 <Picker.ItemsSource>
@@ -223,7 +227,8 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Frame BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,5">
-                                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
+                                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto"
+                                            x:DataType="models:AssignSlot">
                                             <Label Grid.Row="0" Grid.Column="0" Text="Source:" VerticalOptions="Center"/>
                                             <Picker Grid.Row="0" Grid.Column="1" SelectedItem="{Binding Source}" Margin="5,0,0,0">
                                                 <Picker.ItemsSource>

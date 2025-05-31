@@ -4,9 +4,10 @@ using System.Runtime.CompilerServices;
 namespace RCEditor.Models
 {
     public class PatchListItem : INotifyPropertyChanged
-    {
-        private string _name = string.Empty;
+    {        private string _name = string.Empty;
         private int _patchNumber;
+        private char _variation = 'A';
+        private string _filePath = string.Empty;
         private bool _isSelected;
         private bool _isVisible = true;
 
@@ -39,8 +40,7 @@ namespace RCEditor.Models
                 OnPropertyChanged(); 
             } 
         }
-        
-        public bool IsVisible
+          public bool IsVisible
         {
             get => _isVisible;
             set
@@ -48,7 +48,29 @@ namespace RCEditor.Models
                 _isVisible = value;
                 OnPropertyChanged();
             }
-        }        public event PropertyChangedEventHandler? PropertyChanged;
+        }
+        
+        public char Variation
+        {
+            get => _variation;
+            set
+            {
+                _variation = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public string FilePath
+        {
+            get => _filePath;
+            set
+            {
+                _filePath = value;
+                OnPropertyChanged();
+            }
+        }        
+        
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

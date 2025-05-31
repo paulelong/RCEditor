@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:RCEditor.Converters"
+             xmlns:models="clr-namespace:RCEditor.Models;assembly=RCEditor.Models"
+             xmlns:local="clr-namespace:RCEditor.Pages"
+             x:DataType="local:EffectsPage"
              x:Class="RCEditor.Pages.EffectsPage"
              Title="Effects Settings">
 
@@ -12,22 +15,23 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *"
+        >
         <Label Grid.Row="0" Text="Effects Settings" FontSize="24" FontAttributes="Bold" Margin="20,10" />
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20">
                 
                 <!-- Bank selection tabs -->
-                <HorizontalStackLayout x:Name="BankTabs" Spacing="5" Margin="0,0,0,20">
+                <HorizontalStackLayout x:Name="BankTabs" Spacing="5" Margin="0,0,0,20" x:DataType="models:EffectSlot">
                     <Button Text="Bank A" Clicked="OnBankTabClicked" x:Name="BankA" 
-                            BackgroundColor="{Binding Source={x:Reference BankAPanel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference BankAPanel}, Path=Enabled, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Bank B" Clicked="OnBankTabClicked" x:Name="BankB" 
-                            BackgroundColor="{Binding Source={x:Reference BankBPanel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference BankBPanel}, Path=Enabled, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Bank C" Clicked="OnBankTabClicked" x:Name="BankC" 
-                            BackgroundColor="{Binding Source={x:Reference BankCPanel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference BankCPanel}, Path=Enabled, Converter={StaticResource BoolToColorConverter}}"/>
                     <Button Text="Bank D" Clicked="OnBankTabClicked" x:Name="BankD" 
-                            BackgroundColor="{Binding Source={x:Reference BankDPanel}, Path=IsVisible, Converter={StaticResource BoolToColorConverter}}"/>
+                            BackgroundColor="{Binding Source={x:Reference BankDPanel}, Path=Enabled, Converter={StaticResource BoolToColorConverter}}"/>
                 </HorizontalStackLayout>
                 
                 <!-- Bank A Panel -->
@@ -38,7 +42,7 @@
                             
                             <!-- Slot 1 -->
                             <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,10" 
-                                   BindingContext="{Binding CurrentPatch.Effects.BankA.Slots[0]}">
+                                   BindingContext="{Binding CurrentPatch.InputFX.BankA}" x:DataType="models:EffectSlot">
                                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto, Auto">
                                     <Label Grid.Row="0" Grid.Column="0" Text="Slot 1:" FontAttributes="Bold" VerticalOptions="Center"/>
                                     
@@ -109,57 +113,57 @@
                             
                             <!-- Slots 2-4 would be similar to Slot 1 but bound to different slots -->
                             <!-- Slot 2 -->
-                            <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,10" 
+                            <!-- <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,10" 
                                    BindingContext="{Binding CurrentPatch.Effects.BankA.Slots[1]}" 
                                    TranslationY="170">
                                 <Label Text="Slot 2 settings will be similar to Slot 1" />
-                            </Frame>
+                            </Frame> -->
                             
                             <!-- Slot 3 -->
-                            <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,10" 
+                            <!-- <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" Margin="0,0,0,10" 
                                    BindingContext="{Binding CurrentPatch.Effects.BankA.Slots[2]}"
                                    TranslationY="240">
                                 <Label Text="Slot 3 settings will be similar to Slot 1" />
-                            </Frame>
+                            </Frame> -->
                             
                             <!-- Slot 4 -->
-                            <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" 
+                            <!-- <Frame Grid.Row="1" BorderColor="#EEEEEE" Padding="10" 
                                    BindingContext="{Binding CurrentPatch.Effects.BankA.Slots[3]}"
                                    TranslationY="310">
                                 <Label Text="Slot 4 settings will be similar to Slot 1" />
-                            </Frame>
+                            </Frame> -->
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
                 
                 <!-- Bank B Panel -->
                 <VerticalStackLayout x:Name="BankBPanel" IsVisible="False">
-                    <Frame BorderColor="#CCCCCC" Padding="15">
+                    <!-- <Frame BorderColor="#CCCCCC" Padding="15">
                         <VerticalStackLayout>
                             <Label Text="Bank B - Effect Slots" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
                             <Label Text="Bank B slots will have similar controls to Bank A" />
                         </VerticalStackLayout>
-                    </Frame>
+                    </Frame> -->
                 </VerticalStackLayout>
                 
                 <!-- Bank C Panel -->
                 <VerticalStackLayout x:Name="BankCPanel" IsVisible="False">
-                    <Frame BorderColor="#CCCCCC" Padding="15">
+                    <!-- <Frame BorderColor="#CCCCCC" Padding="15">
                         <VerticalStackLayout>
                             <Label Text="Bank C - Effect Slots" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
                             <Label Text="Bank C slots will have similar controls to Bank A" />
                         </VerticalStackLayout>
-                    </Frame>
+                    </Frame> -->
                 </VerticalStackLayout>
                 
                 <!-- Bank D Panel -->
                 <VerticalStackLayout x:Name="BankDPanel" IsVisible="False">
-                    <Frame BorderColor="#CCCCCC" Padding="15">
+                    <!-- <Frame BorderColor="#CCCCCC" Padding="15">
                         <VerticalStackLayout>
                             <Label Text="Bank D - Effect Slots" FontSize="16" FontAttributes="Bold" Margin="0,0,0,10"/>
                             <Label Text="Bank D slots will have similar controls to Bank A" />
                         </VerticalStackLayout>
-                    </Frame>
+                    </Frame> -->
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>

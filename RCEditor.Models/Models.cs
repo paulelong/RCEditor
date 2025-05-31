@@ -121,13 +121,15 @@ namespace RCEditor.Models
             BounceEnabled = false;
             BounceTrack = 1;
         }
-    }    public class PlaySettings
+    } 
+    
+    public class PlaySettings
     {
         public SingleTrackChangeEnum SingleTrackChange { get; set; }
         public int FadeTimeIn { get; set; }
         public int FadeTimeOut { get; set; }
         public bool[] AllStartTracks { get; set; } = new bool[6];
-        public bool[] AllStopTracks { get; set; } = new bool[6];        public int LoopLength { get; set; }
+        public bool[] AllStopTracks { get; set; } = new bool[6]; public int LoopLength { get; set; }
         public SpeedChangeEnum SpeedChange { get; set; }
         public SyncAdjustEnum SyncAdjust { get; set; }
 
@@ -142,7 +144,9 @@ namespace RCEditor.Models
             SpeedChange = SpeedChangeEnum.Immediate;
             SyncAdjust = SyncAdjustEnum.Measure;
         }
-    }    public class MasterSettings
+    }
+    
+    public class MasterSettings
     {
         public int LoopPosition { get; set; }     // A parameter
         public int LoopLength { get; set; }       // B parameter
@@ -156,7 +160,9 @@ namespace RCEditor.Models
             ModeFlag = 0;
             ModeValue = 2; // Default value from example file
         }
-    }    public class MemoryPatch
+    }
+    
+    public class MemoryPatch
     {
         public int Id { get; set; } // The memory patch ID, typically 0-based index
         public string Name { get; set; }           // max 12 chars

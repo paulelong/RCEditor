@@ -23,10 +23,11 @@ public partial class ControlsPage : ContentPage
     }
 
     // Property that binds to the current patch
-    public RCEditor.Models.MemoryPatch? CurrentPatch { get; set; }    private void OnAddAssignClicked(object sender, EventArgs e)
+    public RCEditor.Models.MemoryPatch? CurrentPatch { get; set; }
+    private void OnAddAssignClicked(object sender, EventArgs e)
     {
         if (CurrentPatch == null) return;
-        
+
         // Create a new assign slot with default values
         var newAssign = new AssignSlot
         {
@@ -34,7 +35,7 @@ public partial class ControlsPage : ContentPage
             Target = "Track 1 Level",
             ActionMode = ActionModeEnum.Continuous
         };
-        
+
         // Add it to the collection
         CurrentPatch.Assigns.Add(newAssign);
     }

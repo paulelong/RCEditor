@@ -2,8 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:RCEditor.Converters"
+             xmlns:models="clr-namespace:RCEditor.Models;assembly=RCEditor.Models"
              x:Class="RCEditor.Pages.RhythmPage"
-             Title="Rhythm Settings">
+             Title="Rhythm Settings"
+             xmlns:local="clr-namespace:RCEditor.Pages"
+             x:DataType="local:RhythmPage"
+             >
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -12,24 +16,25 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *" >
         <Label Grid.Row="0" Text="Rhythm Settings" FontSize="24" FontAttributes="Bold" Margin="20,10" />
 
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="20" BindingContext="{Binding CurrentPatch.Rhythm}">
+            <VerticalStackLayout Padding="20">
                 
                 <!-- Master enable control -->
-                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                <Border Stroke="#CCCCCC" Padding="15" Margin="0,0,0,15">
                     <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto">
                         <Label Grid.Column="0" Text="Enable Rhythm:" VerticalOptions="Center"/>
-                        <CheckBox Grid.Column="1" IsChecked="{Binding Enabled}"/>
+                        <!-- <CheckBox Grid.Column="1" IsChecked="{Binding Enabled}"/> -->
 
                     </Grid>
-                </Frame>
+                </Border>
                 
                 <!-- Pattern & Tempo panel -->
-                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
-                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+                <Border Stroke="#CCCCCC" Padding="15" Margin="0,0,0,15" >
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                         BindingContext="{Binding CurrentPatch.Rhythm}"  x:DataType="models:RhythmSettings">
                         <Label Grid.Row="0" Grid.Column="0" Text="Pattern &amp; Tempo:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
                         
                         <Label Grid.Row="1" Grid.Column="0" Text="Genre:" VerticalOptions="Center"/>
@@ -109,14 +114,14 @@
                         
                         <Label Grid.Row="7" Grid.Column="0" Text="Volume:" VerticalOptions="Center"/>
                         <HorizontalStackLayout Grid.Row="7" Grid.Column="1">
-                            <Slider Value="{Binding Volume}" Minimum="0" Maximum="200" WidthRequest="250"/>
-                            <Label Text="{Binding Volume, StringFormat='{0:F0}%'}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                            <!-- <Slider Value="{Binding Volume}" Minimum="0" Maximum="200" WidthRequest="250"/>
+                            <Label Text="{Binding Volume, StringFormat='{0:F0}%'}" VerticalOptions="Center" Margin="10,0,0,0"/> -->
                         </HorizontalStackLayout>
                     </Grid>
-                </Frame>
+                </Border>
                 
                 <!-- Behavior panel -->
-                <Frame BorderColor="#CCCCCC" Padding="15" Margin="0,0,0,15">
+                <Border Stroke="#CCCCCC" Padding="15" Margin="0,0,0,15"  x:DataType="models:RhythmSettings">
                     <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
                         <Label Grid.Row="0" Grid.Column="0" Text="Behavior:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
                         
@@ -154,10 +159,10 @@
                             </Picker.ItemsSource>
                         </Picker>
                     </Grid>
-                </Frame>
+                </Border>
                 
                 <!-- Intro/Ending panel -->
-                <Frame BorderColor="#CCCCCC" Padding="15">
+                <Border Stroke="#CCCCCC" Padding="15"  x:DataType="models:RhythmSettings">
                     <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
                         <Label Grid.Row="0" Grid.Column="0" Text="Intro/Ending/Fill:" FontAttributes="Bold" Margin="0,0,0,10" Grid.ColumnSpan="2"/>
                         
@@ -173,7 +178,7 @@
                         <Label Grid.Row="4" Grid.Column="0" Text="Fill In:" VerticalOptions="Center"/>
                         <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding FillIn}"/>
                     </Grid>
-                </Frame>
+                </Border>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
