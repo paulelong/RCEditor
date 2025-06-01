@@ -37,8 +37,7 @@
                            WidthRequest="50"
                            Color="DodgerBlue"
                            ZIndex="999" />
-                           
-        <!-- Directory selection view -->
+                             <!-- Directory selection view -->
         <VerticalStackLayout x:Name="DirectorySelectionView" 
                             Grid.Row="1" 
                             HorizontalOptions="Center" 
@@ -73,7 +72,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:PatchListItem">
                                 <Grid Padding="10,5" x:DataType="models:PatchListItem" IsVisible="{Binding IsVisible}">
-                                    <Border Stroke="Transparent" Padding="10" BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}">
+                                    <Border Stroke="Transparent" Padding="1" BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}">
                                         <VerticalStackLayout>
                                             <Label Text="{Binding Name}" FontSize="16" />
                                             <Label Text="{Binding PatchNumber, StringFormat='#{0}{1}'}" 
@@ -116,7 +115,8 @@
                     </VerticalStackLayout>
                 </Border>
                 
-                <VerticalStackLayout Grid.Row="1" Padding="10">                <VerticalStackLayout x:Name="NoSelectionPanel" IsVisible="{Binding HasDirectoryLoaded, Converter={StaticResource BoolToColorConverter}}">
+                <VerticalStackLayout Grid.Row="1" Padding="10">
+                    <VerticalStackLayout x:Name="NoSelectionPanel" IsVisible="{Binding HasDirectoryLoaded, Converter={StaticResource BoolToColorConverter}}">
                         <Label Text="No patch selected" HorizontalOptions="Center" 
                             VerticalOptions="Center" FontSize="18" TextColor="Gray"/>
                     </VerticalStackLayout>

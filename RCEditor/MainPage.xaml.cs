@@ -94,7 +94,7 @@ public partial class MainPage : ContentPage
         this.BindingContext = this;
 
         // Use the shared PatchService
-        PatchesCollection.ItemsSource = PatchService.Instance.Patches;
+        PatchesCollection.ItemsSource = GetFilteredPatches();
         
         // Set the current patch from the service
         PatchDetailsPanel.BindingContext = PatchService.Instance.CurrentPatch;        // Subscribe to patch changes
@@ -102,6 +102,41 @@ public partial class MainPage : ContentPage
         
         // Register other events
         RegisterEvents();
+        
+        // Make sure the filtered collection is used as the initial view
+        RefreshPatchList();
+    }
+
+    private ObservableCollection<PatchListItem> GetFilteredPatches()
+    {
+        var filteredPatches = new ObservableCollection<PatchListItem>();
+        var patches = PatchService.Instance.Patches;
+        
+        // Group patches by patch number
+        var patchGroups = patches.GroupBy(p => p.PatchNumber);
+        
+        foreach (var group in patchGroups)
+        {
+            // For each patch number, prefer variant B over A
+            // If B exists, use it, otherwise use A
+            var bestVariant = group
+                .OrderByDescending(p => p.Variation == 'B')  // Prioritize 'B' variants
+                .FirstOrDefault();
+            
+            if (bestVariant != null)
+            {
+                filteredPatches.Add(bestVariant);
+            }
+        }
+        
+        // Return the patches sorted by patch number
+        return new ObservableCollection<PatchListItem>(filteredPatches.OrderBy(p => p.PatchNumber));
+    }
+
+    // Method to refresh the patch list after patches are loaded or modified
+    private void RefreshPatchList()
+    {
+        PatchesCollection.ItemsSource = GetFilteredPatches();
     }
 
     private void OnCurrentPatchChanged(object? sender, RCEditor.Models.MemoryPatch currentPatch)
@@ -142,6 +177,9 @@ public partial class MainPage : ContentPage
                         
                         // Update system settings UI
                         UpdateSystemSettingsUI();
+                        
+                        // Refresh the patch list with filtered results
+                        RefreshPatchList();
                     }
                     else
                     {
@@ -241,6 +279,9 @@ public partial class MainPage : ContentPage
         // Use the service to create a new patch
         PatchService.Instance.CreateNewPatch();
         IsPatchSelected = true;
+        
+        // Refresh the filtered patch list
+        RefreshPatchList();
     }
 
     private async void OnImportClicked(object sender, EventArgs e)
@@ -273,6 +314,9 @@ public partial class MainPage : ContentPage
                     if (success)
                     {
                         await DisplayAlert("Import", $"Successfully imported patch from {result.FileName}", "OK");
+                        
+                        // Refresh the filtered patch list
+                        RefreshPatchList();
                     }
                     else
                     {
@@ -316,22 +360,25 @@ public partial class MainPage : ContentPage
         var searchBar = sender as SearchBar;
         if (searchBar == null || string.IsNullOrWhiteSpace(searchBar.Text))
         {
-            // Reset filter
-            foreach (var item in PatchService.Instance.Patches)
-            {
-                item.IsVisible = true;
-            }
+            // Reset filter but use our filtered patches (showing only one variant per number)
+            RefreshPatchList();
             return;
         }
 
         string filter = searchBar.Text.ToLowerInvariant();
         
-        // Apply filter
-        foreach (var item in PatchService.Instance.Patches)
-        {
-            item.IsVisible = item.Name.ToLowerInvariant().Contains(filter) || 
-                            item.PatchNumber.ToString().Contains(filter);
-        }
+        // Get our filtered patches first (one variant per patch number)
+        var filteredPatches = GetFilteredPatches();
+        
+        // Apply text filter to our already filtered collection
+        var textFilteredPatches = new ObservableCollection<PatchListItem>(
+            filteredPatches.Where(item => 
+                item.Name.ToLowerInvariant().Contains(filter) || 
+                item.PatchNumber.ToString().Contains(filter))
+        );
+        
+        // Update the collection with the text-filtered results
+        PatchesCollection.ItemsSource = textFilteredPatches;
     }
     
     private async void OnPatchSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -413,12 +460,20 @@ public partial class MainPage : ContentPage
         PatchService.Instance.CurrentDirectoryChanged += (sender, dirPath) => 
         {
             HasDirectoryLoaded = !string.IsNullOrEmpty(dirPath);
+            RefreshPatchList(); // Refresh the filtered list when directory changes
         };
         
         // Subscribe to system settings changes
         PatchService.Instance.SystemSettingsChanged += (sender, settings) => 
         {
             UpdateSystemSettingsUI();
+        };
+        
+        // Subscribe to current patch changes
+        PatchService.Instance.CurrentPatchChanged += (sender, patch) => 
+        {
+            // The filter might need to be updated if the current patch changed
+            RefreshPatchList();
         };
     }
 }
